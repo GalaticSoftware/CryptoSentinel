@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 # Import all the command handlers
 from CryptoSentinel.bot.handlers.start import StartHandler
 from CryptoSentinel.bot.handlers.subscribe import SubscribeHandler
+from CryptoSentinel.bot.handlers.help import HelpHandler
 
 
 ### Telegram Bot ###
@@ -44,7 +45,12 @@ def main() -> None:
 
     # Add all the command handlers
     dp.add_handler(CommandHandler("start", StartHandler.start))
-    dp.add_handler(SubscribeHandler.subscribe_handler)
+    dp.add_handler(CommandHandler("help", HelpHandler.help))
+
+
+    # Subscribe Handlers
+    subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
+    dp.add_handler(subscribe_handler)
 
     updater.start_polling()
     updater.idle()

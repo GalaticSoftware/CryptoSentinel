@@ -1,7 +1,7 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 
-from users.management import check_user_access
+from users.management import get_or_create_user, update_user_access, check_user_access
 
 class StartHandler:
     @staticmethod
