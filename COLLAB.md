@@ -72,7 +72,7 @@ The current product road map includes the following milestones:
 
 - Add user management features on the backend
 - Add Frontend monthly payment solutions for users
-- Release a minimum viable product (MVP) within 2 months
+- Release a minimum viable product (MVP) within 1 month
 - Add support for additional cryptocurrencies and exchanges in later versions
 - Explore other revenue streams and partnerships
 
