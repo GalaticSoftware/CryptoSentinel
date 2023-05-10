@@ -26,20 +26,20 @@ logger = logging.getLogger(__name__)
 
 # Import all the command handlers
 # Start and help handlers
-from CryptoSentinel.bot.handlers.start import StartHandler
-from CryptoSentinel.bot.handlers.subscribe import SubscribeHandler
-from CryptoSentinel.bot.handlers.help import HelpHandler
-from CryptoSentinel.bot.handlers.free.use_token import UseTokenHandler
+from bot.handlers.start import StartHandler
+from bot.handlers.subscribe import SubscribeHandler
+from bot.handlers.help import HelpHandler
+from bot.handlers.free.use_token import UseTokenHandler
 
 # Free handlers
-from CryptoSentinel.bot.handlers.free.cotd import CotdHandler
-from CryptoSentinel.bot.handlers.free.global_top import GlobalTopHandler
-from CryptoSentinel.bot.handlers.free.sentiment import SentimentHandler
+from bot.handlers.free.cotd import CotdHandler
+from bot.handlers.free.global_top import GlobalTopHandler
+from bot.handlers.free.whatsup import WhatsupHandler
 
 # Premium handlers
-from CryptoSentinel.bot.handlers.premium.whatsup import WhatsupHandler
-from CryptoSentinel.bot.handlers.premium.wdom import WdomHandler
-from CryptoSentinel.bot.handlers.premium.news import NewsHandler
+from bot.handlers.premium.wdom import WdomHandler
+from bot.handlers.premium.news import NewsHandler
+from bot.handlers.premium.sentiment import SentimentHandler
 
 
 ### Telegram Bot ###

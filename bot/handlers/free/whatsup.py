@@ -4,7 +4,6 @@ from telegram.ext import CallbackContext
 import logging
 
 from config.settings import LUNARCRUSH_API_KEY
-from bot.utils import restricted
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -19,7 +18,6 @@ class WhatsupHandler:
     """
 
     @staticmethod
-    @restricted
     def whatsup(update: Update, context: CallbackContext):
         """
         Fetches and sends the top URLs engagement data to the user.
