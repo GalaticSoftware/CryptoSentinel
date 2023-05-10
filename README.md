@@ -6,72 +6,27 @@ CryptoSentinel is a Telegram bot that provides users with cryptocurrency-related
 
 ## Features
 
-CryptoSentinel offers the following features:
+CryptoSentinel offers two types of features: basic features and premium features.
 
+### Basic features (Free):
 - Coin of the Day: `/cotd`
 - Top coins by market cap: `/global_top`
 - Overall market sentiment: `/sentiment`
+
+### Premium features (Paid subscription):
 - Latest market trends: `/whatsup`
 - Weekly dominance change: `/wdom`
 - Latest news in the crypto world: `/news`
 - Trader positions: `/positions`
 
-## Getting Started
+## Accessing the Bot
 
-Follow these steps to set up CryptoSentinel on your local machine:
+To use CryptoSentinel, search for the bot on Telegram using its username or follow the provided link. The bot is accessible via Telegram only.
 
-1. Clone the repository:
+## Support
 
-git clone https://github.com/yourusername/CryptoSentinel.git
-
-
-2. Change to the project directory:
-
-cd CryptoSentinel
-
-
-3. Create a virtual environment:
-
-python3 -m venv venv
-
-
-4. Activate the virtual environment:
-
-- On Windows:
-
-  ```
-  venv\Scripts\activate
-  ```
-
-- On macOS and Linux:
-
-  ```
-  source venv/bin/activate
-  ```
-
-5. Install the required dependencies:
-
-pip install -r requirements.txt
-
-
-6. Create a `.env` file in the project root directory with the following variables:
-
-TELEGRAM_API_TOKEN=<your_telegram_api_token>
-LUNARCRUSH_API_KEY=<your_lunarcrush_api_key>
-RAPIDAPI_KEY=<your_rapidapi_key>
-DATABASE_URL=<your_database_url>
-
-
-7. Run the bot:
-
-python main.py
-
-
-
-## Contributing
-
-Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to contribute to this project.
+For any questions, suggestions, or issues related to CryptoSentinel, please contact the project owner through the provided support channels.
 
 ## License
 
-CryptoSentinel is released under the [CC BY-NC-SA 4.0 License](LICENSE.md).
+CryptoSentinel's usage is subject to the terms and conditions provided by the project owner.
