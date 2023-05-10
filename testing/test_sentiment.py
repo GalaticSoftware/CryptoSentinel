@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 from telegram import Update, User, Message, Chat
 from mock_context import MockCallbackContext
 
-from bot.handlers.sentiment import SentimentHandler
+from CryptoSentinel.bot.handlers.free.sentiment import SentimentHandler
 
 def mock_reply_text(text):
     print(text)

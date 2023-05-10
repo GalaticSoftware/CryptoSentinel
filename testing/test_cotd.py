@@ -1,6 +1,6 @@
 import unittest
 from telegram import Update, User, Message, Chat
-from bot.handlers.cotd import CotdHandler
+from CryptoSentinel.bot.handlers.free.cotd import CotdHandler
 from mock_context import MockCallbackContext
 
 def mock_reply_text(text):

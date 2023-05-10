@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 from telegram import Update, Message, Chat, User
 from telegram.ext import CallbackContext, Dispatcher
 
-from bot.handlers.global_top import GlobalTopHandler
+from CryptoSentinel.bot.handlers.free.global_top import GlobalTopHandler
 
 class TestGlobalTopHandler(unittest.TestCase):
     def test_global_top(self):

@@ -1,4 +1,4 @@
-from bot.handlers.cotd import CotdHandler
+from CryptoSentinel.bot.handlers.free.cotd import CotdHandler
 from telegram import Update, User, Message, Chat
 from CryptoSentinel.testing.mock_context import MockCallbackContext
 
