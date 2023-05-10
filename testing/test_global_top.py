@@ -20,13 +20,14 @@ class TestGlobalTopHandler(unittest.TestCase):
         dummy_message.reply_text = mock_reply_text
         dummy_update = Update(update_id=1, message=dummy_message)
 
-        context_args = ["social_volume"]
+        context_args = ["social_score"]  # Use a valid metric
         dummy_dispatcher = Dispatcher(None, None, use_context=True)
         dummy_context = CallbackContext(dummy_dispatcher)
         dummy_context.args = context_args
 
         # Run the global_top function with the mock objects
         GlobalTopHandler.global_top(dummy_update, dummy_context)
+
 
 if __name__ == "__main__":
     unittest.main()
