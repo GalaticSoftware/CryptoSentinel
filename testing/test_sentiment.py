@@ -1,13 +1,15 @@
 import unittest
+from unittest.mock import MagicMock
+
 from telegram import Update, User, Message, Chat
-from bot.handlers.cotd import CotdHandler
 from mock_context import MockCallbackContext
+
+from bot.handlers.sentiment import SentimentHandler
 
 def mock_reply_text(text):
     print(text)
 
-class TestCotdHandler(unittest.TestCase):
-    
+class TestSentimentHandler(unittest.TestCase):
     def setUp(self):
         # Create a dummy message object
         dummy_user = User(id=123, first_name='John', is_bot=False)
@@ -17,9 +19,9 @@ class TestCotdHandler(unittest.TestCase):
         self.update = Update(0, message=dummy_message)
         self.context = MockCallbackContext()
 
-    # test coin_of_the_day function
-    def test_coin_of_the_day(self):
-        CotdHandler.coin_of_the_day(self.update, self.context)
+    # test sentiment function
+    def test_sentiment(self):
+        SentimentHandler.sentiment(self.update, self.context)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

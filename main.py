@@ -30,6 +30,7 @@ from CryptoSentinel.bot.handlers.subscribe import SubscribeHandler
 from CryptoSentinel.bot.handlers.help import HelpHandler
 from CryptoSentinel.bot.handlers.cotd import CotdHandler
 from CryptoSentinel.bot.handlers.global_top import GlobalTopHandler
+from CryptoSentinel.bot.handlers.sentiment import SentimentHandler
 
 
 ### Telegram Bot ###
@@ -45,12 +46,15 @@ def main() -> None:
     dp = updater.dispatcher
 
 
-    # Add all the command handlers
+    # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start))
     dp.add_handler(CommandHandler("help", HelpHandler.help))
     dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
     dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top))
+    dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
 
+
+    # Add all the paid handlers to the dispatcher
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
