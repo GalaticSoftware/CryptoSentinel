@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 from CryptoSentinel.bot.handlers.start import StartHandler
 from CryptoSentinel.bot.handlers.subscribe import SubscribeHandler
 from CryptoSentinel.bot.handlers.help import HelpHandler
+from CryptoSentinel.bot.handlers.cotd import CotdHandler
 
 
 ### Telegram Bot ###
@@ -46,6 +47,7 @@ def main() -> None:
     # Add all the command handlers
     dp.add_handler(CommandHandler("start", StartHandler.start))
     dp.add_handler(CommandHandler("help", HelpHandler.help))
+    dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
 
 
     # Subscribe Handlers
