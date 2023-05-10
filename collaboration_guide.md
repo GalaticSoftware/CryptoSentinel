@@ -22,22 +22,22 @@ CryptoSentinel offers a variety of commands and features, grouped into basic (fr
 
 ### Basic features (Free)
 
-    /cotd: Coin of the Day
-    /global_top [metric]: Top coins by market cap or other metrics
-    /sentiment: Overall market sentiment
+    /cotd: Coin of the Day (Fetches LunarCrush's coin of the day)
+    /global_top [metric]: Top coins from Lunar Crush by metric given (social_score, social_volume, alt_rank)
+    /sentiment: Overall market sentiment (fetched from socials like twitter, reddit, etc)
 
 ### Premium features (Paid subscription)
 
     /whatsup: Latest market trends
-    /wdom: Weekly dominance change
+    /wdom: Weekly dominance change for Bitcoin compared to Altcoins
     /news: Latest news in the crypto world
-    /positions: Trader positions
+    /positions: Trader positions (Displays biggest open positions from Binance Copy Traders and Compares Whale vs Retail Positions)
     /trader <UID>: Trader information for a specific UID on Binance
 
 For a more detailed description of each command, please refer to the README.md file.
-Data Sources
 
-## CryptoSentinel uses two primary data sources:
+## Data Sources
+CryptoSentinel uses two primary data sources:
 
     LunarCrush: Provides data related to social media activity, market data, and URL engagement for cryptocurrencies. The API is available on a pay-as-you-go plan with 2,000 free daily credits and a cost of $0.005 for each additional credit.
 
