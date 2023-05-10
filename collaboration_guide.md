@@ -39,7 +39,7 @@ For a more detailed description of each command, please refer to the README.md f
 ## Data Sources
 CryptoSentinel uses two primary data sources:
 
-    **LunarCrush**:
+**LunarCrush**:
     Provides data related to social media activity, market data, and URL engagement for cryptocurrencies. The LunarCrush API v3 is a RESTful JSON API with various documented endpoints available, each with required and/or optional query string input parameters to customize the output. LunarCrush API powers the lunarcrush.com website and mobile apps. The base URL for the API is https://lunarcrush.com/api3.
 
     Some of the available LunarCrush API endpoints include:
@@ -54,7 +54,7 @@ CryptoSentinel uses two primary data sources:
 
     The API is available on a pay-as-you-go plan with 2,000 free daily credits and a cost of $0.005 for each additional credit.
 
-    **RapidAPI Binance:**
+**RapidAPI Binance:**
     Provides data from the Binance Futures Leaderboard, including trader positions, leaderboards, and market data. The Binance Futures Leaderboard API is hosted on RapidAPI and is written in Python with FastAPI and AIOHTTP for asynchronous requests. Uvicorn is used as an ASGI server.
 
     Some of the key features of the Binance Futures Leaderboard API include:
