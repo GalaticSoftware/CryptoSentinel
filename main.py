@@ -25,14 +25,20 @@ logger = logging.getLogger(__name__)
 
 
 # Import all the command handlers
+# Start and help handlers
 from CryptoSentinel.bot.handlers.start import StartHandler
 from CryptoSentinel.bot.handlers.subscribe import SubscribeHandler
 from CryptoSentinel.bot.handlers.help import HelpHandler
+
+# Free handlers
 from CryptoSentinel.bot.handlers.free.cotd import CotdHandler
 from CryptoSentinel.bot.handlers.free.global_top import GlobalTopHandler
 from CryptoSentinel.bot.handlers.free.sentiment import SentimentHandler
+
+# Premium handlers
 from CryptoSentinel.bot.handlers.premium.whatsup import WhatsupHandler
 from CryptoSentinel.bot.handlers.premium.wdom import WdomHandler
+from CryptoSentinel.bot.handlers.premium.news import NewsHandler
 
 
 ### Telegram Bot ###
@@ -59,6 +65,7 @@ def main() -> None:
     # Add all the paid handlers to the dispatcher
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
     dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
+    dp.add_handler(CommandHandler("news", NewsHandler.news_handler))
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
