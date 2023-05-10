@@ -39,9 +39,32 @@ For a more detailed description of each command, please refer to the README.md f
 ## Data Sources
 CryptoSentinel uses two primary data sources:
 
-    LunarCrush: Provides data related to social media activity, market data, and URL engagement for cryptocurrencies. The API is available on a pay-as-you-go plan with 2,000 free daily credits and a cost of $0.005 for each additional credit.
+    **LunarCrush**:
+    Provides data related to social media activity, market data, and URL engagement for cryptocurrencies. The LunarCrush API v3 is a RESTful JSON API with various documented endpoints available, each with required and/or optional query string input parameters to customize the output. LunarCrush API powers the lunarcrush.com website and mobile apps. The base URL for the API is https://lunarcrush.com/api3.
 
-    Binance: Offers data from the Binance exchange, including trader positions, leaderboards, and market data. The RapidAPI plan costs $10 per month for 10,000 calls and has a rate limit of 5 requests per second. Each additional call costs $0.001.
+    Some of the available LunarCrush API endpoints include:
+
+        /coinoftheday: Get the current LunarCrush Coin of the Day
+        /coins: Get a general snapshot of LunarCrush metrics on the entire list of tracked coins
+        /coins/:coin: Get a robust and detailed snapshot of a specific coin's metrics
+        /coins/:coin/influencers: Get a list of crypto influencers for a specified coin or token
+        /coins/:coin/insights: Get a list of LunarCrush insights for a specific coin or token
+        /coins/global: Get aggregated metrics across all coins tracked on the LunarCrush platform
+        /coins/influencers: Get a list of overall crypto influencers across all coins
+
+    The API is available on a pay-as-you-go plan with 2,000 free daily credits and a cost of $0.005 for each additional credit.
+
+    **RapidAPI Binance:**
+    Provides data from the Binance Futures Leaderboard, including trader positions, leaderboards, and market data. The Binance Futures Leaderboard API is hosted on RapidAPI and is written in Python with FastAPI and AIOHTTP for asynchronous requests. Uvicorn is used as an ASGI server.
+
+    Some of the key features of the Binance Futures Leaderboard API include:
+
+        Advanced search with filters: Allows searching for specific symbols (e.g., BTCUSDT, ETHUSDT), time periods (weekly, monthly), sorting by PNL, ROI or followers, and specific trade types (USDⓈ-M and COIN-M).
+        Get open positions from different traders: Retrieve open positions from various traders and access position details such as symbol, open time, PNL, ROI, and amount.
+        Search traders by name: Find specific traders by name (e.g., Elon Musk, Vitalik Buterin).
+        Get trader information: Obtain details like Twitter URL, followers, and open positions for a trader.
+
+    Use cases for the Binance Futures Leaderboard API include automating trading with leaderboard data, signal bots, and trend analysis. The RapidAPI plan costs $10 per month for 10,000 calls and has a rate limit of 5 requests per second. Each additional call costs $0.001.
 
 ## Product Road Map
 
