@@ -32,6 +32,7 @@ from CryptoSentinel.bot.handlers.free.cotd import CotdHandler
 from CryptoSentinel.bot.handlers.free.global_top import GlobalTopHandler
 from CryptoSentinel.bot.handlers.free.sentiment import SentimentHandler
 from CryptoSentinel.bot.handlers.premium.whatsup import WhatsupHandler
+from CryptoSentinel.bot.handlers.premium.wdom import WdomHandler
 
 
 ### Telegram Bot ###
@@ -57,6 +58,7 @@ def main() -> None:
 
     # Add all the paid handlers to the dispatcher
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
+    dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
