@@ -18,6 +18,7 @@ class StartHandler:
             welcome_message = (
                 "Welcome to the Crypto Sentinel Bot! 🚀\n\n"
                 "This bot provides you with the latest news and insights from the crypto market.\n\n"
+                "To get started, type /help to see the list of commands.\n\n"
                 "To access the premium features, please subscribe first."
             )
 

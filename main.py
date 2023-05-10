@@ -50,7 +50,7 @@ def main() -> None:
     dp.add_handler(CommandHandler("start", StartHandler.start))
     dp.add_handler(CommandHandler("help", HelpHandler.help))
     dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
-    dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top))
+    dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True))
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
 
 
