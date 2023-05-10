@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 from CryptoSentinel.bot.handlers.start import StartHandler
 from CryptoSentinel.bot.handlers.subscribe import SubscribeHandler
 from CryptoSentinel.bot.handlers.help import HelpHandler
+from CryptoSentinel.bot.handlers.free.use_token import UseTokenHandler
 
 # Free handlers
 from CryptoSentinel.bot.handlers.free.cotd import CotdHandler
@@ -60,6 +61,7 @@ def main() -> None:
     dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
     dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True))
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
+    dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token))
 
 
     # Add all the paid handlers to the dispatcher

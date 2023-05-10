@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -14,6 +14,13 @@ class User(Base):
     telegram_id = Column(Integer, unique=True)  # Unique Telegram ID
     username = Column(String)  # Telegram username
     has_access = Column(Boolean, default=False)  # Access status (default: False)
+
+# One Time Token table class definition
+class OneTimeToken(Base):
+    __tablename__ = 'tokens'
+    token = Column(String, primary_key=True)
+    expiration_time = Column(DateTime)
+    used = Column(Boolean, default=False)
 
 # Create a connection to the database and bind the engine
 engine = create_engine(DATABASE_URL)
