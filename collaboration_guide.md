@@ -14,7 +14,8 @@ Welcome to the CryptoSentinel collaboration guide! This document aims to provide
 ## Introduction
 
 CryptoSentinel is a Telegram bot designed for crypto investors and traders. It provides users with valuable cryptocurrency-related information, market trends, news, and open trading positions through a monthly subscription. The bot is built using Python and the python-telegram-bot library and leverages LunarCrush and Binance APIs for data.
-Bot Commands and Features
+
+## Bot Commands and Features
 
 CryptoSentinel offers a variety of commands and features, grouped into basic (free) and premium (paid subscription) categories:
 
