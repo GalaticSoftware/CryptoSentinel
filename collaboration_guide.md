@@ -71,6 +71,7 @@ CryptoSentinel uses two primary data sources:
 The current product road map includes the following milestones:
 
 - Add user management features on the backend
+- Add Frontend monthly payment solutions for users
 - Release a minimum viable product (MVP) within 2 months
 - Add support for additional cryptocurrencies and exchanges in later versions
 - Explore other revenue streams and partnerships
