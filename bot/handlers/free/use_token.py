@@ -12,7 +12,7 @@ from config.settings import MY_POSTGRESQL_URL
 # logging
 import logging
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ class UseTokenHandler:
 
         if len(args) != 1:
             update.message.reply_text("Usage: /use_token <your_token>")
-            logger.debug("Usage message sent")
+            logger.info("Usage message sent")
             return
 
         token = args[0]
@@ -40,7 +40,7 @@ class UseTokenHandler:
         logger.debug("Token information: %s", existing_token)
 
         if existing_token and existing_token.expiration_time > datetime.utcnow() and not existing_token.used:
-            logger.debug("Inside condition: existing_token.used = %s", existing_token.used)
+            logger.info("Inside condition: existing_token.used = %s", existing_token.used)
             user = session.query(User).filter_by(telegram_id=user_id).first()
             if not user:
                 # Create a new user if not found
