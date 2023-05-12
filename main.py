@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import logging
 
 # Set up logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +40,7 @@ from bot.handlers.free.whatsup import WhatsupHandler
 from bot.handlers.premium.wdom import WdomHandler
 from bot.handlers.premium.news import NewsHandler
 from bot.handlers.premium.sentiment import SentimentHandler
+from bot.handlers.premium.positions import PositionsHandler
 
 
 ### Telegram Bot ###
@@ -60,7 +61,6 @@ def main() -> None:
     dp.add_handler(CommandHandler("help", HelpHandler.help))
     dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
     dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True))
-    dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
     dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token))
 
 
@@ -68,6 +68,8 @@ def main() -> None:
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
     dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
     dp.add_handler(CommandHandler("news", NewsHandler.news_handler))
+    dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
+    dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")

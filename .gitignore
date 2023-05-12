@@ -11,3 +11,7 @@ venv/
 .idea/
 .vscode/
 
+# One Time Token Generator
+one_time_token_generator.py
+```
+
