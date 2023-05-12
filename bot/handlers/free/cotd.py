@@ -25,7 +25,7 @@ class CotdHandler:
     @staticmethod
     def plot_ohlcv_chart(symbol):
         # Fetch OHLCV data from Binance
-        exchange = ccxt.binance()
+        exchange = ccxt.bybit()
         ohlcv = exchange.fetch_ohlcv(symbol.upper()+'/USDT', '4h')
         
         # Filter data to display only the last 4 weeks
