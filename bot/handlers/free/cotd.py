@@ -7,6 +7,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
 import talib
+import os
 from datetime import datetime, timedelta
 
 
@@ -73,7 +74,7 @@ class CotdHandler:
         )
 
         # Save the chart as a PNG image
-        fig.write_image(f"{symbol}_chart.png", scale=1.5, width=1000, height=600)
+        fig.write_image(f"charts/{symbol}_chart.png", scale=1.5, width=1000, height=600)
 
     @staticmethod
     def coin_of_the_day(update: Update, context: CallbackContext):
@@ -103,10 +104,14 @@ class CotdHandler:
                 return
 
             # Send the chart and the Coin of the Day message
+            image_path = f"charts/{coin_symbol}_chart.png"
             try:
-                with open(f"{coin_symbol}_chart.png", "rb") as f:
+                with open(image_path, "rb") as f:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
                 update.message.reply_text(f"Coin of the Day: {coin_name} ({coin_symbol})")
+                
+                # Delete the image file after sending it
+                os.remove(image_path)
             except Exception as e:
                 logger.exception("Error while sending the chart and the Coin of the Day message")
                 update.message.reply_text("Error while sending the chart and the Coin of the Day message. Please try again later.")
@@ -115,6 +120,7 @@ class CotdHandler:
         else:
             logger.error("Error in LunarCrush API response: Required data not found")
             update.message.reply_text("Error fetching Coin of the Day data. Please try again later.")
+
 
 
 
