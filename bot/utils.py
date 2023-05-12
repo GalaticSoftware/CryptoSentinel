@@ -1,7 +1,7 @@
 from functools import wraps
 from telegram import Update
 from telegram.ext import CallbackContext
-from CryptoSentinel.users.management import check_user_access
+from users.management import check_user_access
 
 def restricted(func):
     @wraps(func)
