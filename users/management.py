@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from config.settings import DATABASE_URL
+from config.settings import MY_POSTGRESQL_URL
 
 Base = declarative_base()
 
@@ -13,7 +13,7 @@ class User(Base):
     username = Column(String)
     has_access = Column(Boolean, default=False)
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
