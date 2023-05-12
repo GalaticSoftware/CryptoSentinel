@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-from config.settings import DATABASE_URL
+from config.settings import MY_POSTGRESQL_URL
 
 # Create a declarative base class for creating table classes
 Base = declarative_base()
@@ -34,7 +34,7 @@ class SummaryData(Base):
     total_retail_shorts = Column(Numeric(20, 2), nullable=False)
 
 # Create a connection to the database and bind the engine
-engine = create_engine(DATABASE_URL)
+engine = create_engine(MY_POSTGRESQL_URL)
 
 # Create all tables (if they don't already exist) in the database
 Base.metadata.create_all(engine)

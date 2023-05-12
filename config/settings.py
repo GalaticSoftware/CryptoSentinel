@@ -5,10 +5,10 @@ import psycopg2
 load_dotenv()
 
 # Load database connection
-DATABASE_URL = os.getenv("DATABASE_URL")
+MY_POSTGRESQL_URL = os.getenv("MY_POSTGRESQL_URL")
 
 def get_connection():
-    return psycopg2.connect(DATABASE_URL, sslmode='require')
+    return psycopg2.connect(MY_POSTGRESQL_URL, sslmode='require')
 
 # Load payment gateway connection
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
