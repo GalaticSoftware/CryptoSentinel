@@ -40,7 +40,9 @@ class CommandUsage(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.telegram_id'), nullable=False)
     command_name = Column(String, nullable=False)
+    usage_count = Column(Integer, default=0, nullable=False)  # Add this line
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+
 
 # Create a connection to the database and bind the engine
 engine = create_engine(MY_POSTGRESQL_URL)

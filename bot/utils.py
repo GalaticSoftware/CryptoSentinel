@@ -31,8 +31,14 @@ def log_command_usage(func):
 
         # Log command usage to the database
         session = Session()
-        command_usage = CommandUsage(user_id=user_id, command_name=command_name)
-        session.add(command_usage)
+        command_usage = session.query(CommandUsage).filter_by(user_id=user_id, command_name=command_name).first()
+
+        if command_usage:
+            command_usage.usage_count += 1  # Increment the counter if the command usage record exists
+        else:
+            command_usage = CommandUsage(user_id=user_id, command_name=command_name, usage_count=1)
+            session.add(command_usage)
+
         session.commit()
 
         # Call the original command handler function
