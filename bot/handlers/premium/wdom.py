@@ -4,7 +4,7 @@ from telegram.ext import CallbackContext
 
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
-
+from bot.utils import log_command_usage
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,6 +39,7 @@ class WdomHandler:
 
         return None
 
+    @log_command_usage
     @restricted
     def wdom_handler(update: Update, context: CallbackContext):
         """

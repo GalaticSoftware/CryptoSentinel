@@ -3,12 +3,14 @@ import logging
 from telegram import Update
 from telegram.ext import CallbackContext
 
+from bot.utils import log_command_usage
 from config.settings import LUNARCRUSH_API_KEY
 
 logger = logging.getLogger(__name__)
 
 class GlobalTopHandler:
     @staticmethod
+    @log_command_usage
     def global_top(update: Update, context: CallbackContext):
         def fetch_top_coins(metric):
             api_url = "https://lunarcrush.com/api3/coins/global/top"
