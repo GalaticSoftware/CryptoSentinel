@@ -10,6 +10,8 @@
 import requests
 import functools
 import time
+from datetime import datetime
+
 from telegram import Update
 from telegram.ext import CallbackContext
 from telegram import ParseMode
@@ -18,6 +20,7 @@ from config.settings import X_RAPIDAPI_KEY
 from config.settings import TELEGRAM_API_TOKEN
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
+from bot.database import Session, SummaryData
 
 import logging
 
@@ -201,3 +204,24 @@ class PositionsHandler:
         summary += f"👨‍💻 Total Retail Shorts: ${total_short_below_threshold:,.2f}\n"
 
         update.message.reply_text(summary, parse_mode=ParseMode.HTML)
+
+        if not is_cached:
+        # Create a new session
+            session = Session()
+
+            # Create a new SummaryData instance with the calculated values
+            new_summary_data = SummaryData(
+                total_whale_longs=total_long_above_threshold,
+                total_whale_shorts=total_short_above_threshold,
+                total_retail_longs=total_long_below_threshold,
+                total_retail_shorts=total_short_below_threshold
+            )
+
+            # Add the new summary data to the session
+            session.add(new_summary_data)
+
+            # Commit the session to save the data to the database
+            session.commit()
+
+            # Close the session
+            session.close()
