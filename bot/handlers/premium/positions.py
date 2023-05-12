@@ -21,6 +21,7 @@ from config.settings import TELEGRAM_API_TOKEN
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
 from bot.database import Session, SummaryData
+from bot.utils import log_command_usage
 
 import logging
 
@@ -63,6 +64,7 @@ class PositionsHandler:
     position_output_dict = {}
 
     @restricted
+    @log_command_usage
     def trader_positions(update: Update, context: CallbackContext):
         uid_list = [
         "3AFFCB67ED4F1D1D8437BA17F4E8E5ED",

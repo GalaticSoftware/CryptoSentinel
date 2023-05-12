@@ -1,10 +1,11 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 
-
+from bot.utils import log_command_usage
 
 class HelpHandler:
     @staticmethod
+    @log_command_usage
     # help command handler
     def help(update, context):
 

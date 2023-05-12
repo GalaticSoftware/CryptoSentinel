@@ -5,10 +5,10 @@ from sqlalchemy import create_engine
 from bot.database import OneTimeToken, Base
 
 # Import the database URL from the settings
-from config.settings import DATABASE_URL
+from config.settings import MY_POSTGRESQL_URL
 
 def generate_token(expiration_hours=24):
-    engine = create_engine(DATABASE_URL)
+    engine = create_engine(MY_POSTGRESQL_URL)
     Session = sessionmaker(bind=engine)
     session = Session()
     Base.metadata.create_all(engine)

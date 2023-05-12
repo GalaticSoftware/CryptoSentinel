@@ -3,8 +3,11 @@ from telegram.ext import CallbackContext
 
 from users.management import get_or_create_user, update_user_access, check_user_access
 
+from bot.utils import log_command_usage
+
 class StartHandler:
     @staticmethod
+    @log_command_usage
     def start(update: Update, context: CallbackContext):
         user_id = update.effective_user.id
         chat_id = update.effective_chat.id

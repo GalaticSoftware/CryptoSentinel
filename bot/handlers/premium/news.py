@@ -4,6 +4,7 @@ from telegram.ext import CallbackContext
 from config.settings import X_RAPIDAPI_KEY
 
 from bot.utils import restricted
+from bot.utils import log_command_usage
 
 import logging
 
@@ -48,6 +49,7 @@ class NewsHandler:
         return news_list
 
     @restricted
+    @log_command_usage
     def news_handler(update: Update, context: CallbackContext):
         """
         Handle the /news command and send the fetched news to the user.

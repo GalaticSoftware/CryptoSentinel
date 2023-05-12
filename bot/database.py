@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, Numeric
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, Numeric, ForeignKey, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -32,6 +32,15 @@ class SummaryData(Base):
     total_whale_shorts = Column(Numeric(20, 2), nullable=False)
     total_retail_longs = Column(Numeric(20, 2), nullable=False)
     total_retail_shorts = Column(Numeric(20, 2), nullable=False)
+
+
+# Command Usage table class definition
+class CommandUsage(Base):
+    __tablename__ = 'command_usage'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.telegram_id'), nullable=False)
+    command_name = Column(String, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
 
 # Create a connection to the database and bind the engine
 engine = create_engine(MY_POSTGRESQL_URL)
