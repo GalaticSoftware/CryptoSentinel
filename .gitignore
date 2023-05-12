@@ -15,7 +15,3 @@ venv/
 one_time_token_generator.py
 ```
 
-# Ignore Heroku Procfile
-Procfile
-```
-
