@@ -31,7 +31,6 @@ packaging==23.1
 pandas==2.0.1
 Pillow==9.5.0
 plotly==5.14.1
-psycopg2==2.9.6
 pycares==4.3.0
 pycparser==2.21
 pyparsing==3.0.9
