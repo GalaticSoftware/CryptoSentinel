@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
-import talib
+import ta
 import os
 from datetime import datetime, timedelta
 
@@ -50,8 +50,8 @@ class CotdHandler:
         df['RSI'] = rsi
 
         # Add moving averages
-        df['SMA21'] = talib.SMA(df['Close'], timeperiod=21)
-        df['SMA50'] = talib.SMA(df['Close'], timeperiod=50)
+        df['SMA21'] = ta.trend.sma_indicator(df['Close'], window=21)
+        df['SMA50'] = ta.trend.sma_indicator(df['Close'], window=50) 
 
         # Create a Plotly figure
         fig = go.Figure()
