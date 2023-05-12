@@ -4,7 +4,7 @@ from telegram.ext import CallbackContext
 from users.management import check_user_access
 
 import functools
-from database import Session, CommandUsage
+from bot.database import Session, CommandUsage
 
 def restricted(func):
     @wraps(func)
