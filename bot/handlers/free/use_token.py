@@ -7,7 +7,7 @@ from bot.utils import restricted
 from datetime import datetime
 
 # Import the database URL from the settings
-from config.settings import DATABASE_URL
+from config.settings import MY_POSTGRESQL_URL
 
 # logging
 import logging
@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(MY_POSTGRESQL_URL)
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
