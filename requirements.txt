@@ -44,7 +44,6 @@ requests==2.30.0
 six==1.16.0
 sniffio==1.3.0
 SQLAlchemy==2.0.12
-TA-Lib-binary
 telegram==0.0.1
 tenacity==8.2.2
 tornado==6.3.1
