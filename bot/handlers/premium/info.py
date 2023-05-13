@@ -74,15 +74,17 @@ class InfoHandler:
         sentiment_relative = coin_data.get("sentiment_relative")
 
         # Generate the response message
-        message = f"""Coin Info:
-        Symbol: {symbol}
-        Name: {name}
-        Price: {price}
-        24h % Change: {percent_change_24h}
-        7d % Change: {percent_change_7d}
-        30d % Change: {percent_chagne_30d}
-        Market Cap: {market_cap}
-        Bullish Sentiment %: {sentiment_relative}"""
+        message = (
+        f"""Coin Info:\n
+        🪙 Symbol: {symbol}
+        📛 Name: {name}
+        💰 Price: {price}
+        📈 24h % Change: {percent_change_24h}
+        📊 7d % Change: {percent_change_7d}
+        📊 30d % Change: {percent_chagne_30d}
+        💼 Market Cap: {market_cap}
+        🐮 Bullish Twitter Sentiment %: {sentiment_relative}"""
+        )
 
         # Plot chart
         chart_file = PlotChart.plot_ohlcv_chart(symbol)
