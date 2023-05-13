@@ -42,6 +42,7 @@ from bot.handlers.premium.news import NewsHandler
 from bot.handlers.premium.sentiment import SentimentHandler
 from bot.handlers.premium.positions import PositionsHandler
 from bot.handlers.premium.plot_chart import ChartHandler
+from bot.handlers.premium.info import InfoHandler
 
 
 ### Telegram Bot ###
@@ -72,6 +73,7 @@ def main() -> None:
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
     dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
     dp.add_handler(CommandHandler("plot_chart", ChartHandler.plot_chart, pass_args=True))
+    dp.add_handler(CommandHandler("info", InfoHandler.get_coin_info_command, pass_args=True))
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
