@@ -59,21 +59,21 @@ def main() -> None:
 
 
     # Add all the free handlers to the dispatcher
-    dp.add_handler(CommandHandler("start", StartHandler.start))
-    dp.add_handler(CommandHandler("help", HelpHandler.help))
-    dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
-    dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True))
-    dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token))
+    dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command
+    dp.add_handler(CommandHandler("help", HelpHandler.help)) # HelpHandler.help is the function that will be called when the user sends the /help command. It will display the help message
+    dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day)) # CotdHandler.coin_of_the_day is the function that will be called when the user sends the /cotd command to get the coin of the day
+    dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)) # GlobalTopHandler.global_top is the function that will be called when the user sends the /global_top command to get the global top coins
+    dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token)) # UseTokenHandler.use_token is the function that will be called when the user sends the /use_token command to use a token
 
 
     # Add all the paid handlers to the dispatcher
-    dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
-    dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
-    dp.add_handler(CommandHandler("news", NewsHandler.news_handler))
-    dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
-    dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
-    dp.add_handler(CommandHandler("plot_chart", ChartHandler.plot_chart, pass_args=True))
-    dp.add_handler(CommandHandler("info", InfoHandler.get_coin_info_command, pass_args=True))
+    dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup)) # WhatsupHandler.whatsup is the function that will be called when the user sends the /whatsup command to get the whatsup
+    dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler)) # WdomHandler.wdom_handler is the function that will be called when the user sends the /wdom command to get the wdom
+    dp.add_handler(CommandHandler("news", NewsHandler.news_handler)) # NewsHandler.news_handler is the function that will be called when the user sends the /news command to get the latest news
+    dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment)) # SentimentHandler.sentiment is the function that will be called when the user sends the /sentiment command to get the sentiment of a coin 
+    dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions)) # PositionsHandler.trader_positions is the function that will be called when the user sends the /positions command to get the trader positions of a coin
+    dp.add_handler(CommandHandler("chart", ChartHandler.plot_chart, pass_args=True)) # ChartHandler.plot_chart is the function that will be called when the user sends the /plot_chart command to plot a chart of a coin
+    dp.add_handler(CommandHandler("info", InfoHandler.get_coin_info_command, pass_args=True)) # InfoHandler.get_coin_info_command is the function that will be called when the user sends the /info command to get the info of a coin 
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")

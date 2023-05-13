@@ -57,14 +57,26 @@ def log_command_usage(func):
     return wrapper
 
 class PlotChart:
-    def plot_ohlcv_chart(symbol):
+    def plot_ohlcv_chart(symbol, time_frame):
         # Fetch OHLCV data from Binance
         exchange = ccxt.bybit()
-        ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', '4h')
+        ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', time_frame)
 
-        # Filter data to display only the last 4 weeks
-        two_weeks_ago = datetime.now() - timedelta(weeks=4)
-        ohlcv = [entry for entry in ohlcv if datetime.fromtimestamp(entry[0] // 1000) >= two_weeks_ago]
+        # Define the time horizon for each time frame
+        time_horizon = {
+            '1m': timedelta(days=1),
+            '5m': timedelta(days=3),
+            '15m': timedelta(days=7),
+            '1h': timedelta(days=14),
+            '4h': timedelta(weeks=4),
+            '1d': timedelta(weeks=12),
+            '1w': timedelta(weeks=80),
+            '1M': timedelta(weeks=324),
+        }
+
+        # Filter data based on the selected time frame
+        start_time = datetime.now() - time_horizon.get(time_frame, timedelta(weeks=4))
+        ohlcv = [entry for entry in ohlcv if datetime.fromtimestamp(entry[0] // 1000) >= start_time]
 
         # Convert timestamp to datetime objects
         for entry in ohlcv:
@@ -99,7 +111,7 @@ class PlotChart:
 
         # Customize the layout
         fig.update_layout(
-            title=f'{symbol} OHLCV Chart',
+            title=f'{symbol} OHLCV Chart ({time_frame})',
             xaxis=dict(type='date', tickformat="%H:%M %b-%d", tickmode='auto', nticks=10, rangeslider=dict(visible=False)),
             yaxis=dict(title='Price (USDT)'),
             legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
@@ -108,7 +120,7 @@ class PlotChart:
         )
 
         # Save the chart as a PNG image
-        chart_file = f"charts/{symbol}_chart.png"
+        chart_file = f"charts/{symbol}_chart_{time_frame}.png"
         fig.write_image(chart_file, scale=1.5, width=1000, height=600)
 
         return chart_file
