@@ -21,7 +21,24 @@ class InfoHandler:
     SYMBOL_MAPPING = {
         "BTC": 1,
         "ETH": 2,
-        # Add more mappings as needed
+        "XRP": 3,
+        "LTC": 4,
+        "BCH": 5,
+        "BNB": 6,
+        "USDT": 7,
+        "EOS": 8,
+        "BSV": 9,
+        "XLM": 10,
+        "ADA": 11,
+        "TRX": 12,
+        "XMR": 13,
+        "LEO": 14,
+        "DASH": 15,
+        "NEO": 16,
+        "IOTA": 17,
+        "LINK": 18,
+        "ATOM": 19,
+        "XTZ": 20,
     }
 
     @staticmethod
