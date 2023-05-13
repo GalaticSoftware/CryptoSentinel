@@ -87,7 +87,6 @@ class InfoHandler:
         percent_change_24h = coin_data.get("percent_change_24h")
         percent_change_7d = coin_data.get("percent_change_7d")
         percent_chagne_30d = coin_data.get("percent_change_30d")
-        market_cap = coin_data.get("market_cap")
         sentiment_relative = coin_data.get("sentiment_relative")
 
         # Generate the response message
@@ -96,11 +95,10 @@ class InfoHandler:
         🪙 Symbol: {symbol}
         📛 Name: {name}
         💰 Price: {price}
-        📈 24h % Change: {percent_change_24h}
-        📊 7d % Change: {percent_change_7d}
-        📊 30d % Change: {percent_chagne_30d}
-        💼 Market Cap: {market_cap}
-        🐮 Bullish Twitter Sentiment %: {sentiment_relative}"""
+        📈 {percent_change_24h}% Change in the last 24 hours
+        📊 {percent_change_7d}% Change in the last 7 days
+        📊 {percent_chagne_30d}% Change in the last 30 days
+        🐮 Twitter is {sentiment_relative}% Bullish"""
         )
 
         # Plot chart
@@ -108,4 +106,7 @@ class InfoHandler:
 
         # Send chart and info as a reply
         update.message.reply_photo(open(chart_file, 'rb'), caption=message)
+
+        # Delete the image file after sending it
+        os.remove(chart_file)
 
