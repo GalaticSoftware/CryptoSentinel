@@ -23,10 +23,11 @@ class ChartHandler:
     @log_command_usage
     def plot_chart(update: Update, context: CallbackContext):
         # Get the user's input
-        symbol = context.args[0]  # Assuming the symbol is passed as a command argument
+        symbol = context.args[0]  # symbol is passed as a command argument
+        time_frame = context.args[1] if len(context.args) > 1 else '4h'  # Set default to 4h if not provided
 
         try:
-            chart_file = PlotChart.plot_ohlcv_chart(symbol)
+            chart_file = PlotChart.plot_ohlcv_chart(symbol, time_frame)
         except Exception as e:
             logger.exception("Error while plotting the OHLCV chart")
             update.message.reply_text("Error while plotting the OHLCV chart. Please try again later.")
@@ -42,4 +43,5 @@ class ChartHandler:
             return
 
         # Delete the image file after sending it
-        os.remove(chart_file) 
+        os.remove(chart_file)
+
