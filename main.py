@@ -44,8 +44,20 @@ from bot.handlers.premium.positions import PositionsHandler
 from bot.handlers.premium.plot_chart import ChartHandler
 from bot.handlers.premium.info import InfoHandler
 
+from users.management import check_expired_subscriptions
 
 ### Telegram Bot ###
+
+
+def check_and_revoke_expired_subscriptions(context: CallbackContext):
+    revoked_users = check_expired_subscriptions()
+    if revoked_users is None:
+        revoked_users = []
+
+    for user_id in revoked_users:
+        context.bot.send_message(user_id, "Your subscription has expired. Please subscribe again to regain access.")
+        logger.info(f"Revoked access for user {user_id}")
+
 
 # Main function
 def main() -> None:
@@ -56,7 +68,10 @@ def main() -> None:
     updater = Updater(TELEGRAM_API_TOKEN, use_context=True)
 
     dp = updater.dispatcher
+    jq = updater.job_queue
 
+    # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
+    jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=0)
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command
@@ -77,7 +92,9 @@ def main() -> None:
 
     # Subscribe Handlers
     subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
+    payment_handler = PreCheckoutQueryHandler(SubscribeHandler.payment_received)
     dp.add_handler(subscribe_handler)
+    dp.add_handler(payment_handler)
 
     updater.start_polling()
     updater.idle()

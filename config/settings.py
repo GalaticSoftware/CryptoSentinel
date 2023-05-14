@@ -13,6 +13,7 @@ def get_connection():
 # Load payment gateway connection
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 STRIPE_PROVIDER_TOKEN = os.getenv("STRIPE_PROVIDER_TOKEN")
+STRIPE_PROVIDER_TOKEN_TEST = os.getenv("STRIPE_PROVIDER_TOKEN_TEST")
 
 # Load environment variables
 TELEGRAM_API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
