@@ -38,8 +38,8 @@ class SentimentHandler:
             response_message = "Top Coins by 24h Volume:\n"
             for coin in top_coins:
                 volume = f"Volume: ${coin['volume_24h']:.4f}\n" if 'volume_24h' in coin and coin['volume_24h'] is not None else ""
-                bullish_pct = coin["bullish_sentiment"] / (coin["bullish_sentiment"] + coin["bearish_sentiment"]) * 100
-                bearish_pct = coin["bearish_sentiment"] / (coin["bullish_sentiment"] + coin["bearish_sentiment"]) * 100
+                bullish_pct = coin["bullish_sentiment"] / coin["social_volume"] * 100
+                bearish_pct = coin["bearish_sentiment"] / coin["social_volume"] * 100
                 social_volume = "{:,}".format(coin['social_volume']) if coin['social_volume'] is not None else "N/A"
                 response_message += f"{volume}{coin['symbol']} {bullish_pct:.0f}% Bull {bearish_pct:.0f}% Bear | Social Volume: {social_volume}\n"
         else:
@@ -48,3 +48,4 @@ class SentimentHandler:
 
         # Send the response message
         update.message.reply_text(response_message)
+
