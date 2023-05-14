@@ -9,6 +9,8 @@ CryptoSentinel is a Telegram bot that provides users with cryptocurrency-related
 CryptoSentinel offers two types of features: basic features and premium features.
 
 ### Basic features (Free):
+- `/start`: Start using the bot
+- `/help`: Display the help message
 - Coin of the Day: `/cotd`
 - Top coins by market cap: `/global_top`
 - Overall market sentiment: `/sentiment`
@@ -18,6 +20,8 @@ CryptoSentinel offers two types of features: basic features and premium features
 - Weekly dominance change: `/wdom`
 - Latest news in the crypto world: `/news`
 - Trader positions: `/positions`
+- Plot a chart of a coin: `/chart`
+- Get the info of a coin: `/info`
 
 ## Accessing the Bot
 
