@@ -19,7 +19,7 @@ class WhatsupHandler:
     """
 
     @staticmethod
-    @log_command_usage
+    @log_command_usage("whatsup")
     def whatsup(update: Update, context: CallbackContext):
         """
         Fetches and sends the top URLs engagement data to the user.

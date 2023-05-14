@@ -10,8 +10,7 @@ logger = logging.getLogger(__name__)
 
 class GlobalTopHandler:
     @staticmethod
-    @log_command_usage
-    @command_usage_example("/global_top alt_rank")
+    @log_command_usage("global_top")
     def global_top(update: Update, context: CallbackContext):
         def fetch_top_coins(metric):
             api_url = "https://lunarcrush.com/api3/coins/global/top"

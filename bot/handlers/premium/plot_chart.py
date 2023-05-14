@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class ChartHandler:
     @staticmethod
     @restricted
-    @log_command_usage
+    @log_command_usage("chart")
     @command_usage_example('/chart BTC 4h - Defaults to 4hr chart if time frame is not provided')
     def plot_chart(update: Update, context: CallbackContext):
         # Get the user's input

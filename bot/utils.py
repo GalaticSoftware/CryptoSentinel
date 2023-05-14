@@ -32,29 +32,35 @@ def restricted(func):
     return wrapped
 
 
-def log_command_usage(func):
-    @functools.wraps(func)
-    def wrapper(update, context, *args, **kwargs):
-        # Get the command name and user ID
-        command_name = func.__name__
-        user_id = update.effective_user.id
+def log_command_usage(command_name):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # Get the user ID
+            update = args[-2]
+            context = args[-1]
+            user_id = update.effective_user.id
 
-        # Log command usage to the database
-        session = Session()
-        command_usage = session.query(CommandUsage).filter_by(user_id=user_id, command_name=command_name).first()
+            # Log command usage to the database
+            session = Session()
+            command_usage = session.query(CommandUsage).filter_by(user_id=user_id, command_name=command_name).first()
 
-        if command_usage:
-            command_usage.usage_count += 1  # Increment the counter if the command usage record exists
-        else:
-            command_usage = CommandUsage(user_id=user_id, command_name=command_name, usage_count=1)
-            session.add(command_usage)
+            if command_usage:
+                command_usage.usage_count += 1  # Increment the counter if the command usage record exists
+            else:
+                command_usage = CommandUsage(user_id=user_id, command_name=command_name, usage_count=1)
+                session.add(command_usage)
 
-        session.commit()
+            session.commit()
 
-        # Call the original command handler function
-        return func(update, context, *args, **kwargs)
+            # Call the original command handler function
+            return func(*args, **kwargs)
 
-    return wrapper
+        return wrapper
+    return decorator
+
+
+
 
 
 

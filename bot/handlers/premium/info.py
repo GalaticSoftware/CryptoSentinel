@@ -65,7 +65,7 @@ class InfoHandler:
 
     @staticmethod
     @restricted
-    @log_command_usage
+    @log_command_usage("info")
     @command_usage_example("/info BTC 1d - Defaults to 4h if no time frame is provided")
     def get_coin_info_command(update: Update, context: CallbackContext):
         # Get the user's input
