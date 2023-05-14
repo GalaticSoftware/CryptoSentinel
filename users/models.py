@@ -10,3 +10,4 @@ class User(Base):
     username = Column(String)
     has_access = Column(Boolean, default=False)
     subscription_end = Column(DateTime)
+    subscription_type = Column(String)
