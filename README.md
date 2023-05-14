@@ -25,7 +25,7 @@ CryptoSentinel offers two types of features: basic features and premium features
 
 ## Accessing the Bot
 
-To use CryptoSentinel, search for "@cryptosentinel_bot" on Telegram using its username. The bot is accessible via Telegram only.
+To use CryptoSentinel, search for "@cryptosentinel_bot" on Telegram. The bot is accessible via Telegram only.
 
 ## Support
 
