@@ -24,7 +24,7 @@ class HelpHandler:
             "/info BTC\n"
             "/chart [symbol] [interval] - Plot a chart of a specific coin by its symbol and interval. Defaults to 4h if no interval is selected.\n"
             "Example: /chart BTC 1d\n"
-            "Available intervals: 1h, 4h, 1d, 1w\n\n"
+            "Available intervals: 1m, 5m, 15m, 1h, 4h, 1d, 1w, 1M\n\n"
         )
 
         update.message.reply_text(help_text)
