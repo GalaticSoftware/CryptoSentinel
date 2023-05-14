@@ -21,15 +21,15 @@ class SubscribeHandler:
         user = get_or_create_user(user_id, username)
 
         # Create an invoice
-        price = LabeledPrice('Bot Subscription', 110)  # Price in the smallest currency unit (e.g., cents)
-        payload = f"{user_id}-bot-subscription"
-        start_parameter = 'bot-subscription'
+        price = LabeledPrice('Premium Subscription', 3999)  # Price in the smallest currency unit (e.g., cents)
+        payload = f"{user_id}-premium-subscription"
+        start_parameter = 'premium-subscription'
         currency = 'USD'
 
         context.bot.send_invoice(
             user_id,
-            title='Bot Subscription',
-            description='Telegram bot subscription for 3 months',
+            title='Premium Subscription',
+            description='Premium Crypto Sentinel bot subscription for 3 months',
             payload=payload,
             provider_token=STRIPE_PROVIDER_TOKEN_TEST,
             start_parameter=start_parameter,
