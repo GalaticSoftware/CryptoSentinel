@@ -66,3 +66,17 @@ def update_user_access(telegram_id, has_access):
         user.has_access = has_access
         session.commit()
     session.close()
+
+def revoke_user_access(telegram_id):
+    """
+    Revokes the access status of a user with the given telegram_id.
+
+    Args:
+        telegram_id (int): The telegram_id of the user to update.
+    """
+    session = Session()
+    user = session.query(User).filter_by(telegram_id=telegram_id).first()
+    if user:
+        user.has_access = False
+        session.commit()
+    session.close()
