@@ -49,7 +49,7 @@ class NewsHandler:
         return news_list
 
     @restricted
-    @log_command_usage
+    @log_command_usage("news")
     def news_handler(update: Update, context: CallbackContext):
         """
         Handle the /news command and send the fetched news to the user.

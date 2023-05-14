@@ -64,7 +64,7 @@ class PositionsHandler:
     position_output_dict = {}
 
     @restricted
-    @log_command_usage
+    @log_command_usage("positions")
     def trader_positions(update: Update, context: CallbackContext):
         uid_list = [
         "3AFFCB67ED4F1D1D8437BA17F4E8E5ED",

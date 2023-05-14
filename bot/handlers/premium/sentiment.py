@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class SentimentHandler:
     @staticmethod
     @restricted
-    @log_command_usage
+    @log_command_usage("sentiment")
     def sentiment(update: Update, context: CallbackContext):
         logger.info("Received /sentiment command")
 

@@ -39,7 +39,7 @@ class WdomHandler:
 
         return None
 
-    @log_command_usage
+    @log_command_usage("wdom")
     @restricted
     def wdom_handler(update: Update, context: CallbackContext):
         """

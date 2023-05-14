@@ -77,7 +77,7 @@ class CotdHandler:
         fig.write_image(f"charts/{symbol}_chart.png", scale=1.5, width=1000, height=600)
 
     @staticmethod
-    @log_command_usage
+    @log_command_usage("cotd")
     def coin_of_the_day(update: Update, context: CallbackContext):
         # Fetch Coin of the Day data from LunarCrush API
         url = "https://lunarcrush.com/api3/coinoftheday"
