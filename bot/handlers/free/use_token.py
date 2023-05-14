@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, DateTime
 from bot.database import OneTimeToken, User, Base
 from bot.utils import restricted
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Import the database URL from the settings
 from config.settings import MY_POSTGRESQL_URL
@@ -15,7 +15,6 @@ import logging
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
 
 engine = create_engine(MY_POSTGRESQL_URL)
 Session = sessionmaker(bind=engine)
@@ -52,7 +51,21 @@ class UseTokenHandler:
             if user:
                 user.has_access = True
                 existing_token.used = True  # Mark the token as used
+
+                # Set subscription_end and subscription_type based on access_duration
+                access_duration = existing_token.access_duration
+                if access_duration == "one_month":
+                    user.subscription_end = datetime.utcnow() + timedelta(days=30)
+                elif access_duration == "three_months":
+                    user.subscription_end = datetime.utcnow() + timedelta(days=90)
+                elif access_duration == "yearly":
+                    user.subscription_end = datetime.utcnow() + timedelta(days=365)
+                elif access_duration == "lifetime":
+                    user.subscription_end = None  # No subscription end for lifetime access
+
+                user.subscription_type = access_duration
                 session.commit()
+
                 logger.debug("Token used status updated: existing_token.used = %s", existing_token.used)
                 update.message.reply_text("Access granted! Your token has been successfully used.")
                 logger.debug("Access granted message sent.")
@@ -63,5 +76,4 @@ class UseTokenHandler:
             update.message.reply_text("Invalid or expired token. Please try again.")
             logger.debug("Invalid or expired token message sent.")
         session.close()
-
 
