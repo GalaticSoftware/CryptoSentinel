@@ -41,7 +41,7 @@ class SentimentHandler:
                 bullish_pct = coin["bullish_sentiment"] / coin["social_volume"] * 100
                 bearish_pct = coin["bearish_sentiment"] / coin["social_volume"] * 100
                 social_volume = "{:,}".format(coin['social_volume']) if coin['social_volume'] is not None else "N/A"
-                response_message += f"{volume}{coin['symbol']} {bullish_pct:.0f}% Bull {bearish_pct:.0f}% Bear | Social Volume: {social_volume}\n"
+                response_message += f"{volume}{coin['symbol']} {bullish_pct:.0f}% Bull {bearish_pct:.0f}% Bear\n"
         else:
             logger.error(f"Error fetching top coins data. Status code: {response.status_code}")
             response_message = "An error occurred while fetching the top coins data."
