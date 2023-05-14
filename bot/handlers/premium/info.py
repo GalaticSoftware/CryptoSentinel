@@ -87,7 +87,8 @@ class InfoHandler:
         # Extract relevant information
         name = coin_data.get("name")
         symbol = coin_data.get("symbol")
-        price = coin_data.get("price")
+        # get price and format it to 2 decimal places
+        price = "{:.2f}".format(coin_data.get("price"))
         percent_change_24h = coin_data.get("percent_change_24h")
         percent_change_7d = coin_data.get("percent_change_7d")
         percent_chagne_30d = coin_data.get("percent_change_30d")
