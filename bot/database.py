@@ -15,6 +15,8 @@ class User(Base):
     telegram_id = Column(Integer, unique=True)  # Unique Telegram ID
     username = Column(String)  # Telegram username
     has_access = Column(Boolean, default=False)  # Access status (default: False)
+    subscription_end = Column(DateTime)  # Subscription end date
+    subscription_type = Column(String)  # Subscription type
 
 # One Time Token table class definition
 class OneTimeToken(Base):
@@ -22,6 +24,8 @@ class OneTimeToken(Base):
     token = Column(String, primary_key=True)
     expiration_time = Column(DateTime)
     used = Column(Boolean, default=False)
+    access_duration = Column(String)  # Access duration (one_month, three_months, yearly, or lifetime)
+
 
 # Summary table class definition
 class SummaryData(Base):

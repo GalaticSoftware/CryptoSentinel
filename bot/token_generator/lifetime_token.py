@@ -7,15 +7,14 @@ from bot.database import OneTimeToken, Base
 # Import the database URL from the settings
 from config.settings import MY_POSTGRESQL_URL
 
-def generate_token(expiration_hours=24):
+def generate_token():
     engine = create_engine(MY_POSTGRESQL_URL)
     Session = sessionmaker(bind=engine)
     session = Session()
     Base.metadata.create_all(engine)
 
     token = str(uuid.uuid4())
-    expiration_time = datetime.utcnow() + timedelta(hours=expiration_hours)
-    new_token = OneTimeToken(token=token, expiration_time=expiration_time)
+    new_token = OneTimeToken(token=token, expiration_time=None)  # No expiration time for lifetime access
     session.add(new_token)
     session.commit()
 
