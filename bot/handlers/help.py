@@ -11,7 +11,7 @@ class HelpHandler:
             "🆓 Free Commands:\n"
             "/cotd - Discover LunarCrush's Coin of the Day\n"
             "/global_top [metric] - Retrieve top coins by the specified metric (alt_rank, social_score, or social_volume) over the past week. Defaults to social_volume if not provided.\n"
-            "Example: /global_top social_score\n\n"
+            "Example: /global_top social_score\n"
             "/whatsup - Get the latest top URLs engagement for coins, NFTs, and stocks from LunarCrush live dashboard.\n\n"
 
             "🔐 Premium Commands:\n"
@@ -23,8 +23,7 @@ class HelpHandler:
             "Example:\n"
             "/info BTC\n"
             "/chart [symbol] [interval] - Plot a chart of a specific coin by its symbol and interval. Defaults to 4h if no interval is selected.\n"
-            "Example:\n"
-            "/chart BTC 1d\n"
+            "Example: /chart BTC 1d\n"
             "Available intervals: 1h, 4h, 1d, 1w\n\n"
         )
 
