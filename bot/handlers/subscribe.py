@@ -1,9 +1,12 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import CallbackContext, CallbackQueryHandler
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, LabeledPrice
+from telegram.ext import CallbackContext, CallbackQueryHandler, PreCheckoutQueryHandler
 from users.management import get_or_create_user, update_user_access, revoke_user_access
-from config.settings import STRIPE_PROVIDER_TOKEN
+from config.settings import STRIPE_PROVIDER_TOKEN, STRIPE_PROVIDER_TOKEN_TEST
+from datetime import datetime, timedelta
 import datetime
 import logging
+
+# payment handler
 
 class SubscribeHandler:
     def subscribe(update: Update, context: CallbackContext):
@@ -18,7 +21,7 @@ class SubscribeHandler:
         user = get_or_create_user(user_id, username)
 
         # Create an invoice
-        price = {'label': 'Bot Subscription', 'amount': 999}  # Price in the smallest currency unit (e.g., cents)
+        price = LabeledPrice('Bot Subscription', 110)  # Price in the smallest currency unit (e.g., cents)
         payload = f"{user_id}-bot-subscription"
         start_parameter = 'bot-subscription'
         currency = 'USD'
@@ -28,7 +31,7 @@ class SubscribeHandler:
             title='Bot Subscription',
             description='Telegram bot subscription for 3 months',
             payload=payload,
-            provider_token=STRIPE_PROVIDER_TOKEN,
+            provider_token=STRIPE_PROVIDER_TOKEN_TEST,
             start_parameter=start_parameter,
             currency=currency,
             prices=[price]
@@ -36,18 +39,20 @@ class SubscribeHandler:
 
     def payment_received(update: Update, context: CallbackContext):
         query = update.pre_checkout_query
-        query.answer()
+        query.answer(True)
 
         # Get the user's Telegram ID
         user_id = update.effective_user.id
         username = update.effective_user.username
 
-        # Update the user's access status in the database
-        update_user_access(user_id, has_access=True)
+        # # Update the user's access status in the database to True and use UTC time for consistency
+        subscription_end = datetime.datetime.utcnow() + datetime.timedelta(minutes=10) # 10 minutes for testing and 3 months for production
+        update_user_access(user_id, has_access=True, subscription_end=subscription_end)
 
-        # Schedule the access revocation after 3 months
-        revoke_date = datetime.datetime.now() + datetime.timedelta(days=90)
-        context.job_queue.run_once(revoke_user_access, revoke_date, context=user_id)
+
+        # now_utc = datetime.utcnow()
+        # subscription_end = now_utc + timedelta(minutes=10) # 10 minutes for testing
+        # update_user_access(user_id, has_access=True, subscription_end=subscription_end)
 
         # Add logging
         logging.info(f"User {username} (ID: {user_id}) subscribed")
@@ -64,3 +69,4 @@ class SubscribeHandler:
 
     subscribe_handler = CallbackQueryHandler(subscribe, pattern="^subscribe$")
     payment_handler = CallbackQueryHandler(payment_received, pattern="^pre_checkout_query$")
+
