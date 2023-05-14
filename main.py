@@ -91,10 +91,19 @@ def main() -> None:
     dp.add_handler(CommandHandler("info", InfoHandler.get_coin_info_command, pass_args=True)) # InfoHandler.get_coin_info_command is the function that will be called when the user sends the /info command to get the info of a coin 
 
     # Subscribe Handlers
-    subscribe_handler = CallbackQueryHandler(SubscribeHandler.subscribe, pattern="^subscribe$")
-    payment_handler = PreCheckoutQueryHandler(SubscribeHandler.payment_received)
+    subscribe_handler = SubscribeHandler.subscribe_handler
+    payment_handler = SubscribeHandler.payment_handler
+    monthly_handler = CallbackQueryHandler(SubscribeHandler.send_invoice_monthly, pattern="^subscribe_monthly_subscription$")
+    three_monthly_handler = CallbackQueryHandler(SubscribeHandler.send_invoice_3_monthly, pattern="^subscribe_3_monthly_subscription$")
+    yearly_handler = CallbackQueryHandler(SubscribeHandler.send_invoice_yearly, pattern="^subscribe_yearly_subscription$")
+
+
     dp.add_handler(subscribe_handler)
     dp.add_handler(payment_handler)
+    dp.add_handler(monthly_handler)
+    dp.add_handler(three_monthly_handler)
+    dp.add_handler(yearly_handler)
+
 
     updater.start_polling()
     updater.idle()

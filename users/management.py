@@ -13,6 +13,7 @@ class User(Base):
     username = Column(String)
     has_access = Column(Boolean, default=False)
     subscription_end = Column(DateTime)
+    subscription_type = Column(String)
 
 engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
@@ -67,14 +68,15 @@ def check_expired_subscriptions():
         session.commit()
     session.close()
 
-def update_user_access(telegram_id, has_access, subscription_end: datetime = None):
+def update_user_access(telegram_id, has_access, subscription_end: datetime = None, subscription_type: str = None):
     """
-    Updates the access status of a user with the given telegram_id.
+    Updates the access status and subscription type of a user with the given telegram_id.
 
     Args:
         telegram_id (int): The telegram_id of the user to update.
         has_access (bool): The new access status for the user.
         subscription_end (datetime, optional): The end date of the user's subscription.
+        subscription_type (str, optional): The subscription type for the user.
     """
     session = Session()
     user = session.query(User).filter_by(telegram_id=telegram_id).first()
@@ -82,8 +84,11 @@ def update_user_access(telegram_id, has_access, subscription_end: datetime = Non
         user.has_access = has_access
         if subscription_end:
             user.subscription_end = subscription_end
+        if subscription_type:
+            user.subscription_type = subscription_type
         session.commit()
     session.close()
+
 
 def revoke_user_access(telegram_id):
     """
