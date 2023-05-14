@@ -56,6 +56,19 @@ def log_command_usage(func):
 
     return wrapper
 
+
+
+def command_usage_example(example_text: str):
+    def decorator(function):
+        def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
+            if len(context.args) == 0:
+                update.message.reply_text(f"Usage example: {example_text}")
+                return
+            return function(update, context, *args, **kwargs)
+        return wrapper
+    return decorator
+
+
 class PlotChart:
     def plot_ohlcv_chart(symbol, time_frame):
         # Fetch OHLCV data from Binance
@@ -124,3 +137,8 @@ class PlotChart:
         fig.write_image(chart_file, scale=1.5, width=1000, height=600)
 
         return chart_file
+
+
+
+
+
