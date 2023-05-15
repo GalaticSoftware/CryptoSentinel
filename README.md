@@ -14,6 +14,8 @@ CryptoSentinel offers two types of features: basic features and premium features
 - Coin of the Day: `/cotd`
 - Top coins by market cap: `/global_top`
 - Overall market sentiment: `/sentiment`
+- Get top 10 gainers in the past 24h: `/gainers`
+- Get top 10 losers in the past 24h: `/losers`
 
 ### Premium features (Paid subscription):
 - Latest market trends: `/whatsup`
