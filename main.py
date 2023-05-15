@@ -37,10 +37,10 @@ from bot.handlers.free.global_top import GlobalTopHandler
 from bot.handlers.free.whatsup import WhatsupHandler
 from bot.handlers.free.gainers import GainersHandler
 from bot.handlers.free.losers import LosersHandler
+from bot.handlers.free.news import NewsHandler
 
 # Premium handlers
 from bot.handlers.premium.wdom import WdomHandler
-from bot.handlers.premium.news import NewsHandler
 from bot.handlers.premium.sentiment import SentimentHandler
 from bot.handlers.premium.positions import PositionsHandler
 from bot.handlers.premium.plot_chart import ChartHandler
@@ -83,12 +83,11 @@ def main() -> None:
     dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token)) # UseTokenHandler.use_token is the function that will be called when the user sends the /use_token command to use a token
     dp.add_handler(CommandHandler("gainers", GainersHandler.gainers)) # GainersHandler.gainers is the function that will be called when the user sends the /gainers command to get the gainers of the day
     dp.add_handler(CommandHandler("losers", LosersHandler.losers)) # LosersHandler.losers is the function that will be called when the user sends the /losers command to get the losers of the day
-
+    dp.add_handler(CommandHandler("news", NewsHandler.news_handler)) # NewsHandler.news_handler is the function that will be called when the user sends the /news command to get the latest news
 
     # Add all the paid handlers to the dispatcher
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup)) # WhatsupHandler.whatsup is the function that will be called when the user sends the /whatsup command to get the whatsup
     dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler)) # WdomHandler.wdom_handler is the function that will be called when the user sends the /wdom command to get the wdom
-    dp.add_handler(CommandHandler("news", NewsHandler.news_handler)) # NewsHandler.news_handler is the function that will be called when the user sends the /news command to get the latest news
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment)) # SentimentHandler.sentiment is the function that will be called when the user sends the /sentiment command to get the sentiment of a coin 
     dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions)) # PositionsHandler.trader_positions is the function that will be called when the user sends the /positions command to get the trader positions of a coin
     dp.add_handler(CommandHandler("chart", ChartHandler.plot_chart, pass_args=True)) # ChartHandler.plot_chart is the function that will be called when the user sends the /plot_chart command to plot a chart of a coin
