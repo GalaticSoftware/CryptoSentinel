@@ -3,11 +3,12 @@ from telegram import Update
 from telegram.ext import CallbackContext
 import os
 
-from bot.utils import PlotChart
+from bot.utils import PlotChart, log_command_usage
 
 cg = CoinGeckoAPI()
 
 class LosersHandler:
+    @log_command_usage("losers")
     def losers(update: Update, context: CallbackContext) -> None:
         coins = cg.get_coins_markets(vs_currency='usd')
         losers = sorted(coins, key=lambda x: x['price_change_percentage_24h'], reverse=False)
