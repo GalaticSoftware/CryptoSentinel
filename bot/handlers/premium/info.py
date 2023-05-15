@@ -92,17 +92,18 @@ class InfoHandler:
         percent_change_24h = coin_data.get("percent_change_24h")
         percent_change_7d = coin_data.get("percent_change_7d")
         percent_chagne_30d = coin_data.get("percent_change_30d")
-
+        
         # Generate the response message
         message = (
-        f"""Coin Info:\n
-        🪙 Symbol: {symbol}
-        📛 Name: {name}
-        💰 Price: {price}
-        📈 {percent_change_24h}% Change in the last 24 hours
-        📊 {percent_change_7d}% Change in the last 7 days
-        📊 {percent_chagne_30d}% Change in the last 30 days"""
+            f"Coin Info:\n"
+            f"🪙 Symbol: {symbol}\n"
+            f"📛 Name: {name}\n"
+            f"💰 Price: {price}\n"
+            f"📈 {percent_change_24h}% (Change in 24 hours)\n"
+            f"📊 {percent_change_7d}% (Change in 7 days)\n"
+            f"📊 {percent_chagne_30d}% (Change in 30 days)"
         )
+
 
         # Plot chart with specified time frame
         chart_file = PlotChart.plot_ohlcv_chart(symbol, time_frame)
