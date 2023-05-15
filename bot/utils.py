@@ -76,18 +76,32 @@ def command_usage_example(example_text: str):
 
 
 class PlotChart:
+    @staticmethod
     def plot_ohlcv_chart(symbol, time_frame):
-        # Fetch OHLCV data from Binance
-        exchange = ccxt.bybit()
-        ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', time_frame)
+        # Define the list of exchanges
+        exchanges = [
+            ccxt.binance(),
+            ccxt.bybit(),
+            ccxt.kucoin(),
+        ]
+
+        # Fetch OHLCV data from the first exchange that supports the market
+        for exchange in exchanges:
+            try:
+                ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', time_frame)
+                break
+            except ccxt.BaseError:
+                continue
+        else:
+            return None  # Return None if no exchange supports the market
 
         # Define the time horizon for each time frame
         time_horizon = {
-            '1m': timedelta(days=1),
-            '5m': timedelta(days=3),
-            '15m': timedelta(days=7),
-            '1h': timedelta(days=14),
-            '4h': timedelta(weeks=4),
+            '1m': timedelta(hours=12),
+            '5m': timedelta(days=1),
+            '15m': timedelta(days=3),
+            '1h': timedelta(days=7),
+            '4h': timedelta(weeks=2),
             '1d': timedelta(weeks=12),
             '1w': timedelta(weeks=80),
             '1M': timedelta(weeks=324),

@@ -35,6 +35,8 @@ from bot.handlers.free.use_token import UseTokenHandler
 from bot.handlers.free.cotd import CotdHandler
 from bot.handlers.free.global_top import GlobalTopHandler
 from bot.handlers.free.whatsup import WhatsupHandler
+from bot.handlers.free.gainers import GainersHandler
+from bot.handlers.free.losers import LosersHandler
 
 # Premium handlers
 from bot.handlers.premium.wdom import WdomHandler
@@ -79,6 +81,8 @@ def main() -> None:
     dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day)) # CotdHandler.coin_of_the_day is the function that will be called when the user sends the /cotd command to get the coin of the day
     dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)) # GlobalTopHandler.global_top is the function that will be called when the user sends the /global_top command to get the global top coins
     dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token)) # UseTokenHandler.use_token is the function that will be called when the user sends the /use_token command to use a token
+    dp.add_handler(CommandHandler("gainers", GainersHandler.gainers)) # GainersHandler.gainers is the function that will be called when the user sends the /gainers command to get the gainers of the day
+    dp.add_handler(CommandHandler("losers", LosersHandler.losers)) # LosersHandler.losers is the function that will be called when the user sends the /losers command to get the losers of the day
 
 
     # Add all the paid handlers to the dispatcher
