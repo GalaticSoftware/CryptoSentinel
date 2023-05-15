@@ -12,7 +12,9 @@ class HelpHandler:
             "/cotd - Discover LunarCrush's Coin of the Day\n"
             "/global_top [metric] - Retrieve top coins by the specified metric (alt_rank, social_score, or social_volume) over the past week. Defaults to social_volume if not provided.\n"
             "Example: /global_top social_score\n"
-            "/whatsup - Get the latest top URLs engagement for coins, NFTs, and stocks from LunarCrush live dashboard.\n\n"
+            "/whatsup - Get the latest top URLs engagement for coins, NFTs, and stocks from LunarCrush live dashboard.\n"
+            "/gainers - View the top 10 coins by 24h price change.\n"
+            "/losers - View the bottom 10 coins by 24h price change.\n\n"
 
             "🔐 Premium Commands:\n"
             "/sentiment - View top coins by 24h volume along with their bullish and bearish sentiment percentages.\n"
