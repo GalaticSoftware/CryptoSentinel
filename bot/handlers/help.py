@@ -15,18 +15,15 @@ class HelpHandler:
             "/whatsup - Get the latest top URLs engagement for coins, NFTs, and stocks from LunarCrush live dashboard.\n"
             "/gainers - View the top 10 coins by 24h price change.\n"
             "/losers - View the bottom 10 coins by 24h price change.\n\n"
-
+            
+            
             "🔐 Premium Commands:\n"
             "/sentiment - View top coins by 24h volume along with their bullish and bearish sentiment percentages.\n"
             "/positions - Compare the largest positions on Binance Copy Trading to smaller ones.\n"
             "/wdom - Track the weekly dominance change for Bitcoin and Altcoins.\n"
-            "/news - Stay informed with the latest news articles related to cryptocurrencies.\n"
-            "/info [symbol] - Obtain detailed information about a specific coin using its symbol.\n"
-            "Example:\n"
-            "/info BTC\n"
-            "/chart [symbol] [interval] - Plot a chart of a specific coin by its symbol and interval. Defaults to 4h if no interval is selected.\n"
-            "Example: /chart BTC 1d\n"
-            "Available intervals: 1m, 5m, 15m, 1h, 4h, 1d, 1w, 1M\n\n"
+            "/news - Stay informed with the latest news articles related to cryptocurrencies. You can also specify the number of articles you want to view, e.g. /news 10. Use the -k flag followed by your keyword to filter the news, e.g. /news -k Bitcoin.\n"
+            "/info [symbol] - Obtain detailed information about a specific coin using its symbol. Example: /info BTC\n"
+            "/chart [symbol] [interval] - Plot a chart of a specific coin by its symbol and interval. Defaults to 4h if no interval is selected. Example: /chart BTC 1d. Available intervals: 1m, 5m, 15m, 1h, 4h, 1d, 1w, 1M\n\n"
         )
 
         update.message.reply_text(help_text)
