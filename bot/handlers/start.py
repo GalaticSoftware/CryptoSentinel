@@ -4,6 +4,8 @@ from telegram.ext import CallbackContext
 from users.management import get_or_create_user, update_user_access, check_user_access
 
 class StartHandler:
+    OPEN_BETA_PHASE = True  # Set this to False when the open beta phase ends
+
     @staticmethod
     def start(update: Update, context: CallbackContext):
         user_id = update.effective_user.id
@@ -16,8 +18,19 @@ class StartHandler:
         # Check if the user is subscribed
         has_access = check_user_access(user_id)
 
-        # If the user is not subscribed, send a welcome message with a subscription prompt
-        if not has_access:
+        # If the bot is in open beta phase, inform the user about the upcoming premium features
+        if StartHandler.OPEN_BETA_PHASE:
+            welcome_message = (
+                "🚀 Welcome to Crypto Sentinel Bot! 🚀\n\n"
+                "We're currently in our Open Beta phase. You can use all of our free features. "
+                "Premium features will be coming soon. Join our Community Channel to stay updated and not miss out!\n\n"
+                "Type /help to explore the list of commands."
+            )
+
+            update.message.reply_text(welcome_message)
+
+        # If the bot is not in open beta phase, show the subscribe button if the user is not subscribed
+        elif not has_access:
             welcome_message = (
                 "🚀 Welcome to Crypto Sentinel Bot! 🚀\n\n"
                 "Your one-stop solution for the latest news, insights, and trends in the crypto market.\n\n"

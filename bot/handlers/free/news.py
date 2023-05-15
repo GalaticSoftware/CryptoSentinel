@@ -65,7 +65,6 @@ class NewsHandler:
         return news_list
 
 
-    @restricted
     @log_command_usage("news")
     def news_handler(update: Update, context: CallbackContext):
         """

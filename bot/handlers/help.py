@@ -37,13 +37,13 @@ class HelpHandler:
                 "🌐 /global_top [metric] - Top coins\n"
                 "🆙 /whatsup - Trending now!\n"
                 "📈 /gainers - Top 10 coins by 24h price\n"
-                "📉 /losers - Bottom 10 coins by 24h price\n\n"
-                
+                "📉 /losers - Bottom 10 coins by 24h price\n"
+                "📰 /news - Latest crypto news\n\n"
+
                 "🔐 Premium Commands:\n"
                 "📊 /sentiment - Coin sentiments\n"
-                "💹 /positions - Binance Copy Trading\n"
+                "💹 /positions - Big Positions from Binance\n"
                 "🔍 /wdom - Bitcoin & Altcoin dominance\n"
-                "📰 /news - Latest crypto news\n"
                 "🔎 /info [symbol] - Coin info. Ex: /info BTC\n"
                 "📉 /chart [symbol] [interval] - Coin chart. Ex: /chart BTC 1d.\n\n"
                 
