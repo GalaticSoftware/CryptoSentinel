@@ -68,6 +68,19 @@ class Position(Base):
     open_time = Column(DateTime, nullable=False)  # open time
     close_time = Column(DateTime)  # close time
     profit_or_loss = Column(String)  # profit or loss
+    consecutive_absences = Column(Integer, default=0)  # consecutive absences
+
+# Alert table class definition
+class Alert(Base):
+    __tablename__ = 'alerts'
+    id = Column(Integer, primary_key=True, autoincrement=True)  # unique identifier for each alert
+    alert_type = Column(String, nullable=False)  # type of the alert
+    related_entity = Column(String)  # related entity (either a position id or a symbol)
+    relation_type = Column(String)  # type of the relation (either 'position' or 'symbol')
+    sent_at = Column(DateTime, default=func.now())  # when the alert was sent
+    is_sent = Column(Boolean, default=False)  # if the alert has been sent
+
+
 
 
 # Create a connection to the database and bind the engine

@@ -63,76 +63,85 @@ class PositionsFetcher:
 
                 if data['success']:
                     with Session() as session:
-                        positions = data['data'][0]['positions']['perpetual'] if 'data' in data and 'positions' in data['data'][0] and 'perpetual' in data['data'][0]['positions'] else None
-                        if positions is not None:
-                            for position in positions:
-                                # Calculate position cost and current position value
-                                position_cost = abs(position['entryPrice'] * position['amount'])
-                                current_position_value = abs(position['markPrice'] * position['amount'])
+                        for uid in uid_list:
+                            positions = data['data'][0]['positions']['perpetual'] if 'data' in data and 'positions' in data['data'][0] and 'perpetual' in data['data'][0]['positions'] else None
+                            if positions is not None:
+                                for position in positions:
+                                    # Calculate position cost and current position value
+                                    position_cost = abs(position['entryPrice'] * position['amount'])
+                                    current_position_value = abs(position['markPrice'] * position['amount'])
 
-                                # Create a unique identifier for each position
-                                position_id = hashlib.sha256((uid + position['symbol'] + str(position['entryPrice'])).encode()).hexdigest()
+                                    # Create a unique identifier for each position
+                                    position_id = hashlib.sha256((uid + position['symbol'] + str(position['entryPrice'])).encode()).hexdigest()
 
-                                # Create a new position object
-                                new_position = Position(
-                                    id=position_id,
-                                    trader_id=uid,
-                                    symbol=position['symbol'],
-                                    entry_price=position['entryPrice'],
-                                    mark_price=position['markPrice'],
-                                    pnl=position['pnl'],
-                                    roe=position['roe'],
-                                    amount=position['amount'],
-                                    update_timestamp=position['updateTimeStamp'],
-                                    trade_before=position['tradeBefore'],
-                                    long=position['long'],
-                                    short=position['short'],
-                                    leverage=position['leverage'],
-                                    position_cost=position_cost,
-                                    current_position_value=current_position_value,
-                                    open_time=datetime.utcnow()  # consider this as the open time
-                                )
+                                    # Create a new position object
+                                    new_position = Position(
+                                        id=position_id,
+                                        trader_id=uid,
+                                        symbol=position['symbol'],
+                                        entry_price=position['entryPrice'],
+                                        mark_price=position['markPrice'],
+                                        pnl=position['pnl'],
+                                        roe=position['roe'],
+                                        amount=position['amount'],
+                                        update_timestamp=position['updateTimeStamp'],
+                                        trade_before=position['tradeBefore'],
+                                        long=position['long'],
+                                        short=position['short'],
+                                        leverage=position['leverage'],
+                                        position_cost=position_cost,
+                                        current_position_value=current_position_value,
+                                        open_time=datetime.utcnow()  # consider this as the open time
+                                    )
 
-                                existing_position = session.query(Position).filter_by(id=position_id).first()
-                                if existing_position:
-                                    # Update the existing position values
-                                    existing_position.entry_price = position['entryPrice']
-                                    existing_position.mark_price = position['markPrice']
-                                    existing_position.pnl = position['pnl']
-                                    existing_position.roe = position['roe']
-                                    existing_position.amount = position['amount']
-                                    existing_position.update_timestamp = position['updateTimeStamp']
-                                    existing_position.trade_before = position['tradeBefore']
-                                    existing_position.long = position['long']
-                                    existing_position.short = position['short']
-                                    existing_position.leverage = position['leverage']
-                                    existing_position.position_cost = position_cost
-                                    existing_position.current_position_value = current_position_value
-                                    existing_position.profit_or_loss = 'profit' if existing_position.pnl > 0 else 'loss'
-                                else:
-                                    # Add the new position into the database
-                                    session.add(new_position)
+                                    existing_position = session.query(Position).filter_by(id=position_id).first()
+                                    if existing_position:
+                                        # Update the existing position values
+                                        existing_position.entry_price = position['entryPrice']
+                                        existing_position.mark_price = position['markPrice']
+                                        existing_position.pnl = position['pnl']
+                                        existing_position.roe = position['roe']
+                                        existing_position.amount = position['amount']
+                                        existing_position.update_timestamp = position['updateTimeStamp']
+                                        existing_position.trade_before = position['tradeBefore']
+                                        existing_position.long = position['long']
+                                        existing_position.short = position['short']
+                                        existing_position.leverage = position['leverage']
+                                        existing_position.position_cost = position_cost
+                                        existing_position.current_position_value = current_position_value
+                                        existing_position.profit_or_loss = 'profit' if existing_position.pnl > 0 else 'loss'
+                                    else:
+                                        # Add the new position into the database
+                                        session.add(new_position)
 
-                                session.commit()
-
-                            # Handle closed positions
-                            # Get all positions for the current uid
-                            all_positions_for_current_uid = session.query(Position).filter_by(trader_id=uid).all()
-
-                            # Get a list of all position ids fetched from the API
-                            fetched_position_ids = [hashlib.sha256((uid + pos['symbol'] + str(pos['entryPrice'])).encode()).hexdigest() for pos in positions]
-
-                            for stored_position in all_positions_for_current_uid:
-                                # If the position id is not in the new data, then it is closed
-                                if stored_position.id not in fetched_position_ids:
-                                    stored_position.close_time = datetime.utcnow()
                                     session.commit()
 
+                                # Handle closed positions
+                                # Get all positions for the current uid
+                                all_positions_for_current_uid = session.query(Position).filter_by(trader_id=uid).all()
+
+                                # Get a list of all position ids fetched from the API
+                                fetched_position_ids = [hashlib.sha256((uid + pos['symbol'] + str(pos['entryPrice'])).encode()).hexdigest() for pos in positions]
+
+                                for stored_position in all_positions_for_current_uid:
+                                    # If the position id is not in the new data, then it is potentially closed
+                                    if stored_position.id not in fetched_position_ids:
+                                        stored_position.consecutive_absences += 1
+                                        # If the position has been absent for 3 consecutive fetches, consider it closed
+                                        if stored_position.consecutive_absences >= 3:
+                                            stored_position.close_time = datetime.utcnow()
+                                    else:
+                                        # Reset the counter if the position appears in the fetched data
+                                        stored_position.consecutive_absences = 0
+                                    session.commit()
 
             except requests.HTTPError as http_err:
                 print(f'HTTP error occurred: {http_err}')  # Python 3.6
             except Exception as err:
                 print(f'Other error occurred: {err}')  # Python 3.6
             else:
-                print('Success!')
+                print('Fetch successful for uid: ' + uid)
+        
+        # Print completed message
+        print('Fetch completed for all uids')
 

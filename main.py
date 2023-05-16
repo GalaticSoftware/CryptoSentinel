@@ -78,10 +78,10 @@ def main() -> None:
     jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=1) # First is set to 1 to avoid the first check to be done immediately
 
     # Schedule the job to fetch the positions every 10 minutes (600 seconds)
-    jq.run_repeating(PositionsFetcher.fetch_and_store_positions, interval=300, first=5) # First is set to 5 to avoid the first check to be done immediately
+    jq.run_repeating(PositionsFetcher.fetch_and_store_positions, interval=300, first=2) # First is set to 5 to avoid the first check to be done immediately
 
     # Schedule the job to run the position alerts every 10 minutes (600 seconds)
-    jq.run_repeating(run_position_alerts, interval=300, first=10) # First is set to 10 to avoid the first check to be done immediately
+    jq.run_repeating(run_position_alerts, interval=300, first=15) # First is set to 10 to avoid the first check to be done immediately
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command
