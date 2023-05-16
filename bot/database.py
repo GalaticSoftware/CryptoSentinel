@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, Numeric, ForeignKey, func
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, Numeric, ForeignKey, func, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -46,6 +46,28 @@ class CommandUsage(Base):
     command_name = Column(String, nullable=False)
     usage_count = Column(Integer, default=0, nullable=False)  # Add this line
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+# Position table class definition
+class Position(Base):
+    __tablename__ = 'positions'
+    id = Column(String, primary_key=True)  # unique identifier for each position
+    trader_uid = Column(String, nullable=False)  # trader UID
+    symbol = Column(String, nullable=False)  # symbol
+    entry_price = Column(Numeric(20, 10), nullable=False)  # entry price
+    mark_price = Column(Numeric(20, 10), nullable=False)  # mark price
+    pnl = Column(Numeric(20, 10), nullable=False)  # pnl
+    roe = Column(Numeric(20, 10), nullable=False)  # roe
+    amount = Column(Numeric(20, 10), nullable=False)  # amount
+    update_timestamp = Column(BigInteger, nullable=False)  # update timestamp
+    traded_before = Column(Boolean, nullable=False)  # traded before
+    is_long = Column(Boolean, nullable=False)  # is long
+    is_short = Column(Boolean, nullable=False)  # is short
+    leverage = Column(Integer, nullable=False)  # leverage
+    position_cost = Column(Numeric(20, 10), nullable=False)  # position cost
+    current_position_value = Column(Numeric(20, 10), nullable=False)  # current position value
+    open_time = Column(DateTime, nullable=False)  # open time
+    close_time = Column(DateTime)  # close time
+    profit_or_loss = Column(String)  # profit or loss
 
 
 # Create a connection to the database and bind the engine
