@@ -51,7 +51,7 @@ class CommandUsage(Base):
 class Position(Base):
     __tablename__ = 'positions'
     id = Column(String, primary_key=True)  # unique identifier for each position
-    trader_uid = Column(String, nullable=False)  # trader UID
+    trader_id = Column(String, nullable=False)  # trader UID
     symbol = Column(String, nullable=False)  # symbol
     entry_price = Column(Numeric(20, 10), nullable=False)  # entry price
     mark_price = Column(Numeric(20, 10), nullable=False)  # mark price
@@ -59,9 +59,9 @@ class Position(Base):
     roe = Column(Numeric(20, 10), nullable=False)  # roe
     amount = Column(Numeric(20, 10), nullable=False)  # amount
     update_timestamp = Column(BigInteger, nullable=False)  # update timestamp
-    traded_before = Column(Boolean, nullable=False)  # traded before
-    is_long = Column(Boolean, nullable=False)  # is long
-    is_short = Column(Boolean, nullable=False)  # is short
+    trade_before = Column(Boolean, nullable=False)  # traded before
+    long = Column(Boolean, nullable=False)  # is long
+    short = Column(Boolean, nullable=False)  # is short
     leverage = Column(Integer, nullable=False)  # leverage
     position_cost = Column(Numeric(20, 10), nullable=False)  # position cost
     current_position_value = Column(Numeric(20, 10), nullable=False)  # current position value
