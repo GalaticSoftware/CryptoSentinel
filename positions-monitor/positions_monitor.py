@@ -9,10 +9,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from config.settings import MY_POSTGRESQL_URL, X_RAPIDAPI_KEY
-from ratelimiter import RateLimiter
 
 # Setup logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("positions_monitor.log"),
+        logging.StreamHandler()
+    ]
+)
 logger = logging.getLogger(__name__)
 
 # Database setup
@@ -52,7 +58,6 @@ class UIDFetcher:
         self.url = url
         self.headers = headers
 
-    @RateLimiter(max_calls=5, period=5)  # Limit to 5 calls per 5 seconds
     def fetch_data(self, uid):
         session = Session()
         try:
@@ -65,7 +70,12 @@ class UIDFetcher:
             if not positions_data['perpetual'] and not positions_data['delivery']:
                 logging.info(f"Positions data empty for UID {uid}")
                 return
-            self.process_positions(uid, positions_data, session)
+
+            # Get all position_ids for this UID from the database
+            db_position_ids = {p.position_id for p in session.query(FetchedPosition.position_id).filter_by(uid=uid).all()}
+
+            # Process the fetched positions
+            self.process_positions(uid, positions_data, session, db_position_ids)
         except requests.exceptions.RequestException as e:
             logging.error(f"An error occurred while fetching data for UID {uid}: {e}")
         except SQLAlchemyError as e:
@@ -75,27 +85,41 @@ class UIDFetcher:
         finally:
             session.close()
 
-    def process_positions(self, uid, positions_data, session):
+    def process_positions(self, uid, positions_data, session, db_position_ids):
         for position_type in ['perpetual', 'delivery']:
             positions = positions_data[position_type]
             if positions is None:
                 continue
             for position in positions:
                 position_id = self.generate_position_id(uid, position)
+                logging.info(f"Fetched position_id: {position_id}")
                 db_position = session.query(FetchedPosition).filter_by(position_id=position_id).first()
                 if db_position:
                     self.update_position(db_position, position)
-                    if not position:
-                        db_position.closed_at = datetime.utcnow()
+                    db_position_ids.discard(position_id)
                 else:
                     self.create_position(position_id, uid, position, session)
                 session.commit()
 
+        # Any remaining position_ids in the set were not in the fetched data, so mark them as closed
+        for position_id in db_position_ids:
+            logging.info(f"Database position_id not in fetched data: {position_id}")
+            db_position = session.query(FetchedPosition).filter_by(position_id=position_id).first()
+            if db_position:
+                db_position.closed_at = datetime.utcnow()
+                session.commit()
 
+
+
+    # Define a function to generate a unique position_id for each position
+    # This is done by hashing the UID for the position and the symbol of the position + the direction of the position (long/short)
+    # This is done because the UID + symbol + direction is unique for each position
     def generate_position_id(self, uid, position):
-        position_string = f"{uid}-{position['symbol']}-{position['long']}"
-        position_hash = hashlib.sha256(position_string.encode()).hexdigest()
-        return position_hash
+        symbol = position["symbol"]
+        direction = "long" if position["long"] else "short"
+        position_string = f"{uid}{symbol}{direction}"
+        position_id = hashlib.sha256(position_string.encode()).hexdigest()
+        return position_id
 
     def update_position(self, db_position, position):
         logging.info(f"Updating existing position for UID {db_position.uid}")
@@ -131,8 +155,16 @@ class UIDFetcher:
 
     def fetch_all(self, uids):
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = [executor.submit(self.fetch_data, uid) for uid in uids]
-            concurrent.futures.wait(futures, timeout=1, return_when=concurrent.futures.ALL_COMPLETED)  
+            # Split the uids into chunks of 5
+            uid_chunks = [uids[i:i + 5] for i in range(0, len(uids), 5)]
+
+            for chunk in uid_chunks:
+                futures = [executor.submit(self.fetch_data, uid) for uid in chunk]
+                concurrent.futures.wait(futures, return_when=concurrent.futures.ALL_COMPLETED)
+
+                # Wait for 1 second before fetching the next chunk
+                time.sleep(1)
+ 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

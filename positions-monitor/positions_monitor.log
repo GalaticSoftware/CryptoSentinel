@@ -1,0 +1,713 @@
+2023-05-19 00:51:05,752 - root - INFO - Fetching data for UID E4C2BCB6FDF2A2A7A20D516B8389B952
+2023-05-19 00:51:05,752 - root - INFO - Fetching data for UID F90459BB0C3BC6CE241CADAA80DEBF25
+2023-05-19 00:51:05,753 - root - INFO - Fetching data for UID 36D12879856E9ABF7148BAE61E77D279
+2023-05-19 00:51:05,754 - root - INFO - Fetching data for UID FE63D6040E22611D978B73064B3A2057
+2023-05-19 00:51:05,755 - root - INFO - Fetching data for UID FB23E1A8B7E2944FAAEC6219BBDF8243
+2023-05-19 00:51:06,360 - root - INFO - Positions data empty for UID F90459BB0C3BC6CE241CADAA80DEBF25
+2023-05-19 00:51:07,389 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2023-05-19 00:51:07,389 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2023-05-19 00:51:07,615 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2023-05-19 00:51:07,615 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2023-05-19 00:51:07,841 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2023-05-19 00:51:07,841 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2023-05-19 00:51:08,067 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,068 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,068 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,068 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,076 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:08,077 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:08,077 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:08,078 - sqlalchemy.engine.Engine - INFO - [cached since 0.002192s ago] {'uid_1': 'E4C2BCB6FDF2A2A7A20D516B8389B952'}
+2023-05-19 00:51:08,077 - sqlalchemy.engine.Engine - INFO - [cached since 0.002067s ago] {'uid_1': 'FB23E1A8B7E2944FAAEC6219BBDF8243'}
+2023-05-19 00:51:08,077 - sqlalchemy.engine.Engine - INFO - [generated in 0.00186s] {'uid_1': '36D12879856E9ABF7148BAE61E77D279'}
+2023-05-19 00:51:08,076 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:08,078 - sqlalchemy.engine.Engine - INFO - [cached since 0.002612s ago] {'uid_1': 'FE63D6040E22611D978B73064B3A2057'}
+2023-05-19 00:51:08,306 - root - INFO - Fetched position_id: f01ca875b34427dd7f1f29d3c4446e868e110762d6e066ffb760ef6ca86de668
+2023-05-19 00:51:08,307 - root - INFO - Fetched position_id: 8b73885fd593fe4970c7bb39ea4504342a1b4e809ebff61d46d5fc68ada5aa4a
+2023-05-19 00:51:08,313 - root - INFO - Fetched position_id: 26ae1d02b0e97508cc901d3d52c404af726da05851034189d9cfd2dc709d1d1c
+2023-05-19 00:51:08,311 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,313 - root - INFO - Fetched position_id: 3e3a859589b638cd643432b2f9e416a1d15a576fd81c7cff4dfed96fea5d24f9
+2023-05-19 00:51:08,312 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,315 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,315 - sqlalchemy.engine.Engine - INFO - [generated in 0.00433s] {'position_id_1': 'f01ca875b34427dd7f1f29d3c4446e868e110762d6e066ffb760ef6ca86de668', 'param_1': 1}
+2023-05-19 00:51:08,316 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,317 - sqlalchemy.engine.Engine - INFO - [cached since 0.005682s ago] {'position_id_1': '8b73885fd593fe4970c7bb39ea4504342a1b4e809ebff61d46d5fc68ada5aa4a', 'param_1': 1}
+2023-05-19 00:51:08,317 - sqlalchemy.engine.Engine - INFO - [cached since 0.005842s ago] {'position_id_1': '26ae1d02b0e97508cc901d3d52c404af726da05851034189d9cfd2dc709d1d1c', 'param_1': 1}
+2023-05-19 00:51:08,317 - sqlalchemy.engine.Engine - INFO - [cached since 0.006482s ago] {'position_id_1': '3e3a859589b638cd643432b2f9e416a1d15a576fd81c7cff4dfed96fea5d24f9', 'param_1': 1}
+2023-05-19 00:51:08,432 - root - INFO - Updating existing position for UID E4C2BCB6FDF2A2A7A20D516B8389B952
+2023-05-19 00:51:08,433 - root - INFO - Updating existing position for UID FE63D6040E22611D978B73064B3A2057
+2023-05-19 00:51:08,433 - root - INFO - Updating existing position for UID FB23E1A8B7E2944FAAEC6219BBDF8243
+2023-05-19 00:51:08,437 - root - INFO - Updating existing position for UID 36D12879856E9ABF7148BAE61E77D279
+2023-05-19 00:51:08,437 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,438 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,441 - sqlalchemy.engine.Engine - INFO - [cached since 0.004761s ago] {'entry_price': 0.0741229840724, 'mark_price': 0.07392834, 'pnl': -5980.10067456, 'roe': -0.0131641, 'fetched_positions_id': 59}
+2023-05-19 00:51:08,440 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,441 - sqlalchemy.engine.Engine - INFO - [generated in 0.00434s] {'entry_price': 1930.940823054, 'mark_price': 1809.3, 'pnl': -827157.59674, 'roe': -0.4706161, 'fetched_positions_id': 56}
+2023-05-19 00:51:08,439 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,442 - sqlalchemy.engine.Engine - INFO - [cached since 0.005822s ago] {'entry_price': 0.0857324381448, 'mark_price': 0.07392834, 'pnl': -215659.80358098, 'roe': -0.79834675, 'fetched_positions_id': 57}
+2023-05-19 00:51:08,442 - sqlalchemy.engine.Engine - INFO - [generated in 0.00131s] {'entry_price': 1.734340982694, 'mark_price': 2.417, 'pnl': 196580.94897167, 'roe': 0.56488127, 'amount': 287963.6, 'fetched_positions_id': 58}
+2023-05-19 00:51:08,555 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:08,556 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:08,556 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:08,557 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:08,675 - root - INFO - Fetched position_id: ac4a9d9e6be99035c55c4f752bf24392547a22f9903ae03078f919fd44177c92
+2023-05-19 00:51:08,676 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,676 - root - INFO - Fetched position_id: 7fc7f2d08e50f14594a3c00ac2e5399dc32673b38489554afe01f03fa5729d8a
+2023-05-19 00:51:08,677 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,681 - root - INFO - Fetched position_id: 9e8cb3a0e715a9a539fec13eb69811cb4f976916369a5a5137158067534b02f6
+2023-05-19 00:51:08,679 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,681 - sqlalchemy.engine.Engine - INFO - [cached since 0.3701s ago] {'position_id_1': 'ac4a9d9e6be99035c55c4f752bf24392547a22f9903ae03078f919fd44177c92', 'param_1': 1}
+2023-05-19 00:51:08,682 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:08,683 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,684 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:08,684 - sqlalchemy.engine.Engine - INFO - [cached since 0.373s ago] {'position_id_1': '7fc7f2d08e50f14594a3c00ac2e5399dc32673b38489554afe01f03fa5729d8a', 'param_1': 1}
+2023-05-19 00:51:08,684 - sqlalchemy.engine.Engine - INFO - [cached since 0.3733s ago] {'position_id_1': '9e8cb3a0e715a9a539fec13eb69811cb4f976916369a5a5137158067534b02f6', 'param_1': 1}
+2023-05-19 00:51:08,909 - root - INFO - Updating existing position for UID FE63D6040E22611D978B73064B3A2057
+2023-05-19 00:51:08,910 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,910 - sqlalchemy.engine.Engine - INFO - [cached since 0.4737s ago] {'entry_price': 27244.71182772, 'mark_price': 26898.3, 'pnl': -181866.209553, 'roe': -0.19317865, 'fetched_positions_id': 62}
+2023-05-19 00:51:08,911 - root - INFO - Updating existing position for UID 36D12879856E9ABF7148BAE61E77D279
+2023-05-19 00:51:08,912 - root - INFO - Updating existing position for UID E4C2BCB6FDF2A2A7A20D516B8389B952
+2023-05-19 00:51:08,913 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,914 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:08,914 - sqlalchemy.engine.Engine - INFO - [cached since 0.4774s ago] {'entry_price': 9.700191155949, 'mark_price': 10.86624001, 'pnl': 24540.66430756, 'roe': 0.21461865, 'fetched_positions_id': 60}
+2023-05-19 00:51:08,914 - sqlalchemy.engine.Engine - INFO - [cached since 0.4777s ago] {'entry_price': 0.0027324658531, 'mark_price': 0.0015885, 'pnl': -463303.8, 'roe': -1.44030217, 'fetched_positions_id': 61}
+2023-05-19 00:51:09,024 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:09,028 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:09,029 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:09,140 - root - INFO - Fetched position_id: 329b4da407ae7cb653bc75c426c6610ee1292064da949b1d75a17569a2cc62c6
+2023-05-19 00:51:09,141 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:09,142 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:09,142 - sqlalchemy.engine.Engine - INFO - [cached since 0.8312s ago] {'position_id_1': '329b4da407ae7cb653bc75c426c6610ee1292064da949b1d75a17569a2cc62c6', 'param_1': 1}
+2023-05-19 00:51:09,143 - root - INFO - Fetched position_id: e65fdcdbb4ac0e5af05e2bef01bd084e51b4b080bc2b6d767e3afe3dac11e7eb
+2023-05-19 00:51:09,144 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:09,146 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:09,146 - sqlalchemy.engine.Engine - INFO - [cached since 0.8352s ago] {'position_id_1': 'e65fdcdbb4ac0e5af05e2bef01bd084e51b4b080bc2b6d767e3afe3dac11e7eb', 'param_1': 1}
+2023-05-19 00:51:09,369 - root - INFO - Updating existing position for UID FE63D6040E22611D978B73064B3A2057
+2023-05-19 00:51:09,370 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:09,370 - sqlalchemy.engine.Engine - INFO - [cached since 0.9337s ago] {'entry_price': 0.0016130890144, 'mark_price': 0.0015885, 'pnl': -55620.43334566, 'roe': -0.03094743, 'fetched_positions_id': 64}
+2023-05-19 00:51:09,372 - root - INFO - Updating existing position for UID 36D12879856E9ABF7148BAE61E77D279
+2023-05-19 00:51:09,373 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:09,374 - sqlalchemy.engine.Engine - INFO - [cached since 0.9372s ago] {'entry_price': 12.26284094047, 'mark_price': 10.343, 'pnl': -80633.31948, 'roe': -0.37123483, 'fetched_positions_id': 63}
+2023-05-19 00:51:09,484 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:09,487 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:09,601 - root - INFO - Fetched position_id: 204df8c6f9ccc1fbaf9ada2bab44615cbaac31e028f4a8df26b8c784da4954ab
+2023-05-19 00:51:09,601 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:09,602 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:09,602 - sqlalchemy.engine.Engine - INFO - [cached since 1.291s ago] {'position_id_1': '204df8c6f9ccc1fbaf9ada2bab44615cbaac31e028f4a8df26b8c784da4954ab', 'param_1': 1}
+2023-05-19 00:51:09,829 - root - INFO - Updating existing position for UID 36D12879856E9ABF7148BAE61E77D279
+2023-05-19 00:51:09,830 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:09,831 - sqlalchemy.engine.Engine - INFO - [cached since 1.394s ago] {'entry_price': 0.462188922154, 'mark_price': 0.28465199, 'pnl': 108431.39014522, 'roe': 2.49479275, 'fetched_positions_id': 65}
+2023-05-19 00:51:09,944 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:10,063 - root - INFO - Fetched position_id: ed64f3b3d746442d08ecfd1478764ec9fd3685647dc04662a417e5804398c9e8
+2023-05-19 00:51:10,065 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:10,065 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:10,065 - sqlalchemy.engine.Engine - INFO - [cached since 1.755s ago] {'position_id_1': 'ed64f3b3d746442d08ecfd1478764ec9fd3685647dc04662a417e5804398c9e8', 'param_1': 1}
+2023-05-19 00:51:10,293 - root - INFO - Updating existing position for UID 36D12879856E9ABF7148BAE61E77D279
+2023-05-19 00:51:10,294 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:10,294 - sqlalchemy.engine.Engine - INFO - [cached since 1.858s ago] {'entry_price': 7.218612213089, 'mark_price': 6.549, 'pnl': -41864.1553692, 'roe': -1.02246482, 'fetched_positions_id': 66}
+2023-05-19 00:51:10,408 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:11,526 - root - INFO - Fetching data for UID 3EFA61BC63849632347ED020C78634E1
+2023-05-19 00:51:11,526 - root - INFO - Fetching data for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:11,528 - root - INFO - Fetching data for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:11,530 - root - INFO - Fetching data for UID DF74DFB6CB244F8033F1D66D5AA0B171
+2023-05-19 00:51:11,531 - root - INFO - Fetching data for UID 49A7275656A7ABF56830126ACC619FEB
+2023-05-19 00:51:12,253 - root - INFO - Positions data empty for UID DF74DFB6CB244F8033F1D66D5AA0B171
+2023-05-19 00:51:12,282 - root - INFO - Positions data empty for UID 49A7275656A7ABF56830126ACC619FEB
+2023-05-19 00:51:12,303 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:12,303 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:12,303 - sqlalchemy.engine.Engine - INFO - [cached since 4.228s ago] {'uid_1': '6408AAEEEBF0C76A3D5F0E39C64AAABA'}
+2023-05-19 00:51:12,529 - root - INFO - Fetched position_id: 993fc22cdecbcd039e1adeaff9028a61cb7523ef1b4eac764f433ea8649bb0f9
+2023-05-19 00:51:12,530 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:12,530 - sqlalchemy.engine.Engine - INFO - [cached since 4.219s ago] {'position_id_1': '993fc22cdecbcd039e1adeaff9028a61cb7523ef1b4eac764f433ea8649bb0f9', 'param_1': 1}
+2023-05-19 00:51:12,644 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:12,645 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:12,645 - sqlalchemy.engine.Engine - INFO - [cached since 4.205s ago] {'entry_price': 10.94141211011, 'mark_price': 10.86613076, 'pnl': 146.03226835, 'roe': 0.02078422, 'amount': -1939.82, 'fetched_positions_id': 72}
+2023-05-19 00:51:12,759 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:12,874 - root - INFO - Fetched position_id: 53b72ffef1e21af0c59f7ffb8551aeb7140c87f4c0fc55f288d020de5254794a
+2023-05-19 00:51:12,875 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:12,875 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:12,875 - sqlalchemy.engine.Engine - INFO - [cached since 4.564s ago] {'position_id_1': '53b72ffef1e21af0c59f7ffb8551aeb7140c87f4c0fc55f288d020de5254794a', 'param_1': 1}
+2023-05-19 00:51:12,942 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:12,942 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:12,943 - sqlalchemy.engine.Engine - INFO - [cached since 4.867s ago] {'uid_1': '8FE17CCE0A3EA996ED7D8B538419C826'}
+2023-05-19 00:51:13,113 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:13,113 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:13,114 - sqlalchemy.engine.Engine - INFO - [cached since 4.673s ago] {'entry_price': 0.5607730518661, 'mark_price': 0.53591229, 'pnl': 6469.94566594, 'roe': 0.13916882, 'amount': -260247.3, 'fetched_positions_id': 74}
+2023-05-19 00:51:13,169 - root - INFO - Fetched position_id: 2e2fc408a23f7eef086a22545075479b9a5a3f1eff975a04ca9306610b1b47f7
+2023-05-19 00:51:13,170 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:13,171 - sqlalchemy.engine.Engine - INFO - [cached since 4.86s ago] {'position_id_1': '2e2fc408a23f7eef086a22545075479b9a5a3f1eff975a04ca9306610b1b47f7', 'param_1': 1}
+2023-05-19 00:51:13,226 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:13,285 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:13,285 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:13,286 - sqlalchemy.engine.Engine - INFO - [cached since 4.849s ago] {'entry_price': 8.741321638939, 'mark_price': 6.612, 'pnl': -24274.266582, 'roe': -1.61019482, 'fetched_positions_id': 67}
+2023-05-19 00:51:13,343 - root - INFO - Fetched position_id: 1520b965a01e4bddc8779989d5aaa8d440375c75bea861dc6d4c1d6f8dae6bca
+2023-05-19 00:51:13,344 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:13,344 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:13,345 - sqlalchemy.engine.Engine - INFO - [cached since 5.034s ago] {'position_id_1': '1520b965a01e4bddc8779989d5aaa8d440375c75bea861dc6d4c1d6f8dae6bca', 'param_1': 1}
+2023-05-19 00:51:13,399 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:13,513 - root - INFO - Fetched position_id: 24147fdc06bc7ee735e757a4b99b39516ced0a3f8e9c75e0f51e9523eaea4925
+2023-05-19 00:51:13,514 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:13,514 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:13,515 - sqlalchemy.engine.Engine - INFO - [cached since 5.204s ago] {'position_id_1': '24147fdc06bc7ee735e757a4b99b39516ced0a3f8e9c75e0f51e9523eaea4925', 'param_1': 1}
+2023-05-19 00:51:13,571 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:13,573 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:13,573 - sqlalchemy.engine.Engine - INFO - [cached since 5.136s ago] {'entry_price': 0.0269995025107, 'mark_price': 0.02744, 'pnl': -2302.9326785, 'roe': -0.04815962, 'fetched_positions_id': 76}
+2023-05-19 00:51:13,687 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:13,741 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:13,742 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:13,742 - sqlalchemy.engine.Engine - INFO - [cached since 5.302s ago] {'entry_price': 325.7014510695, 'mark_price': 310.39, 'pnl': -1952.51623917, 'roe': -0.67664759, 'amount': 127.52, 'fetched_positions_id': 69}
+2023-05-19 00:51:13,805 - root - INFO - Fetched position_id: ad787d9e76b72c50c0a575d37c6407d8c252b481f04df2a9218db41c623e3667
+2023-05-19 00:51:13,806 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:13,807 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:13,807 - sqlalchemy.engine.Engine - INFO - [cached since 5.496s ago] {'position_id_1': 'ad787d9e76b72c50c0a575d37c6407d8c252b481f04df2a9218db41c623e3667', 'param_1': 1}
+2023-05-19 00:51:13,855 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:13,972 - root - INFO - Fetched position_id: 0683ec69dc7fa5c6be46c2a6e6aa4e8e5edf36d9290fb976ea63dbb853f0e574
+2023-05-19 00:51:13,973 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:13,974 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:13,974 - sqlalchemy.engine.Engine - INFO - [cached since 5.663s ago] {'position_id_1': '0683ec69dc7fa5c6be46c2a6e6aa4e8e5edf36d9290fb976ea63dbb853f0e574', 'param_1': 1}
+2023-05-19 00:51:14,033 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:14,034 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:14,034 - sqlalchemy.engine.Engine - INFO - [cached since 5.598s ago] {'entry_price': 0.2740554189926, 'mark_price': 0.28464836, 'pnl': -1109.57973365, 'roe': -0.11164248, 'fetched_positions_id': 78}
+2023-05-19 00:51:14,148 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:14,200 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:14,201 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:14,201 - sqlalchemy.engine.Engine - INFO - [cached since 5.765s ago] {'entry_price': 0.9620994957136, 'mark_price': 0.93710225, 'pnl': -497.445076, 'roe': -0.2667504, 'fetched_positions_id': 70}
+2023-05-19 00:51:14,264 - root - INFO - Fetched position_id: 624976f9277e3a6a5c1160dcbadf535c99593ec0d5140420028d552ef799993a
+2023-05-19 00:51:14,265 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:14,265 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:14,265 - sqlalchemy.engine.Engine - INFO - [cached since 5.955s ago] {'position_id_1': '624976f9277e3a6a5c1160dcbadf535c99593ec0d5140420028d552ef799993a', 'param_1': 1}
+2023-05-19 00:51:14,314 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:14,430 - root - INFO - Fetched position_id: 371deebc92a9654da6820118fa1b61cadfa066214c54b415545f281642a8e0c9
+2023-05-19 00:51:14,431 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:14,432 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:14,432 - sqlalchemy.engine.Engine - INFO - [cached since 6.121s ago] {'position_id_1': '371deebc92a9654da6820118fa1b61cadfa066214c54b415545f281642a8e0c9', 'param_1': 1}
+2023-05-19 00:51:14,492 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:14,493 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:14,493 - sqlalchemy.engine.Engine - INFO - [cached since 6.057s ago] {'entry_price': 0.027145397425, 'mark_price': 0.02601, 'pnl': 9904.06828106, 'roe': 0.13095617, 'fetched_positions_id': 80}
+2023-05-19 00:51:14,607 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:14,658 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:14,659 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:14,659 - sqlalchemy.engine.Engine - INFO - [cached since 6.223s ago] {'entry_price': 0.1997330817967, 'mark_price': 0.13791896, 'pnl': 8956.865988, 'roe': 4.48191605, 'fetched_positions_id': 71}
+2023-05-19 00:51:14,724 - root - INFO - Fetched position_id: 099a8bbf4aefe5c0e97dd614d1a2511e66426dfa50dcd30e2aa39293f11ae660
+2023-05-19 00:51:14,725 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:14,725 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:14,725 - sqlalchemy.engine.Engine - INFO - [cached since 6.414s ago] {'position_id_1': '099a8bbf4aefe5c0e97dd614d1a2511e66426dfa50dcd30e2aa39293f11ae660', 'param_1': 1}
+2023-05-19 00:51:14,773 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:14,887 - root - INFO - Fetched position_id: c8e81e08e3cc6efd99bcf8bfcb736f90dd83828bb0f792d0ef13ff895d470a6b
+2023-05-19 00:51:14,889 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:14,890 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:14,890 - sqlalchemy.engine.Engine - INFO - [cached since 6.579s ago] {'position_id_1': 'c8e81e08e3cc6efd99bcf8bfcb736f90dd83828bb0f792d0ef13ff895d470a6b', 'param_1': 1}
+2023-05-19 00:51:14,952 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:14,953 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:14,953 - sqlalchemy.engine.Engine - INFO - [cached since 6.517s ago] {'entry_price': 0.0269130748931, 'mark_price': 0.02601, 'pnl': 1241.84226138, 'roe': 0.10416032, 'fetched_positions_id': 82}
+2023-05-19 00:51:15,067 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:15,116 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:15,117 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:15,117 - sqlalchemy.engine.Engine - INFO - [cached since 6.681s ago] {'entry_price': 0.043681863568, 'mark_price': 0.0486706, 'pnl': 4829.81869856, 'roe': 0.51250036, 'fetched_positions_id': 73}
+2023-05-19 00:51:15,181 - root - INFO - Fetched position_id: fc594e49298af9b2c6af26f25ff354fa2b999425f09e9425698f53597e7cb0de
+2023-05-19 00:51:15,182 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:15,182 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:15,182 - sqlalchemy.engine.Engine - INFO - [cached since 6.871s ago] {'position_id_1': 'fc594e49298af9b2c6af26f25ff354fa2b999425f09e9425698f53597e7cb0de', 'param_1': 1}
+2023-05-19 00:51:15,230 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:15,345 - root - INFO - Fetched position_id: b8d606bcf9341f51987954b43a9041bc8c5ddfb5c57b46aea9ee57f1fe9e8ae8
+2023-05-19 00:51:15,346 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:15,347 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:15,347 - sqlalchemy.engine.Engine - INFO - [cached since 7.036s ago] {'position_id_1': 'b8d606bcf9341f51987954b43a9041bc8c5ddfb5c57b46aea9ee57f1fe9e8ae8', 'param_1': 1}
+2023-05-19 00:51:15,409 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:15,410 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:15,410 - sqlalchemy.engine.Engine - INFO - [cached since 6.97s ago] {'entry_price': 8.873546974664, 'mark_price': 9.46919602, 'pnl': -1140.27480237, 'roe': -0.1887116, 'amount': -1914.34, 'fetched_positions_id': 84}
+2023-05-19 00:51:15,524 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:15,574 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:15,575 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:15,575 - sqlalchemy.engine.Engine - INFO - [cached since 7.139s ago] {'entry_price': 87.57827352941, 'mark_price': 62.13, 'pnl': 2392.13771088, 'roe': 8.19194383, 'fetched_positions_id': 75}
+2023-05-19 00:51:15,636 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:15,637 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:15,637 - sqlalchemy.engine.Engine - INFO - [cached since 7.562s ago] {'uid_1': '3EFA61BC63849632347ED020C78634E1'}
+2023-05-19 00:51:15,639 - root - INFO - Fetched position_id: 01532bea90273fc40c5dd4c5ac774605925a418dba445eb929cc1078df8a115f
+2023-05-19 00:51:15,640 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:15,641 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:15,641 - sqlalchemy.engine.Engine - INFO - [cached since 7.33s ago] {'position_id_1': '01532bea90273fc40c5dd4c5ac774605925a418dba445eb929cc1078df8a115f', 'param_1': 1}
+2023-05-19 00:51:15,689 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:15,802 - root - INFO - Fetched position_id: 1d8d862e09abd31ce3bcd768a2d359293e1193547254719fa279325a4436bc81
+2023-05-19 00:51:15,803 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:15,803 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:15,804 - sqlalchemy.engine.Engine - INFO - [cached since 7.493s ago] {'position_id_1': '1d8d862e09abd31ce3bcd768a2d359293e1193547254719fa279325a4436bc81', 'param_1': 1}
+2023-05-19 00:51:15,862 - root - INFO - Fetched position_id: 00aa0168bee0a0f7f55b8156d06e123f53791925f7c5da940b57ad13b1fca019
+2023-05-19 00:51:15,863 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:15,864 - sqlalchemy.engine.Engine - INFO - [cached since 7.553s ago] {'position_id_1': '00aa0168bee0a0f7f55b8156d06e123f53791925f7c5da940b57ad13b1fca019', 'param_1': 1}
+2023-05-19 00:51:15,867 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:15,868 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:15,869 - sqlalchemy.engine.Engine - INFO - [cached since 7.428s ago] {'entry_price': 0.2175637939348, 'mark_price': 0.22278791, 'pnl': -513.55607177, 'roe': -0.07034654, 'amount': -98304.8, 'fetched_positions_id': 86}
+2023-05-19 00:51:15,978 - root - INFO - Updating existing position for UID 3EFA61BC63849632347ED020C78634E1
+2023-05-19 00:51:15,978 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:15,978 - sqlalchemy.engine.Engine - INFO - [cached since 7.538s ago] {'entry_price': 27365.36568449, 'mark_price': 26889.79970013, 'pnl': -37.09414678, 'roe': -0.88428696, 'amount': 0.078, 'fetched_positions_id': 68}
+2023-05-19 00:51:15,982 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:16,030 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:16,031 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:16,031 - sqlalchemy.engine.Engine - INFO - [cached since 7.595s ago] {'entry_price': 0.3955321608041, 'mark_price': 0.46257578, 'pnl': -3114.176149, 'roe': -5.79741724, 'fetched_positions_id': 77}
+2023-05-19 00:51:16,091 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:16,096 - root - INFO - Fetched position_id: 6a8fa1a193571837c54dc6d491977c40e8339e22c8d8a4f609ac480d58d431c4
+2023-05-19 00:51:16,098 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:16,098 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:16,098 - sqlalchemy.engine.Engine - INFO - [cached since 7.787s ago] {'position_id_1': '6a8fa1a193571837c54dc6d491977c40e8339e22c8d8a4f609ac480d58d431c4', 'param_1': 1}
+2023-05-19 00:51:16,145 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:16,261 - root - INFO - Fetched position_id: b09d3ad84ec7ff81e5a667948aed4613b20129819dc3efb96f5819421ba76072
+2023-05-19 00:51:16,262 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:16,262 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:16,263 - sqlalchemy.engine.Engine - INFO - [cached since 7.952s ago] {'position_id_1': 'b09d3ad84ec7ff81e5a667948aed4613b20129819dc3efb96f5819421ba76072', 'param_1': 1}
+2023-05-19 00:51:16,325 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:16,326 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:16,326 - sqlalchemy.engine.Engine - INFO - [cached since 7.89s ago] {'entry_price': 4.546979823978, 'mark_price': 4.742, 'pnl': -16952.90922722, 'roe': -0.12337843, 'fetched_positions_id': 88}
+2023-05-19 00:51:16,440 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:16,489 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:16,490 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:16,490 - sqlalchemy.engine.Engine - INFO - [cached since 8.054s ago] {'entry_price': 0.7319121247115, 'mark_price': 0.6675, 'pnl': -16.10303, 'roe': -0.48248779, 'fetched_positions_id': 79}
+2023-05-19 00:51:16,555 - root - INFO - Fetched position_id: e4b5a33c81a712db53357173a5c030a979c448e438a99e8315cb3690e0513509
+2023-05-19 00:51:16,557 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:16,557 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:16,557 - sqlalchemy.engine.Engine - INFO - [cached since 8.247s ago] {'position_id_1': 'e4b5a33c81a712db53357173a5c030a979c448e438a99e8315cb3690e0513509', 'param_1': 1}
+2023-05-19 00:51:16,604 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:16,719 - root - INFO - Fetched position_id: 9da5f8a2465e185eb5d950f0026a36735c3b56edf5cf702cc7455dcf229503e1
+2023-05-19 00:51:16,720 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:16,721 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:16,721 - sqlalchemy.engine.Engine - INFO - [cached since 8.41s ago] {'position_id_1': '9da5f8a2465e185eb5d950f0026a36735c3b56edf5cf702cc7455dcf229503e1', 'param_1': 1}
+2023-05-19 00:51:16,783 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:16,784 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:16,784 - sqlalchemy.engine.Engine - INFO - [cached since 8.344s ago] {'entry_price': 1.193563650318, 'mark_price': 1.146809, 'pnl': 3584.59485713, 'roe': 0.12230803, 'amount': -76668.2, 'fetched_positions_id': 90}
+2023-05-19 00:51:16,898 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:16,948 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:16,948 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:16,948 - sqlalchemy.engine.Engine - INFO - [cached since 8.512s ago] {'entry_price': 0.10229445608, 'mark_price': 0.053868, 'pnl': 7070.2617, 'roe': 13.48475373, 'fetched_positions_id': 81}
+2023-05-19 00:51:17,011 - root - INFO - Fetched position_id: 6bc3a6a306f997daf282d73a9874c4a13eab2a3bd644065674c058b3ab6b7aed
+2023-05-19 00:51:17,012 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:17,013 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:17,013 - sqlalchemy.engine.Engine - INFO - [cached since 8.702s ago] {'position_id_1': '6bc3a6a306f997daf282d73a9874c4a13eab2a3bd644065674c058b3ab6b7aed', 'param_1': 1}
+2023-05-19 00:51:17,062 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:17,178 - root - INFO - Fetched position_id: b90504081702ca3559441e1ea1de57c5db08961bcf60100d24eeab6880db5094
+2023-05-19 00:51:17,179 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:17,180 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:17,180 - sqlalchemy.engine.Engine - INFO - [cached since 8.869s ago] {'position_id_1': 'b90504081702ca3559441e1ea1de57c5db08961bcf60100d24eeab6880db5094', 'param_1': 1}
+2023-05-19 00:51:17,240 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:17,241 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:17,242 - sqlalchemy.engine.Engine - INFO - [cached since 8.801s ago] {'entry_price': 118.7974948511, 'mark_price': 116.60961811, 'pnl': 2225.0115719, 'roe': 0.05628721, 'amount': -1016.973, 'fetched_positions_id': 92}
+2023-05-19 00:51:17,355 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:17,407 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:17,409 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:17,409 - sqlalchemy.engine.Engine - INFO - [cached since 8.973s ago] {'entry_price': 0.1327456013227, 'mark_price': 0.10306, 'pnl': 3654.29736, 'roe': 1.44020959, 'fetched_positions_id': 83}
+2023-05-19 00:51:17,469 - root - INFO - Fetched position_id: fb9ec4d198982a41fe490e341185584109f94460792e1025dd5c44cf1cbf49b6
+2023-05-19 00:51:17,470 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:17,471 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:17,471 - sqlalchemy.engine.Engine - INFO - [cached since 9.16s ago] {'position_id_1': 'fb9ec4d198982a41fe490e341185584109f94460792e1025dd5c44cf1cbf49b6', 'param_1': 1}
+2023-05-19 00:51:17,522 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:17,636 - root - INFO - Fetched position_id: ad6e381ec2e044cef54a992dd73ad6ea4fde8dee3e233e8bb236c7cfa3c3fb2f
+2023-05-19 00:51:17,637 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:17,638 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:17,638 - sqlalchemy.engine.Engine - INFO - [cached since 9.327s ago] {'position_id_1': 'ad6e381ec2e044cef54a992dd73ad6ea4fde8dee3e233e8bb236c7cfa3c3fb2f', 'param_1': 1}
+2023-05-19 00:51:17,697 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:17,698 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:17,698 - sqlalchemy.engine.Engine - INFO - [cached since 9.262s ago] {'entry_price': 0.4314692603629, 'mark_price': 0.4343, 'pnl': -241.9433478, 'roe': -0.01955381, 'fetched_positions_id': 94}
+2023-05-19 00:51:17,812 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:17,864 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:17,865 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:17,865 - sqlalchemy.engine.Engine - INFO - [cached since 9.429s ago] {'entry_price': 0.6526581755728, 'mark_price': 0.4081, 'pnl': 858.3991767, 'roe': 11.98520804, 'fetched_positions_id': 85}
+2023-05-19 00:51:17,926 - root - INFO - Fetched position_id: a679e403c8c5ebc1819406eb21a29446daf717bba325d774b53bb87986b14a66
+2023-05-19 00:51:17,927 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:17,928 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:17,928 - sqlalchemy.engine.Engine - INFO - [cached since 9.617s ago] {'position_id_1': 'a679e403c8c5ebc1819406eb21a29446daf717bba325d774b53bb87986b14a66', 'param_1': 1}
+2023-05-19 00:51:17,979 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:18,093 - root - INFO - Fetched position_id: 95a799e8f9d44b3df1b82ddd47fd403efe00ef4a471ec4deda151275ea993ecd
+2023-05-19 00:51:18,094 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:18,094 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:18,095 - sqlalchemy.engine.Engine - INFO - [cached since 9.784s ago] {'position_id_1': '95a799e8f9d44b3df1b82ddd47fd403efe00ef4a471ec4deda151275ea993ecd', 'param_1': 1}
+2023-05-19 00:51:18,154 - root - INFO - Updating existing position for UID 6408AAEEEBF0C76A3D5F0E39C64AAABA
+2023-05-19 00:51:18,155 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:18,155 - sqlalchemy.engine.Engine - INFO - [cached since 9.719s ago] {'entry_price': 7.011572354558, 'mark_price': 7.05461573, 'pnl': -1360.6012418, 'roe': -0.01830435, 'fetched_positions_id': 96}
+2023-05-19 00:51:18,269 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:18,321 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:18,322 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:18,322 - sqlalchemy.engine.Engine - INFO - [cached since 9.886s ago] {'entry_price': 1.536512583834, 'mark_price': 1.59677431, 'pnl': 114.497287, 'roe': 0.37739667, 'fetched_positions_id': 87}
+2023-05-19 00:51:18,435 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:18,549 - root - INFO - Fetched position_id: 773ddec1f0e8ecdee2da8cf718d33bfb4c94379640fc3780a9ba703447cbd41e
+2023-05-19 00:51:18,550 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:18,551 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:18,551 - sqlalchemy.engine.Engine - INFO - [cached since 10.24s ago] {'position_id_1': '773ddec1f0e8ecdee2da8cf718d33bfb4c94379640fc3780a9ba703447cbd41e', 'param_1': 1}
+2023-05-19 00:51:18,777 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:18,777 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:18,778 - sqlalchemy.engine.Engine - INFO - [cached since 10.34s ago] {'entry_price': 0.4559835999998, 'mark_price': 0.49071823, 'pnl': -332.34103552, 'roe': -0.70783268, 'fetched_positions_id': 89}
+2023-05-19 00:51:18,891 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:19,007 - root - INFO - Fetched position_id: 57515ee984e0affb0b663e34f547e6e6d8731a443a6c8fbd6afbad962dabd9a8
+2023-05-19 00:51:19,008 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:19,008 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:19,009 - sqlalchemy.engine.Engine - INFO - [cached since 10.7s ago] {'position_id_1': '57515ee984e0affb0b663e34f547e6e6d8731a443a6c8fbd6afbad962dabd9a8', 'param_1': 1}
+2023-05-19 00:51:19,236 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:19,237 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:19,237 - sqlalchemy.engine.Engine - INFO - [cached since 10.8s ago] {'entry_price': 8.488535376148, 'mark_price': 4.99984975, 'pnl': 10396.2831476, 'roe': 5.58206473, 'fetched_positions_id': 91}
+2023-05-19 00:51:19,350 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:19,466 - root - INFO - Fetched position_id: e91f35a1ffa1005ee0ba4beaf783e1727873991eb422aaf92974378fbb26217d
+2023-05-19 00:51:19,467 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:19,467 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:19,468 - sqlalchemy.engine.Engine - INFO - [cached since 11.16s ago] {'position_id_1': 'e91f35a1ffa1005ee0ba4beaf783e1727873991eb422aaf92974378fbb26217d', 'param_1': 1}
+2023-05-19 00:51:19,694 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:19,694 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:19,695 - sqlalchemy.engine.Engine - INFO - [cached since 11.26s ago] {'entry_price': 1.200481589188, 'mark_price': 0.77020158, 'pnl': 2086.858, 'roe': 11.17317884, 'fetched_positions_id': 93}
+2023-05-19 00:51:19,808 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:19,922 - root - INFO - Fetched position_id: 19d974c08d6a538b37fc7587d8b239e0d56e7cb8da4ab65389aec34db5f55127
+2023-05-19 00:51:19,922 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:19,923 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:19,923 - sqlalchemy.engine.Engine - INFO - [cached since 11.61s ago] {'position_id_1': '19d974c08d6a538b37fc7587d8b239e0d56e7cb8da4ab65389aec34db5f55127', 'param_1': 1}
+2023-05-19 00:51:20,150 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:20,151 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:20,151 - sqlalchemy.engine.Engine - INFO - [cached since 11.72s ago] {'entry_price': 1.3222, 'mark_price': 1.16605102, 'pnl': 858.81939, 'roe': 3.3478162, 'fetched_positions_id': 95}
+2023-05-19 00:51:20,266 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:20,381 - root - INFO - Fetched position_id: bdf8dfd4bbb48e7b810498a2f07be52edb9cc5135ee5e81c10456ea30a9e05be
+2023-05-19 00:51:20,382 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:20,383 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:20,383 - sqlalchemy.engine.Engine - INFO - [cached since 12.07s ago] {'position_id_1': 'bdf8dfd4bbb48e7b810498a2f07be52edb9cc5135ee5e81c10456ea30a9e05be', 'param_1': 1}
+2023-05-19 00:51:20,610 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:20,611 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:20,611 - sqlalchemy.engine.Engine - INFO - [cached since 12.17s ago] {'entry_price': 888.1343829522, 'mark_price': 627.76759199, 'pnl': 15856.33756946, 'roe': 8.2950058, 'amount': -60.9, 'fetched_positions_id': 97}
+2023-05-19 00:51:20,724 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:20,838 - root - INFO - Fetched position_id: a75f1f59fee2082a3a7d0c072ecc2c41cdd349542c5bfeaa2750a499e639f2cd
+2023-05-19 00:51:20,839 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:20,839 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:20,839 - sqlalchemy.engine.Engine - INFO - [cached since 12.53s ago] {'position_id_1': 'a75f1f59fee2082a3a7d0c072ecc2c41cdd349542c5bfeaa2750a499e639f2cd', 'param_1': 1}
+2023-05-19 00:51:21,065 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:21,067 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:21,067 - sqlalchemy.engine.Engine - INFO - [cached since 12.63s ago] {'entry_price': 6.8613458, 'mark_price': 5.30753407, 'pnl': -932.287038, 'roe': -1.67623012, 'fetched_positions_id': 98}
+2023-05-19 00:51:21,181 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:21,296 - root - INFO - Fetched position_id: 97d0d07ae89d37fe01e1f5abf1bbd4576750428828d4cab7ad158ad706d3ae9b
+2023-05-19 00:51:21,297 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:21,297 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:21,298 - sqlalchemy.engine.Engine - INFO - [cached since 12.99s ago] {'position_id_1': '97d0d07ae89d37fe01e1f5abf1bbd4576750428828d4cab7ad158ad706d3ae9b', 'param_1': 1}
+2023-05-19 00:51:21,524 - root - INFO - Updating existing position for UID 8FE17CCE0A3EA996ED7D8B538419C826
+2023-05-19 00:51:21,525 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:21,526 - sqlalchemy.engine.Engine - INFO - [cached since 13.09s ago] {'entry_price': 0.2013182038836, 'mark_price': 0.19418624, 'pnl': -1415.69406, 'roe': -0.18363711, 'fetched_positions_id': 99}
+2023-05-19 00:51:21,639 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:22,757 - root - INFO - Fetching data for UID 227087068C057B808A83125C8E586BB8
+2023-05-19 00:51:22,758 - root - INFO - Fetching data for UID 5018838FFE413B7A80D2529393DB1D7A
+2023-05-19 00:51:22,762 - root - INFO - Fetching data for UID 8FEB3EA2D767A27324E7D0A8B2E8FEA4
+2023-05-19 00:51:22,762 - root - INFO - Fetching data for UID BFE5C3E7EF7B3629438D907CD3B21D57
+2023-05-19 00:51:22,765 - root - INFO - Fetching data for UID 3673EC40E6C6E3B1344BF2D06FDFBEAC
+2023-05-19 00:51:23,302 - root - INFO - Positions data empty for UID 3673EC40E6C6E3B1344BF2D06FDFBEAC
+2023-05-19 00:51:23,472 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:23,473 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:23,473 - sqlalchemy.engine.Engine - INFO - [cached since 15.4s ago] {'uid_1': '5018838FFE413B7A80D2529393DB1D7A'}
+2023-05-19 00:51:23,476 - root - INFO - Positions data empty for UID 8FEB3EA2D767A27324E7D0A8B2E8FEA4
+2023-05-19 00:51:23,547 - root - INFO - Positions data empty for UID 227087068C057B808A83125C8E586BB8
+2023-05-19 00:51:23,699 - root - INFO - Fetched position_id: 71d3fb5a2521e6dbcb87b6b58edf71c2b4b5553dc17a1f0719f0f89e7f8d2574
+2023-05-19 00:51:23,700 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:23,700 - sqlalchemy.engine.Engine - INFO - [cached since 15.39s ago] {'position_id_1': '71d3fb5a2521e6dbcb87b6b58edf71c2b4b5553dc17a1f0719f0f89e7f8d2574', 'param_1': 1}
+2023-05-19 00:51:23,815 - root - INFO - Updating existing position for UID 5018838FFE413B7A80D2529393DB1D7A
+2023-05-19 00:51:23,816 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:23,816 - sqlalchemy.engine.Engine - INFO - [cached since 15.38s ago] {'entry_price': 1.183321428572, 'mark_price': 1.1407, 'pnl': -179.009964, 'roe': -0.29891414, 'fetched_positions_id': 100}
+2023-05-19 00:51:23,930 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:23,932 - root - INFO - Positions data empty for UID BFE5C3E7EF7B3629438D907CD3B21D57
+2023-05-19 00:51:24,045 - root - INFO - Fetched position_id: 809d122278a8808aa41f41796ff49336e53f175721d219af691192905c149fc8
+2023-05-19 00:51:24,046 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:24,046 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:24,047 - sqlalchemy.engine.Engine - INFO - [cached since 15.74s ago] {'position_id_1': '809d122278a8808aa41f41796ff49336e53f175721d219af691192905c149fc8', 'param_1': 1}
+2023-05-19 00:51:24,273 - root - INFO - Updating existing position for UID 5018838FFE413B7A80D2529393DB1D7A
+2023-05-19 00:51:24,274 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:24,274 - sqlalchemy.engine.Engine - INFO - [cached since 15.84s ago] {'entry_price': 0.9095107181818, 'mark_price': 0.90164075, 'pnl': -86.56956, 'roe': -0.03404489, 'fetched_positions_id': 101}
+2023-05-19 00:51:24,388 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:25,504 - root - INFO - Fetching data for UID D3C53A1F16564BC318AB4EB434C2D744
+2023-05-19 00:51:25,505 - root - INFO - Fetching data for UID 9AE2180CA966B9DC203BDC35017E365B
+2023-05-19 00:51:25,510 - root - INFO - Fetching data for UID 2AB7A7FDE7AA7493D5F6ADF5F89062F3
+2023-05-19 00:51:25,511 - root - INFO - Fetching data for UID EE56F412D7DAB7DBAFCEC2147FA2D223
+2023-05-19 00:51:25,514 - root - INFO - Fetching data for UID 15E75BFF207E01A5A18BAED302A6F5A8
+2023-05-19 00:51:26,269 - root - INFO - Positions data empty for UID D3C53A1F16564BC318AB4EB434C2D744
+2023-05-19 00:51:26,275 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:26,275 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:26,276 - sqlalchemy.engine.Engine - INFO - [cached since 18.2s ago] {'uid_1': 'EE56F412D7DAB7DBAFCEC2147FA2D223'}
+2023-05-19 00:51:26,307 - root - INFO - Positions data empty for UID 2AB7A7FDE7AA7493D5F6ADF5F89062F3
+2023-05-19 00:51:26,312 - root - INFO - Positions data empty for UID 9AE2180CA966B9DC203BDC35017E365B
+2023-05-19 00:51:26,408 - root - INFO - Positions data empty for UID 15E75BFF207E01A5A18BAED302A6F5A8
+2023-05-19 00:51:26,501 - root - INFO - Fetched position_id: ee2f9f34c3b84acd762a26b412bf73993a3b22dce437b58eb2bf792d44dc1978
+2023-05-19 00:51:26,503 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:26,503 - sqlalchemy.engine.Engine - INFO - [cached since 18.19s ago] {'position_id_1': 'ee2f9f34c3b84acd762a26b412bf73993a3b22dce437b58eb2bf792d44dc1978', 'param_1': 1}
+2023-05-19 00:51:26,617 - root - INFO - Updating existing position for UID EE56F412D7DAB7DBAFCEC2147FA2D223
+2023-05-19 00:51:26,618 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:26,618 - sqlalchemy.engine.Engine - INFO - [cached since 18.18s ago] {'entry_price': 41.26271812424, 'mark_price': 43.40061196, 'pnl': 20309.99148, 'roe': 0.09851906, 'fetched_positions_id': 102}
+2023-05-19 00:51:26,731 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:27,848 - root - INFO - Fetching data for UID FA49B09E9F2AFAC7D043ABCF7E4DA33E
+2023-05-19 00:51:27,849 - root - INFO - Fetching data for UID 0932D2B47499C2E940AE805D3D2D9B72
+2023-05-19 00:51:27,849 - root - INFO - Fetching data for UID A67FD74A4472775D2D68342CB9A9DA83
+2023-05-19 00:51:27,850 - root - INFO - Fetching data for UID 3BB43EB380247F51910B3E7951931601
+2023-05-19 00:51:27,857 - root - INFO - Fetching data for UID 2EFB73F424C573BCE5841AD66A014852
+2023-05-19 00:51:28,581 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:28,581 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:28,582 - sqlalchemy.engine.Engine - INFO - [cached since 20.51s ago] {'uid_1': 'A67FD74A4472775D2D68342CB9A9DA83'}
+2023-05-19 00:51:28,592 - root - INFO - Positions data empty for UID FA49B09E9F2AFAC7D043ABCF7E4DA33E
+2023-05-19 00:51:28,609 - root - INFO - Positions data empty for UID 0932D2B47499C2E940AE805D3D2D9B72
+2023-05-19 00:51:28,677 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:28,677 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:28,677 - sqlalchemy.engine.Engine - INFO - [cached since 20.6s ago] {'uid_1': '2EFB73F424C573BCE5841AD66A014852'}
+2023-05-19 00:51:28,807 - root - INFO - Fetched position_id: 9455d8fcdbb9f93a57b01adf449c118abb2a459a8d7159b3f89fcd53d219d6a9
+2023-05-19 00:51:28,808 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:28,808 - sqlalchemy.engine.Engine - INFO - [cached since 20.5s ago] {'position_id_1': '9455d8fcdbb9f93a57b01adf449c118abb2a459a8d7159b3f89fcd53d219d6a9', 'param_1': 1}
+2023-05-19 00:51:28,902 - root - INFO - Fetched position_id: aec988a6ea6f2e7c406e07f4aa9c154ef40c317822d4f0f3b5815b564ead1a23
+2023-05-19 00:51:28,904 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:28,904 - sqlalchemy.engine.Engine - INFO - [cached since 20.59s ago] {'position_id_1': 'aec988a6ea6f2e7c406e07f4aa9c154ef40c317822d4f0f3b5815b564ead1a23', 'param_1': 1}
+2023-05-19 00:51:28,922 - root - INFO - Updating existing position for UID A67FD74A4472775D2D68342CB9A9DA83
+2023-05-19 00:51:28,923 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:28,923 - sqlalchemy.engine.Engine - INFO - [cached since 20.48s ago] {'entry_price': 2.499688610363, 'mark_price': 2.42547218, 'pnl': -631.21815879, 'roe': -0.12239502, 'amount': 8505.1, 'fetched_positions_id': 104}
+2023-05-19 00:51:28,969 - root - INFO - Positions data empty for UID 3BB43EB380247F51910B3E7951931601
+2023-05-19 00:51:29,020 - root - INFO - Updating existing position for UID 2EFB73F424C573BCE5841AD66A014852
+2023-05-19 00:51:29,021 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:29,021 - sqlalchemy.engine.Engine - INFO - [cached since 20.58s ago] {'entry_price': 86.80535714286, 'mark_price': 91.45, 'pnl': -13005.000008, 'roe': -0.10157776, 'fetched_positions_id': 103}
+2023-05-19 00:51:29,037 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:29,134 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:30,254 - root - INFO - Fetching data for UID A086AC7B587E11941378E95DD6C872C6
+2023-05-19 00:51:30,255 - root - INFO - Fetching data for UID 2154D02AD930F6C6E65C507DD73CB3E7
+2023-05-19 00:51:30,255 - root - INFO - Fetching data for UID BBFE38FA1FA9F14BE8533E0508DC8468
+2023-05-19 00:51:30,256 - root - INFO - Fetching data for UID 538E78E33A3B0363FC37E393EB334103
+2023-05-19 00:51:30,258 - root - INFO - Fetching data for UID 633EC27B03AF7CEA79BA725D434B06B5
+2023-05-19 00:51:30,859 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:30,859 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:30,859 - sqlalchemy.engine.Engine - INFO - [cached since 22.78s ago] {'uid_1': '633EC27B03AF7CEA79BA725D434B06B5'}
+2023-05-19 00:51:30,957 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:30,958 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:30,958 - sqlalchemy.engine.Engine - INFO - [cached since 22.88s ago] {'uid_1': 'BBFE38FA1FA9F14BE8533E0508DC8468'}
+2023-05-19 00:51:30,997 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:30,997 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.position_id AS fetched_positions_position_id 
+FROM fetched_positions 
+WHERE fetched_positions.uid = %(uid_1)s
+2023-05-19 00:51:30,997 - sqlalchemy.engine.Engine - INFO - [cached since 22.92s ago] {'uid_1': 'A086AC7B587E11941378E95DD6C872C6'}
+2023-05-19 00:51:31,058 - root - INFO - Positions data empty for UID 538E78E33A3B0363FC37E393EB334103
+2023-05-19 00:51:31,084 - root - INFO - Fetched position_id: e6cb81b845e89ef3684152af7312ad19adacc495e8438c087f3b8c265c0fb97e
+2023-05-19 00:51:31,086 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:31,086 - sqlalchemy.engine.Engine - INFO - [cached since 22.77s ago] {'position_id_1': 'e6cb81b845e89ef3684152af7312ad19adacc495e8438c087f3b8c265c0fb97e', 'param_1': 1}
+2023-05-19 00:51:31,184 - root - INFO - Fetched position_id: f51fce128066fdd1050014fb3323864be1c910df48df2efb9d5a48fa215f3fb3
+2023-05-19 00:51:31,185 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:31,186 - sqlalchemy.engine.Engine - INFO - [cached since 22.87s ago] {'position_id_1': 'f51fce128066fdd1050014fb3323864be1c910df48df2efb9d5a48fa215f3fb3', 'param_1': 1}
+2023-05-19 00:51:31,200 - root - INFO - Updating existing position for UID 633EC27B03AF7CEA79BA725D434B06B5
+2023-05-19 00:51:31,201 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:31,201 - sqlalchemy.engine.Engine - INFO - [cached since 22.76s ago] {'entry_price': 0.07272, 'mark_price': 0.07393, 'pnl': 14.80072, 'roe': 0.08183417, 'fetched_positions_id': 106}
+2023-05-19 00:51:31,223 - root - INFO - Fetched position_id: d032acfa703416931e07c2f1738053d09c7fbf548891663e058dbebe2c61d823
+2023-05-19 00:51:31,224 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:31,224 - sqlalchemy.engine.Engine - INFO - [cached since 22.91s ago] {'position_id_1': 'd032acfa703416931e07c2f1738053d09c7fbf548891663e058dbebe2c61d823', 'param_1': 1}
+2023-05-19 00:51:31,300 - root - INFO - Updating existing position for UID BBFE38FA1FA9F14BE8533E0508DC8468
+2023-05-19 00:51:31,301 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:31,301 - sqlalchemy.engine.Engine - INFO - [cached since 22.86s ago] {'entry_price': 0.074193121669, 'mark_price': 0.07393, 'pnl': -40.2349948, 'roe': -0.08897606, 'fetched_positions_id': 105}
+2023-05-19 00:51:31,315 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:31,338 - root - INFO - Updating existing position for UID A086AC7B587E11941378E95DD6C872C6
+2023-05-19 00:51:31,339 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:31,339 - sqlalchemy.engine.Engine - INFO - [cached since 22.9s ago] {'entry_price': 2.1184, 'mark_price': 2.152, 'pnl': 23.7888, 'roe': 0.03122677, 'fetched_positions_id': 107}
+2023-05-19 00:51:31,415 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:31,430 - root - INFO - Fetched position_id: db38fbbc46d1f714391a07dff69e5c2ab4dca40853ab6407f0600075da9fff26
+2023-05-19 00:51:31,431 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:31,432 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:31,432 - sqlalchemy.engine.Engine - INFO - [cached since 23.12s ago] {'position_id_1': 'db38fbbc46d1f714391a07dff69e5c2ab4dca40853ab6407f0600075da9fff26', 'param_1': 1}
+2023-05-19 00:51:31,453 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:31,530 - root - INFO - Fetched position_id: 2e23b78eb63a44f73f5fe39c8692b7fb018f12a5aa495c43b90059b915c581f3
+2023-05-19 00:51:31,531 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:31,532 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:31,532 - sqlalchemy.engine.Engine - INFO - [cached since 23.22s ago] {'position_id_1': '2e23b78eb63a44f73f5fe39c8692b7fb018f12a5aa495c43b90059b915c581f3', 'param_1': 1}
+2023-05-19 00:51:31,657 - root - INFO - Updating existing position for UID 633EC27B03AF7CEA79BA725D434B06B5
+2023-05-19 00:51:31,658 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:31,659 - sqlalchemy.engine.Engine - INFO - [cached since 23.22s ago] {'entry_price': 0.9838, 'mark_price': 0.8771, 'pnl': -137.7497, 'roe': -0.60825447, 'fetched_positions_id': 109}
+2023-05-19 00:51:31,751 - root - INFO - Positions data empty for UID 2154D02AD930F6C6E65C507DD73CB3E7
+2023-05-19 00:51:31,758 - root - INFO - Updating existing position for UID BBFE38FA1FA9F14BE8533E0508DC8468
+2023-05-19 00:51:31,759 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s, amount=%(amount)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:31,759 - sqlalchemy.engine.Engine - INFO - [cached since 23.32s ago] {'entry_price': 27244.3, 'mark_price': 26887.52338645, 'pnl': -375.32899745, 'roe': -0.53076902, 'amount': 1.052, 'fetched_positions_id': 108}
+2023-05-19 00:51:31,772 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:31,872 - sqlalchemy.engine.Engine - INFO - COMMIT
+2023-05-19 00:51:31,988 - root - INFO - Fetched position_id: 62255d0670d13810d0f89f48d00bbaacf3afd6f7e350ccb7a5324370b7fa8add
+2023-05-19 00:51:31,989 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2023-05-19 00:51:31,990 - sqlalchemy.engine.Engine - INFO - SELECT fetched_positions.id AS fetched_positions_id, fetched_positions.position_id AS fetched_positions_position_id, fetched_positions.uid AS fetched_positions_uid, fetched_positions.symbol AS fetched_positions_symbol, fetched_positions.entry_price AS fetched_positions_entry_price, fetched_positions.mark_price AS fetched_positions_mark_price, fetched_positions.pnl AS fetched_positions_pnl, fetched_positions.roe AS fetched_positions_roe, fetched_positions.amount AS fetched_positions_amount, fetched_positions.update_timestamp AS fetched_positions_update_timestamp, fetched_positions.trade_before AS fetched_positions_trade_before, fetched_positions.long AS fetched_positions_long, fetched_positions.short AS fetched_positions_short, fetched_positions.leverage AS fetched_positions_leverage, fetched_positions.opened_at AS fetched_positions_opened_at, fetched_positions.closed_at AS fetched_positions_closed_at 
+FROM fetched_positions 
+WHERE fetched_positions.position_id = %(position_id_1)s 
+ LIMIT %(param_1)s
+2023-05-19 00:51:31,990 - sqlalchemy.engine.Engine - INFO - [cached since 23.68s ago] {'position_id_1': '62255d0670d13810d0f89f48d00bbaacf3afd6f7e350ccb7a5324370b7fa8add', 'param_1': 1}
+2023-05-19 00:51:32,217 - root - INFO - Updating existing position for UID BBFE38FA1FA9F14BE8533E0508DC8468
+2023-05-19 00:51:32,218 - sqlalchemy.engine.Engine - INFO - UPDATE fetched_positions SET entry_price=%(entry_price)s, mark_price=%(mark_price)s, pnl=%(pnl)s, roe=%(roe)s WHERE fetched_positions.id = %(fetched_positions_id)s
+2023-05-19 00:51:32,218 - sqlalchemy.engine.Engine - INFO - [cached since 23.78s ago] {'entry_price': 0.0016185633385, 'mark_price': 0.001584, 'pnl': -279.66066048, 'roe': -0.32727271, 'fetched_positions_id': 110}
+2023-05-19 00:51:32,332 - sqlalchemy.engine.Engine - INFO - COMMIT
