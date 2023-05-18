@@ -1,13 +1,50 @@
 import requests
 import time
 import concurrent.futures
+import os
+import psycopg2
+import datetime
 
-# Import API keys from settings
-from CryptoSentinel.config.settings import X_RAPIDAPI_KEY
+from psycopg2 import sql
+from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, Numeric, BigInteger, ForeignKey, func, update
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.sql import exists
+
+from config.settings import MY_POSTGRESQL_URL
+
+# Create a declarative base class for creating table classes
+Base = declarative_base()
+engine = create_engine(MY_POSTGRESQL_URL, echo=True)
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Create Database Table if it doesn't exist
+# Fetched Position table class definition
+class FetchedPosition(Base):
+    __tablename__ = 'fetched_positions'
+    id = Column(Integer, primary_key=True)  # unique identifier for each position
+    uid = Column(String, nullable=False)  # trader UID
+    symbol = Column(String, nullable=False)  # symbol
+    entry_price = Column(Numeric(20, 10), nullable=False)  # entry price
+    mark_price = Column(Numeric(20, 10), nullable=False)  # mark price
+    pnl = Column(Numeric(20, 10), nullable=False)  # pnl
+    roe = Column(Numeric(20, 10), nullable=False)  # roe
+    amount = Column(Numeric(20, 10), nullable=False)  # amount
+    update_timestamp = Column(BigInteger, nullable=False)  # update timestamp
+    trade_before = Column(Boolean, nullable=False)  # traded before
+    long = Column(Boolean, nullable=False)  # is long
+    short = Column(Boolean, nullable=False)  # is short
+    leverage = Column(Integer, nullable=False)  # leverage
+    opened_at = Column(DateTime, default=datetime.utcnow)  # when the position was opened
+    closed_at = Column(DateTime)  # when the position was closed
+
+
+
 # Define the URL and headers
 url = "https://binance-futures-leaderboard1.p.rapidapi.com/v2/getTraderPositions"
 headers = {
-    "X-RapidAPI-Key": X_RAPIDAPI_KEY,
+    "X-RapidAPI-Key": "d272cbb83emshafd80a0ad2aebbfp1e6fa8jsne11ab7615f57",
     "X-RapidAPI-Host": "binance-futures-leaderboard1.p.rapidapi.com"
 }
 
@@ -49,24 +86,30 @@ uids = [
     ]
 
 
+
 # Define a function to fetch data for a single UID
 def fetch_data(uid):
     querystring = {"encryptedUid": uid}
     response = requests.get(url, headers=headers, params=querystring)
+    print(response.text)
     return response.json()
 
 # Fetch data for all UIDs
 data = []
+# Use a ThreadPoolExecutor to fetch data for all UIDs concurrently
+# This will speed up the data fetching process
+# The number of threads is set to 5
 with concurrent.futures.ThreadPoolExecutor() as executor:
     futures = []
     for i, uid in enumerate(uids):
-        # Add a delay every 5 UIDs to avoid hitting the API limit
-        if i % 5 == 0 and i > 0:
-            time.sleep(1)
+        # Add a delay after 5 requests to avoid rate limiting
+        if i % 5 == 0:
+            time.sleep(2)
         futures.append(executor.submit(fetch_data, uid))
     for future in concurrent.futures.as_completed(futures):
         data.append(future.result())
 
 # Print the data
 print(data)
+
 
