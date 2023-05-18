@@ -1,115 +1,172 @@
 import requests
 import time
 import concurrent.futures
-import os
-import psycopg2
-import datetime
-
-from psycopg2 import sql
-from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, Numeric, BigInteger, ForeignKey, func, update
+import logging
+import hashlib
+from datetime import datetime
+from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime, Numeric, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
-from sqlalchemy.sql import exists
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
+from config.settings import MY_POSTGRESQL_URL, X_RAPIDAPI_KEY
+from ratelimiter import RateLimiter
 
-from config.settings import MY_POSTGRESQL_URL
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Create a declarative base class for creating table classes
+# Database setup
 Base = declarative_base()
 engine = create_engine(MY_POSTGRESQL_URL, echo=True)
 Session = sessionmaker(bind=engine)
-session = Session()
 
-# Create Database Table if it doesn't exist
 # Fetched Position table class definition
 class FetchedPosition(Base):
     __tablename__ = 'fetched_positions'
-    id = Column(Integer, primary_key=True)  # unique identifier for each position
-    uid = Column(String, nullable=False)  # trader UID
-    symbol = Column(String, nullable=False)  # symbol
-    entry_price = Column(Numeric(20, 10), nullable=False)  # entry price
-    mark_price = Column(Numeric(20, 10), nullable=False)  # mark price
-    pnl = Column(Numeric(20, 10), nullable=False)  # pnl
-    roe = Column(Numeric(20, 10), nullable=False)  # roe
-    amount = Column(Numeric(20, 10), nullable=False)  # amount
-    update_timestamp = Column(BigInteger, nullable=False)  # update timestamp
-    trade_before = Column(Boolean, nullable=False)  # traded before
-    long = Column(Boolean, nullable=False)  # is long
-    short = Column(Boolean, nullable=False)  # is short
-    leverage = Column(Integer, nullable=False)  # leverage
-    opened_at = Column(DateTime, default=datetime.utcnow)  # when the position was opened
-    closed_at = Column(DateTime)  # when the position was closed
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    position_id = Column(String, unique=True)
+    uid = Column(String, nullable=False)
+    symbol = Column(String, nullable=False)
+    entry_price = Column(Numeric(20, 10), nullable=False)
+    mark_price = Column(Numeric(20, 10), nullable=False)
+    pnl = Column(Numeric(20, 10), nullable=False)
+    roe = Column(Numeric(20, 10), nullable=False)
+    amount = Column(Numeric(20, 10), nullable=False)
+    update_timestamp = Column(BigInteger, nullable=False)
+    trade_before = Column(Boolean, nullable=False)
+    long = Column(Boolean, nullable=False)
+    short = Column(Boolean, nullable=False)
+    leverage = Column(Integer, nullable=False)
+    opened_at = Column(DateTime, default=datetime.utcnow)
+    closed_at = Column(DateTime)
 
-
-
-# Define the URL and headers
-url = "https://binance-futures-leaderboard1.p.rapidapi.com/v2/getTraderPositions"
-headers = {
-    "X-RapidAPI-Key": "d272cbb83emshafd80a0ad2aebbfp1e6fa8jsne11ab7615f57",
+# API setup
+API_URL = "https://binance-futures-leaderboard1.p.rapidapi.com/v2/getTraderPositions"
+HEADERS = {
+    "X-RapidAPI-Key": X_RAPIDAPI_KEY,
     "X-RapidAPI-Host": "binance-futures-leaderboard1.p.rapidapi.com"
 }
 
-# Define a list of UIDs
-uids = [
-        "3AFFCB67ED4F1D1D8437BA17F4E8E5ED",
-        "F5335CE565C1C0712A254FB595193E84",
-        "4325641055745EBAFED26DB3ACDC7AF1",
-        "268BCB704E7DA7FE7EE3D228F248BDAB",
-        "A086AC7B587E11941378E95DD6C872C6",
-        "DA200CE4A90667D0E59FDF8E6B68E599",
-        "65B136F1A727C572A5CA114F3CDC97AA",
-        "36D12879856E9ABF7148BAE61E77D279",
-        "87FFB710AC2792DE3145272BCBA05EBE",
-        "A980D282CBFA6AC326160A5B2D879798",
-        "8785BDE7F3A55E0C353ABDFE85899A26",
-        "A99ACCB8798FCC1D822250364ED487AB",
-        "FB7B3C9E5AE654B39231923DDB4D5260",
-        "C20E7A8966C0014A4AF5774DD709DC42",
-        "D3AFE978B3F0CD58489BC27B35906769",
-        "F90459BB0C3BC6CE241CADAA80DEBF25",
+class UIDFetcher:
+    def __init__(self, url, headers):
+        self.url = url
+        self.headers = headers
+
+    @RateLimiter(max_calls=5, period=5)  # Limit to 5 calls per 5 seconds
+    def fetch_data(self, uid):
+        session = Session()
+        try:
+            logging.info(f"Fetching data for UID {uid}")
+            querystring = {"encryptedUid": uid}
+            response = requests.get(self.url, headers=self.headers, params=querystring)
+            response.raise_for_status()
+            data = response.json()
+            positions_data = data['data'][0]['positions']
+            if not positions_data['perpetual'] and not positions_data['delivery']:
+                logging.info(f"Positions data empty for UID {uid}")
+                return
+            self.process_positions(uid, positions_data, session)
+        except requests.exceptions.RequestException as e:
+            logging.error(f"An error occurred while fetching data for UID {uid}: {e}")
+        except SQLAlchemyError as e:
+            logging.error(f"An error occurred while interacting with the database: {e}")
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+        finally:
+            session.close()
+
+    def process_positions(self, uid, positions_data, session):
+        for position_type in ['perpetual', 'delivery']:
+            positions = positions_data[position_type]
+            if positions is None:
+                continue
+            for position in positions:
+                position_id = self.generate_position_id(uid, position)
+                db_position = session.query(FetchedPosition).filter_by(position_id=position_id).first()
+                if db_position:
+                    self.update_position(db_position, position)
+                    if not position:
+                        db_position.closed_at = datetime.utcnow()
+                else:
+                    self.create_position(position_id, uid, position, session)
+                session.commit()
+
+
+    def generate_position_id(self, uid, position):
+        position_string = f"{uid}-{position['symbol']}-{position['long']}"
+        position_hash = hashlib.sha256(position_string.encode()).hexdigest()
+        return position_hash
+
+    def update_position(self, db_position, position):
+        logging.info(f"Updating existing position for UID {db_position.uid}")
+        db_position.entry_price = position["entryPrice"]
+        db_position.mark_price = position["markPrice"]
+        db_position.pnl = position["pnl"]
+        db_position.roe = position["roe"]
+        db_position.amount = position["amount"]
+        db_position.update_timestamp = position["updateTimeStamp"]
+        db_position.trade_before = position["tradeBefore"]
+        db_position.long = position["long"]
+        db_position.short = position["short"]
+        db_position.leverage = position["leverage"]
+
+    def create_position(self, position_id, uid, position, session):
+        logging.info(f"Creating new position for UID {uid}")
+        db_position = FetchedPosition(
+            position_id=position_id,
+            uid=uid,
+            symbol=position["symbol"],
+            entry_price=position["entryPrice"],
+            mark_price=position["markPrice"],
+            pnl=position["pnl"],
+            roe=position["roe"],
+            amount=position["amount"],
+            update_timestamp=position["updateTimeStamp"],
+            trade_before=position["tradeBefore"],
+            long=position["long"],
+            short=position["short"],
+            leverage=position["leverage"],
+        )
+        session.add(db_position)
+
+    def fetch_all(self, uids):
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = [executor.submit(self.fetch_data, uid) for uid in uids]
+            concurrent.futures.wait(futures, timeout=1, return_when=concurrent.futures.ALL_COMPLETED)  
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    uids = [
         "E4C2BCB6FDF2A2A7A20D516B8389B952",
-        "A532C4316C00206168F795EDFBB3E164",
-        "21CD087408060BDD97F001B72CC2B0D3",
+        "F90459BB0C3BC6CE241CADAA80DEBF25",
+        "36D12879856E9ABF7148BAE61E77D279",
         "FE63D6040E22611D978B73064B3A2057",
-        "B8538478A5B1907531E8EAC3BCFE0626",
         "FB23E1A8B7E2944FAAEC6219BBDF8243",
         "3EFA61BC63849632347ED020C78634E1",
-        "AB995C0BACF7B0DF83AAAA61CAD3AD11",
-        "6F79990013ADA8A281145D9EC2421AC3",
-        "5233F02D1841D75C9DCC63D356A1758C",
-        "D2EE8B6D70AAC0181B6D0AB857D6EF60",
-        "F4BD136947A8A5DD4494D9A4264432B6",
-        "BFE5C3E7EF7B3629438D907CD3B21D57",
-        "8FE17CCE0A3EA996ED7D8B538419C826",
         "6408AAEEEBF0C76A3D5F0E39C64AAABA",
-        "FB7B3C9E5AE654B39231923DDB4D5260",
+        "8FE17CCE0A3EA996ED7D8B538419C826",
+        "DF74DFB6CB244F8033F1D66D5AA0B171",
         "49A7275656A7ABF56830126ACC619FEB",
+        "227087068C057B808A83125C8E586BB8",
+        "5018838FFE413B7A80D2529393DB1D7A",
+        "8FEB3EA2D767A27324E7D0A8B2E8FEA4",
+        "BFE5C3E7EF7B3629438D907CD3B21D57",
+        "3673EC40E6C6E3B1344BF2D06FDFBEAC",
+        "D3C53A1F16564BC318AB4EB434C2D744",
+        "9AE2180CA966B9DC203BDC35017E365B",
+        "2AB7A7FDE7AA7493D5F6ADF5F89062F3",
+        "EE56F412D7DAB7DBAFCEC2147FA2D223",
+        "15E75BFF207E01A5A18BAED302A6F5A8",
+        "FA49B09E9F2AFAC7D043ABCF7E4DA33E",
+        "0932D2B47499C2E940AE805D3D2D9B72",
+        "A67FD74A4472775D2D68342CB9A9DA83",
+        "3BB43EB380247F51910B3E7951931601",
+        "2EFB73F424C573BCE5841AD66A014852",
+        "A086AC7B587E11941378E95DD6C872C6",
+        "2154D02AD930F6C6E65C507DD73CB3E7",
+        "BBFE38FA1FA9F14BE8533E0508DC8468",
+        "538E78E33A3B0363FC37E393EB334103",
+        "633EC27B03AF7CEA79BA725D434B06B5",
     ]
-
-
-
-# Define a function to fetch data for a single UID
-def fetch_data(uid):
-    querystring = {"encryptedUid": uid}
-    response = requests.get(url, headers=headers, params=querystring)
-    print(response.text)
-    return response.json()
-
-# Fetch data for all UIDs
-data = []
-# Use a ThreadPoolExecutor to fetch data for all UIDs concurrently
-# This will speed up the data fetching process
-# The number of threads is set to 5
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    futures = []
-    for i, uid in enumerate(uids):
-        # Add a delay after 5 requests to avoid rate limiting
-        if i % 5 == 0:
-            time.sleep(2)
-        futures.append(executor.submit(fetch_data, uid))
-    for future in concurrent.futures.as_completed(futures):
-        data.append(future.result())
-
-# Print the data
-print(data)
-
-
+    fetcher = UIDFetcher(API_URL, HEADERS)
+    fetcher.fetch_all(uids)
