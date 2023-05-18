@@ -14,3 +14,5 @@ venv/
 # One Time Token Generator in bot/token_generator/one_time_token_generator.py
 one_time_token_generator.py
 
+# ignore log files
+.log

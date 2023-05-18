@@ -47,7 +47,6 @@ from bot.handlers.premium.plot_chart import ChartHandler
 from bot.handlers.premium.info import InfoHandler
 
 from users.management import check_expired_subscriptions
-from bot.data_fetchers.positions_fetcher import PositionsFetcher
 from bot.alerts.position_alerts import run_position_alerts
 
 ### Telegram Bot ###
@@ -76,12 +75,6 @@ def main() -> None:
 
     # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
     jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=1) # First is set to 1 to avoid the first check to be done immediately
-
-    # Schedule the job to fetch the positions every 10 minutes (600 seconds)
-    jq.run_repeating(PositionsFetcher.fetch_and_store_positions, interval=300, first=2) # First is set to 5 to avoid the first check to be done immediately
-
-    # Schedule the job to run the position alerts every 10 minutes (600 seconds)
-    jq.run_repeating(run_position_alerts, interval=300, first=15) # First is set to 10 to avoid the first check to be done immediately
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command

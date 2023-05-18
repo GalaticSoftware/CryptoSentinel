@@ -80,6 +80,24 @@ class Alert(Base):
     sent_at = Column(DateTime, default=func.now())  # when the alert was sent
     is_sent = Column(Boolean, default=False)  # if the alert has been sent
 
+# Fetched Position table class definition
+class FetchedPosition(Base):
+    __tablename__ = 'fetched_positions'
+    id = Column(Integer, primary_key=True)  # unique identifier for each position
+    uid = Column(String, nullable=False)  # trader UID
+    symbol = Column(String, nullable=False)  # symbol
+    entry_price = Column(Numeric(20, 10), nullable=False)  # entry price
+    mark_price = Column(Numeric(20, 10), nullable=False)  # mark price
+    pnl = Column(Numeric(20, 10), nullable=False)  # pnl
+    roe = Column(Numeric(20, 10), nullable=False)  # roe
+    amount = Column(Numeric(20, 10), nullable=False)  # amount
+    update_timestamp = Column(BigInteger, nullable=False)  # update timestamp
+    trade_before = Column(Boolean, nullable=False)  # traded before
+    long = Column(Boolean, nullable=False)  # is long
+    short = Column(Boolean, nullable=False)  # is short
+    leverage = Column(Integer, nullable=False)  # leverage
+    opened_at = Column(DateTime, default=datetime.utcnow)  # when the position was opened
+    closed_at = Column(DateTime)  # when the position was closed
 
 
 
