@@ -8,14 +8,24 @@ from sqlalchemy import create_engine, Column, String, Integer, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+
+import sys
+import os
+
+# Add the root directory of your project to sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(root_dir)
+
+# Now you can import config.settings
 from config.settings import MY_POSTGRESQL_URL, X_RAPIDAPI_KEY
+
 
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("positions_monitor.log"),
+        logging.FileHandler("fetcher.log"),
         logging.StreamHandler()
     ]
 )
