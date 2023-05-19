@@ -164,7 +164,7 @@ class UIDFetcher:
 
                 # Wait for 1 second before fetching the next chunk
                 time.sleep(1)
- 
+                 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
