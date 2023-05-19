@@ -176,9 +176,6 @@ class PositionsScanner:
                 print("")
 
 
-
-            
-
             # TODO: Similar analysis like the one above.
             # TODO: Create a system to analyze the big positions and determine how they could affect the market
 
@@ -195,23 +192,22 @@ class PositionsScanner:
         finally:
             session.close()
 
+    # Print position information
+    # Format the data and print it to the console
+    # format values to 2 decimal places and convert timestamps to human readable format
+    # also add . to the thousands place for large numbers
+    # print the symbol, direction, amount, entry price, current price, PNL, and PNL percentage, ROE, leverage, and postions cost
     def print_position_info(self, position):
-        print(f"Position ID: {position.position_id}")
-        print(f"UID: {position.uid}")
         print(f"Symbol: {position.symbol}")
-        print(f"Entry Price: {position.entry_price}")
-        print(f"Mark Price: {position.mark_price}")
-        print(f"PNL: {position.pnl}")
-        print(f"ROE: {position.roe}")
+        print(f"Direction: {'Long' if position.long else 'Short'}")
         print(f"Amount: {position.amount}")
-        print(f"Update Timestamp: {position.update_timestamp}")
-        print(f"Trade Before: {position.trade_before}")
-        print(f"Long: {position.long}")
-        print(f"Short: {position.short}")
-        print(f"Leverage: {position.leverage}")
-        print(f"Opened At: {position.opened_at}")
-        print(f"Closed At: {position.closed_at}")
+        print(f"Entry Price: {position.entry_price:.2f}")
+        print(f"PNL: {position.pnl:.2f}")
+        print(f"PNL Percentage: {position.pnl:.2f}%")
+        print(f"ROE: {position.roe:.2f}%")
+        print(f"Leverage: {position.leverage:.2f}x")
         print("")
+
 
     def send_notification(self, message):
         # TODO: Implement logic for sending notifications to the user
@@ -220,7 +216,7 @@ class PositionsScanner:
     def run(self):
         while True:
             self.scan_database()
-            time.sleep(300)  # Run every 5 minutes
+            time.sleep(120)  # Run every 2 minutes (120 seconds)
 
 if __name__ == "__main__":
     positions_scanner = PositionsScanner()
