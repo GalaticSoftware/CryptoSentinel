@@ -44,11 +44,7 @@ def setup_logging():
     """This function sets up logging to both a file and the console"""
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler("scanner.log"),
-            logging.StreamHandler()
-        ]
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     return logging.getLogger(__name__)
 

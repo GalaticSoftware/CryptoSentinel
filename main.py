@@ -39,7 +39,7 @@ from bot.handlers.free.gainers import GainersHandler
 from bot.handlers.free.losers import LosersHandler
 from bot.handlers.free.news import NewsHandler
 
-# Premium handlers
+# Premium handlersd
 from bot.handlers.premium.wdom import WdomHandler
 from bot.handlers.premium.sentiment import SentimentHandler
 from bot.handlers.premium.positions import PositionsHandler
