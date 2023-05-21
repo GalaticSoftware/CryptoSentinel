@@ -172,26 +172,37 @@ class PositionsScanner:
 
 
 
-    # TODO: Implement a risk management system that will calculate a risk value based on the exposure and direction of all open positions and
-    #       the average open position pnl.
-    #       If positions are over exposed to the upside and the average open pnl is negative, the risk value will be high to the downside.
-    #       If positions are over exposed to the downside and the average open pnl is negative, the risk value will be high to the upside.
-    #       If positions are over exposed to the upside and the average open pnl is positive, the risk value will be lower to the downside.
-    #       If positions are over exposed to the downside and the average open pnl is positive, the risk value will be lower to the upside.
-    #       If positions are not over exposed to either side, the risk value will be neutral.
-    #       Output Values:
-    #           -> Summary message (High risk to the upside/downside, Low risk to the upside/downside, Neutral)
-    #           - Risk Value
-    #           - Biggest Open Position with the highest exposure (Symbol, Direction, Amount, Entry Price, Leverage, PNL, ROE, Position Cost)
-    #           - Average Open PNL
-    #           - Average Open ROE
-    #           - Average Leverage
-    #           - Average Entry Price
-    #           - Average Amount
-    #           - Average Position Cost
-    #           - Total Position Cost
-    #           - Total Position PNL
+    # TODO: Improve Risk Management Functionality
 
+    # Over Exposure Analysis:
+    # Calculate the total size of positions with negative PNL that are above a certain threshold (e.g., 100k position_cost).
+    # we do this separately for long and short positions.
+    # If the total size is large, this could indicate a risk of a squeeze in the opposite direction,
+    # as these traders might be forced to cover their positions.
+
+    # Directional Risk Values:
+    # For each position above the threshold, calculate a directional risk value.
+    # This could be based on the size of the position and the magnitude of the negative PNL.
+    # The directional risk value could indicate the potential impact of a squeeze in the opposite direction.
+    
+    # Break Even Price Analysis:
+    # Then we get the entry prices for positions with negative PNL.
+    # we do this separately for long and short positions.
+    # These prices could act as support/resistance zones,
+    # so we will group similar entry prices for the same symbol and direction together.
+    # and Turn them into support/resistance zones.
+    # as traders might be more likely to cover their positions when the market price reaches these levels.
+    
+    # Volatility Risk Analysis:
+    # Based on the over exposure analysis and the directional risk values,
+    # estimate the risk of increased volatility in each direction for each symbol we have data for.
+    # If there is a large over exposure and high directional risk values in one direction on a symbol,
+    # this could indicate a risk of increased volatility in the opposite direction.
+        
+    # Risk Reporting:
+    # Generate a risk report that includes the over exposure analysis,
+    # directional risk values, break even price analysis, and volatility risk analysis.
+    # The report could highlight the directions with the highest risk of a squeeze and increased volatility.
 
 
     def calculate_average(self, values):
@@ -263,6 +274,13 @@ class PositionsScanner:
         # print total long and short position costs
         print(f"Total Long Position Cost: {total_long_position_cost:,.2f}$")
         print(f"Total Short Position Cost: {total_short_position_cost:,.2f}$")
+
+
+
+
+
+
+
 
 
 
