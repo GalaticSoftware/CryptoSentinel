@@ -47,6 +47,13 @@ class CommandUsage(Base):
     usage_count = Column(Integer, default=0, nullable=False)  # Add this line
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
 
+# Price Alert Request table class definition
+class PriceAlertRequest(Base):
+    __tablename__ = 'price_alert_requests'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.telegram_id'), nullable=False)
+    symbol = Column(String, nullable=False)
+    price_level = Column(Numeric(20, 2), nullable=False)
 
 # Create a connection to the database and bind the engine
 engine = create_engine(MY_POSTGRESQL_URL)
@@ -56,3 +63,4 @@ Base.metadata.create_all(engine)
 
 # Create a session factory for creating sessions to interact with the database
 Session = sessionmaker(bind=engine)
+Session.configure(bind=engine)
