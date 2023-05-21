@@ -2,7 +2,7 @@ import requests
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext
 from config.settings import X_RAPIDAPI_KEY
-from bot.utils import restricted, log_command_usage
+from bot.utils import log_command_usage
 import logging
 
 logger = logging.getLogger(__name__)
