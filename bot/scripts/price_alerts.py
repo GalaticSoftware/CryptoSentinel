@@ -13,7 +13,7 @@ class PriceAlerts:
         price_alert_requests = session.query(PriceAlertRequest).all()
 
         for price_alert_request in price_alert_requests:
-            exchange = ccxt.kucoin()
+            exchange = ccxt.bybit()
             ticker = exchange.fetch_ticker(price_alert_request.symbol)
             current_price = ticker['last']
 
