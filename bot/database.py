@@ -55,7 +55,6 @@ class PriceAlertRequest(Base):
     symbol = Column(String, nullable=False, index=True)
     price_level = Column(Numeric(20, 2), nullable=False)
 
-<<<<<<< HEAD
 # Position table class definition
 class Position(Base):
     __tablename__ = 'positions'
