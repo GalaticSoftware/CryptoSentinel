@@ -5,6 +5,7 @@ from telegram.ext import CallbackContext
 from config.settings import X_RAPIDAPI_KEY, MY_POSTGRESQL_URL
 from bot.utils import log_command_usage
 import logging
+import ccxt
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +16,24 @@ class PriceAlertHandler:
     @staticmethod
     def request_price_alert(update: Update, context: CallbackContext):
         user_id = update.message.from_user.id
-        symbol, price_level = context.args
-        price_level = Decimal(price_level)
+        try:
+            symbol, price_level = context.args
+            price_level = Decimal(price_level)
+            if price_level <= 0:
+                update.message.reply_text("Invalid price level. Please enter a positive number.")
+                return
+
+            # Try to fetch the current price for the symbol
+            exchange = ccxt.bybit()
+            ticker = exchange.fetch_ticker(symbol)
+            current_price = ticker['last']
+        except (ValueError, IndexError):
+            update.message.reply_text("Invalid input. Please enter a symbol and a price level.")
+            return
+        except ccxt.BaseError as e:
+            logger.error(f"Failed to fetch the current price for {symbol}: {e}")
+            update.message.reply_text(f"Invalid symbol. {symbol} is not listed on the exchange or not currently tradable.")
+            return
 
         session = Session()
         price_alert_requests = PriceAlertRequest(user_id=user_id, symbol=symbol, price_level=price_level)
