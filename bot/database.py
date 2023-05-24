@@ -51,9 +51,10 @@ class CommandUsage(Base):
 class PriceAlertRequest(Base):
     __tablename__ = 'price_alert_requests'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.telegram_id'), nullable=False)
-    symbol = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey('users.telegram_id'), nullable=False, index=True)
+    symbol = Column(String, nullable=False, index=True)
     price_level = Column(Numeric(20, 2), nullable=False)
+
 
 # Create a connection to the database and bind the engine
 engine = create_engine(MY_POSTGRESQL_URL)

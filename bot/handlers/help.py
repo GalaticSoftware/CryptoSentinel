@@ -21,7 +21,7 @@ class HelpHandler:
             "positions": "/positions - Compare the largest positions on Binance Copy Trading to smaller ones.",
             "wdom": "/wdom - Track the weekly dominance change for Bitcoin and Altcoins.",
             "info": "/info [symbol] - Obtain detailed information about a specific coin using its symbol. Example: /info BTC",
-            "set_alert": "/set_alert <Symbol> <Price_level> - Set a price alert. You will be notified when the price of the specified symbol reaches the specified level. Example: /set_alert BTC 50000",
+            "set_alert": "/set_alert <Symbol> <Price_level> - Set a price alert. You will be notified when the price of the specified symbol reaches the specified level. Example: /set_alert BTCUSDT 50000",
             "list_alerts": "/list_alerts - List all your active price alerts.",
             "remove_alert": "/remove_alert <ID> - Remove a specific price alert by its ID. Example: /remove_alert 1"
         }
