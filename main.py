@@ -31,6 +31,8 @@ from bot.handlers.subscribe import SubscribeHandler
 from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
 
+from bot.scripts.price_alerts import PriceAlerts
+
 # Free handlers
 from bot.handlers.free.cotd import CotdHandler
 from bot.handlers.free.global_top import GlobalTopHandler
@@ -38,6 +40,7 @@ from bot.handlers.free.whatsup import WhatsupHandler
 from bot.handlers.free.gainers import GainersHandler
 from bot.handlers.free.losers import LosersHandler
 from bot.handlers.free.news import NewsHandler
+from bot.handlers.free.request_alert import PriceAlertHandler
 
 # Premium handlersd
 from bot.handlers.premium.wdom import WdomHandler
@@ -74,7 +77,9 @@ def main() -> None:
     jq = updater.job_queue
 
     # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
-    jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=1) # First is set to 1 to avoid the first check to be done immediately
+    jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=1)
+    # Schedule the job to check for price alerts every 5 minutes (300 seconds)
+    jq.run_repeating(PriceAlerts.check_price_alerts, interval=300, first=2)
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command
@@ -85,6 +90,10 @@ def main() -> None:
     dp.add_handler(CommandHandler("gainers", GainersHandler.gainers)) # GainersHandler.gainers is the function that will be called when the user sends the /gainers command to get the gainers of the day
     dp.add_handler(CommandHandler("losers", LosersHandler.losers)) # LosersHandler.losers is the function that will be called when the user sends the /losers command to get the losers of the day
     dp.add_handler(CommandHandler("news", NewsHandler.news_handler)) # NewsHandler.news_handler is the function that will be called when the user sends the /news command to get the latest news
+    dp.add_handler(CommandHandler("set_alert", PriceAlertHandler.request_price_alert, pass_args=True))
+    dp.add_handler(CommandHandler('list_alerts', PriceAlertHandler.list_alerts))
+    dp.add_handler(CommandHandler('remove_alert', PriceAlertHandler.remove_alert, pass_args=True))
+
 
     # Add all the paid handlers to the dispatcher
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup)) # WhatsupHandler.whatsup is the function that will be called when the user sends the /whatsup command to get the whatsup
