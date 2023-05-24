@@ -51,6 +51,8 @@ from bot.handlers.premium.info import InfoHandler
 
 from users.management import check_expired_subscriptions
 from bot.alerts.position_alerts import run_position_alerts
+from data_analyzer_module.market.fetcher import OHLCVFetcher
+from data_analyzer_module.market.alerts import IndicatorAlerts
 
 ### Telegram Bot ###
 
@@ -76,10 +78,16 @@ def main() -> None:
     dp = updater.dispatcher
     jq = updater.job_queue
 
+
     # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
     jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=1)
     # Schedule the job to check for price alerts every 5 minutes (300 seconds)
     jq.run_repeating(PriceAlerts.check_price_alerts, interval=300, first=2)
+    # Schedule the job to fetch the OHLCV data every 15 minutes (900 seconds)
+    jq.run_repeating(OHLCVFetcher.fetch_ohlcv_data, interval=900, first=3)
+    # Schedule the job to check for indicator alerts every 15 minutes (900 seconds)
+    jq.run_repeating(IndicatorAlerts.check_indicator_alerts, interval=900, first=4)
+
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command

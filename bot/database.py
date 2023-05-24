@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, Numeric, ForeignKey, func, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import UniqueConstraint
 from datetime import datetime
 
 from config.settings import MY_POSTGRESQL_URL
@@ -106,6 +107,22 @@ class FetchedPosition(Base):
     leverage = Column(Integer, nullable=False)  # leverage
     opened_at = Column(DateTime, default=datetime.utcnow)  # when the position was opened
     closed_at = Column(DateTime)  # when the position was closed
+
+
+# OHLCV table class definition
+class OHLCV(Base):
+    __tablename__ = 'ohlcv'
+    id = Column(Integer, primary_key=True)
+    symbol = Column(String, nullable=False, index=True)
+    timeframe = Column(String, nullable=False)
+    timestamp = Column(DateTime, nullable=False)
+    open = Column(Numeric(20, 10), nullable=False)
+    high = Column(Numeric(20, 10), nullable=False)
+    low = Column(Numeric(20, 10), nullable=False)
+    close = Column(Numeric(20, 10), nullable=False)
+    volume = Column(Numeric(20, 10), nullable=False)
+
+    __table_args__ = (UniqueConstraint('symbol', 'timeframe', 'timestamp', name='unique_constraint_1'),)
 
 
 # Create a connection to the database and bind the engine
