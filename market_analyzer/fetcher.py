@@ -9,26 +9,36 @@ import schedule
 import sys
 import ta
 import ta.volume
-from sqlalchemy import Column, Integer, String, DateTime, Numeric, UniqueConstraint, create_engine
+import asyncio
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from bot.telegram_bot import main as telegram_bot_main
+
+
+from sqlalchemy import Column, Integer, String, DateTime, Numeric, UniqueConstraint, create_engine, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from ta.momentum import RSIIndicator, StochasticOscillator
 from ta.trend import SMAIndicator, MACD
 from ta.volatility import BollingerBands, AverageTrueRange
+from telegram import Update, ForceReply
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
-# Append parent directory to path
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config.settings import MY_POSTGRESQL_URL
+from config.settings import MY_POSTGRESQL_URL, TELEGRAM_API_TOKEN
 
 Base = declarative_base()
 
-# OHLCV table class definition
 class OHLCV(Base):
     __tablename__ = 'ohlcv'
     id = Column(Integer, primary_key=True)
     symbol = Column(String, nullable=False, index=True)
     timeframe = Column(String, nullable=False)
-    datetime = Column(DateTime, nullable=False)  # Updated column name
+    datetime = Column(DateTime, nullable=False)
     open = Column(Numeric(20, 10), nullable=False)
     high = Column(Numeric(20, 10), nullable=False)
     low = Column(Numeric(20, 10), nullable=False)
@@ -38,7 +48,18 @@ class OHLCV(Base):
     __table_args__ = (UniqueConstraint('symbol', 'timeframe', 'datetime', name='unique_constraint_1'),)
 
 
-# Create the engine and session
+# User table class definition
+class User(Base):
+    __tablename__ = 'users'  # Define the table name
+    id = Column(Integer, primary_key=True)  # Primary key
+    telegram_id = Column(Integer, unique=True)  # Unique Telegram ID
+    username = Column(String)  # Telegram username
+    has_access = Column(Boolean, default=False)  # Access status (default: False)
+    subscription_end = Column(DateTime)  # Subscription end date
+    subscription_type = Column(String)  # Subscription type
+
+
+
 engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
@@ -46,13 +67,27 @@ session = Session()
 
 TIMEFRAME = '1h'
 
-class Stock:
+class TelegramNotifier:
+    def __init__(self, token):
+        self.updater = Updater(token=token, use_context=True)
+
+    def send_message(self, chat_id, message):
+        self.updater.bot.send_message(chat_id=chat_id, text=message)
+
+    def start(self):
+        self.updater.start_polling()
+
+    def stop(self):
+        self.updater.stop()
+
+
+class Symbol:
     def __init__(self, symbol):
         self.symbol = symbol
         self.signals = []
+        self.telegram_notifier = TelegramNotifier(TELEGRAM_API_TOKEN)
 
     async def fetch_and_store_data(self):
-        # Fetch the latest datetime for the symbol from the database
         latest_candle = session.query(OHLCV).filter(OHLCV.symbol == self.symbol).order_by(OHLCV.datetime.desc()).first()
         latest_datetime = latest_candle.datetime if latest_candle else None
 
@@ -63,11 +98,9 @@ class Stock:
 
         data = exchange.fetch_ohlcv(self.symbol, TIMEFRAME)
 
-        # Store data in the database
         for candle in data:
-            timestamp = datetime.datetime.fromtimestamp(candle[0] / 1000)  # Convert milliseconds to seconds
+            timestamp = datetime.datetime.fromtimestamp(candle[0] / 1000)
 
-            # Check if the candle's datetime is newer than the latest recorded datetime
             if latest_datetime is None or timestamp > latest_datetime:
                 ohlcv = OHLCV(
                     symbol=self.symbol,
@@ -84,10 +117,8 @@ class Stock:
         session.commit()
 
     def calculate_indicators(self):
-        # Fetch data for this symbol from the database
         data = pd.read_sql(session.query(OHLCV).filter(OHLCV.symbol == self.symbol).order_by(OHLCV.datetime).statement, session.bind)
 
-        # Calculate indicators
         data['sma_50'] = SMAIndicator(data['close'], window=50).sma_indicator()
         data['sma_200'] = SMAIndicator(data['close'], window=200).sma_indicator()
         data['rsi'] = RSIIndicator(data['close']).rsi()
@@ -110,14 +141,15 @@ class Stock:
 
         return data
     
-    
 
     def check_signals(self, data):
-        # Iterate through each row of data
         for index, row in data.iterrows():
             if index > 0:  # Ensure we have a previous row for comparison
                 last_row = data.iloc[index - 1]
-                
+
+                # Initialize the message variable with a default value
+                message = None
+
                 # Check SMA crossover
                 if last_row['sma_50'] < last_row['sma_200'] and row['sma_50'] > row['sma_200']:
                     message = f'{self.symbol}: Bullish signal - SMA 50 crossed above SMA 200.'
@@ -158,6 +190,12 @@ class Stock:
                     message = f'{self.symbol}: Sell signal - Price crossed below upper Bollinger Band.'
                     self.signals.append(message)
 
+                # Send the signal to all users on Telegram
+                if message:
+                    for user in session.query(User).all():
+                        self.telegram_notifier.send_message(user.telegram_id, message)
+
+
     async def process(self):
         try:
             await self.fetch_and_store_data()
@@ -171,11 +209,21 @@ class Stock:
 async def main():
     symbols = ['BTC/USDT', 'ETH/USDT']
 
+    telegram_token = TELEGRAM_API_TOKEN
+    telegram_notifier = TelegramNotifier(telegram_token)
+
     for symbol in symbols:
-        stock = Stock(symbol)
+        stock = Symbol(symbol)
         signals = await stock.process()
         for signal in signals:
             print(signal)
-            
+
+    # Start the Telegram notifier service
+    telegram_notifier.start()
+
 if __name__ == '__main__':
+    # Start the Telegram bot
+    asyncio.run(telegram_bot_main())
+
+    # Start the fetcher script
     asyncio.run(main())
