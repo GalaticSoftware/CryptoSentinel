@@ -56,6 +56,18 @@ class PriceAlertRequest(Base):
     price_level = Column(Numeric(20, 2), nullable=False)
 
 
+class OHLCVData(Base):
+    __tablename__ = 'ohlcv_data'
+    id = Column(Integer, primary_key=True)
+    symbol = Column(String, nullable=False, index=True)
+    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+    open = Column(Numeric(20, 2), nullable=False)
+    high = Column(Numeric(20, 2), nullable=False)
+    low = Column(Numeric(20, 2), nullable=False)
+    close = Column(Numeric(20, 2), nullable=False)
+    volume = Column(Numeric(20, 2), nullable=False)
+
+
 # Create a connection to the database and bind the engine
 engine = create_engine(MY_POSTGRESQL_URL)
 

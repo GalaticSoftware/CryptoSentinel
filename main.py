@@ -6,9 +6,12 @@ from telegram.ext import (
     Updater,
     CallbackQueryHandler,
     PreCheckoutQueryHandler,
+    JobQueue,
 )
 
 from telegram.utils.request import Request
+import datetime
+from datetime import timedelta
 
 from config.settings import TELEGRAM_API_TOKEN
 
@@ -32,6 +35,8 @@ from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
 
 from bot.scripts.price_alerts import PriceAlerts
+from bot.scripts.ohlcv_fetcher import OHLCVData
+from bot.alerts.market_alerts import MarketAlerts, run_market_alerts
 
 # Free handlers
 from bot.handlers.free.cotd import CotdHandler
@@ -63,8 +68,14 @@ def check_and_revoke_expired_subscriptions(context: CallbackContext):
         context.bot.send_message(user_id, "Your subscription has expired. Please subscribe again to regain access.")
         logger.info(f"Revoked access for user {user_id}")
 
+def run_fetcher_and_alerts(context: CallbackContext):
+    OHLCVData.run_fetcher(context)
+    run_market_alerts(context)
+    # Schedule the job to fetch OHLCV data and run market alerts every 30 minutes
+    context.job_queue.run_repeating(run_fetcher_and_alerts, interval=1800, first=1800)
 
-# Main function
+
+# Define the main function
 def main() -> None:
     request = Request(connect_timeout=60, read_timeout=60)
 
@@ -76,9 +87,11 @@ def main() -> None:
     jq = updater.job_queue
 
     # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
-    jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=0)
+    jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=2)
     # Schedule the job to check for price alerts every 30 seconds
-    jq.run_repeating(PriceAlerts.check_price_alerts, interval=30, first=0)
+    jq.run_repeating(PriceAlerts.check_price_alerts, interval=30, first=3)
+    # Run the fetcher and alerts once at the start
+    jq.run_once(run_fetcher_and_alerts, when=0)
 
 
     # Add all the free handlers to the dispatcher
