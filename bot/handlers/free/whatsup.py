@@ -4,6 +4,7 @@ from telegram.ext import CallbackContext
 import logging
 import datetime
 from datetime import datetime
+import cachetools
 
 from bot.utils import log_command_usage
 from config.settings import LUNARCRUSH_API_KEY
@@ -12,6 +13,10 @@ from config.settings import LUNARCRUSH_API_KEY
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Define the cache
+cache = cachetools.TTLCache(maxsize=100, ttl=3600)
+
+# Define the WhatsupHandler class
 class WhatsupHandler:
     """
     Handles the /whatsup command, which fetches the top URLs engagement data
@@ -20,6 +25,7 @@ class WhatsupHandler:
 
     @staticmethod
     @log_command_usage("whatsup")
+    @cachetools.cached(cache)
     def whatsup(update: Update, context: CallbackContext):
         """
         Fetches and sends the top URLs engagement data to the user.
