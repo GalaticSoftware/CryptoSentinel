@@ -55,9 +55,10 @@ class PositionsHandler:
             "X-RapidAPI-Host": "binance-futures-leaderboard1.p.rapidapi.com",
         }
 
-        response = requests.get(url, headers=headers, params=querystring)
+        response = requests.get(url, headers=headers, params=querystring, timeout=20)
         if response.status_code == 200:
-            return response.json(), False
+            data = response.json()
+            return data, False
         else:
             return None, True
 
@@ -66,6 +67,8 @@ class PositionsHandler:
     @restricted
     @log_command_usage("positions")
     def trader_positions(update: Update, context: CallbackContext):
+        # Get the symbol argument form the messag if provided
+        symbol_arg = context.args[0].upper() if context.args else None
         uid_list = [
         "3AFFCB67ED4F1D1D8437BA17F4E8E5ED",
         "F5335CE565C1C0712A254FB595193E84",
@@ -108,7 +111,11 @@ class PositionsHandler:
         total_short_above_threshold = 0
         total_long_above_threshold = 0
 
+        long_rows = []
+        short_rows = []
+
         for encrypted_uid in uid_list:
+            is_cached = False
             try:
                 data, is_cached = PositionsHandler.fetch_trader_positions(encrypted_uid)
             except Exception as e:
@@ -120,13 +127,14 @@ class PositionsHandler:
 
             positions = data[0].get('data', [])[0].get('positions', {}).get('perpetual', []) if data else []
 
+            if symbol_arg:
+                positions = [position for position in positions if position["symbol"] == symbol_arg]
+
             if positions is None:
                 continue
+            
+            whale_filter_size = 1000000
 
-            whale_filter_size = 200000
-
-            long_rows = []
-            short_rows = []
 
             for position in positions:
                 symbol = position["symbol"]
@@ -154,6 +162,8 @@ class PositionsHandler:
                         total_short_above_threshold += position_value_usd
                     else:
                         total_short_below_threshold += position_value_usd
+
+
 
                 if not is_cached:
                     if long:
