@@ -13,9 +13,6 @@ from config.settings import LUNARCRUSH_API_KEY
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Define the cache for the LunarCrush API respons data with a TTL of 1 hour
-@cachetools.cached(cachetools.TTLCache(maxsize=100, ttl=3600))
-
 # Define the WhatsupHandler class
 class WhatsupHandler:
     """
@@ -70,7 +67,7 @@ class WhatsupHandler:
                     message += f"🕒 Time: {timestamp.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
 
                 # Log the formatted message for debugging
-                logger.info("Formatted message: %s", message)
+                logger.debug("Formatted message: %s", message)
 
                 # Send the message to the user
                 update.message.reply_text(message)
