@@ -17,7 +17,6 @@ class WhatsupHandler:
     Handles the /whatsup command, which fetches the top URLs engagement data
     for cryptocurrencies from the LunarCrush API.
     """
-
     @staticmethod
     @log_command_usage("whatsup")
     def whatsup(update: Update, context: CallbackContext):
@@ -34,7 +33,7 @@ class WhatsupHandler:
 
         try:
             # Fetch the data from the LunarCrush API
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=10)
             response_data = response.json()
 
             # Check if the response data is generated successfully
@@ -52,7 +51,9 @@ class WhatsupHandler:
             else:
                 # Notify the user if there's an error fetching data from the LunarCrush API
                 update.message.reply_text("Error fetching data from LunarCrush API.")
-                logger.error("Error fetching data from LunarCrush API. Response data: %s", response_data)
-        except Exception as e:
-            logger.exception("An error occurred while processing the /whatsup command: %s", e)
+                logger.error(
+                    "Error fetching data from LunarCrush API. Response data: %s",
+                    response_data)
+        except Exception as error:
+            logger.exception("An error occurred while processing the /whatsup command: %s", error)
             update.message.reply_text("An error occurred while processing the /whatsup command.")

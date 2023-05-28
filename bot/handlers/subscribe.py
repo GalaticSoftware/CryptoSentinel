@@ -13,19 +13,19 @@ class SubscribeHandler:
     subscription_plans = [
         {
             "label": "Monthly Subscription",
-            "price": 1499,
+            "price": 1999,
             "duration": timedelta(days=30),
             "description": "Monthly Crypto Sentinel bot subscription"
         },
         {
             "label": "3_Monthly Subscription",
-            "price": 3999,
+            "price": 1599,
             "duration": timedelta(days=90),
             "description": "3-Monthly Crypto Sentinel bot subscription"
         },
         {
             "label": "Yearly Subscription",
-            "price": 14999,
+            "price": 1399,
             "duration": timedelta(days=365),
             "description": "Yearly Crypto Sentinel bot subscription"
         },
