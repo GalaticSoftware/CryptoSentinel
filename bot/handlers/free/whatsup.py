@@ -34,8 +34,12 @@ class WhatsupHandler:
 
         try:
             # Fetch the data from the LunarCrush API
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=20)
+            response.raise_for_status()  # Raises stored HTTPError, if one occurred.
             response_data = response.json()
+
+            # Log the response data for debugging
+            logger.info("Response data from LunarCrush API: %s", response_data)
 
             # Check if the response data is generated successfully
             if response_data['config']['generated']:
@@ -43,16 +47,23 @@ class WhatsupHandler:
                 coins_data = response_data['data']['coins']['urls_engagement']
                 message = "Top URLs engagement:\n\n"
                 for coin in coins_data:
-                    url = coin['meta']['url']
-                    title = coin['meta']['title']
-                    message += f"{title}: {url}\n"
+                    message += f"{coin['meta']['title']}: {coin['meta']['url']}\n"
+
+                # Log the formatted message for debugging
+                logger.info("Formatted message: %s", message)
 
                 # Send the message to the user
                 update.message.reply_text(message)
             else:
-                # Notify the user if there's an error fetching data from the LunarCrush API
+                # Notify the user if there's an error fetching data from LunarCrush API
                 update.message.reply_text("Error fetching data from LunarCrush API.")
                 logger.error("Error fetching data from LunarCrush API. Response data: %s", response_data)
+        except requests.exceptions.HTTPError as http_err:
+            logger.error(f'HTTP error occurred: {http_err}')
+            update.message.reply_text("An HTTP error occurred while processing the /whatsup command.")
+        except requests.exceptions.RequestException as req_err:
+            logger.error(f'Request error occurred: {req_err}')
+            update.message.reply_text("A network error occurred while processing the /whatsup command.")
         except Exception as e:
             logger.exception("An error occurred while processing the /whatsup command: %s", e)
             update.message.reply_text("An error occurred while processing the /whatsup command.")
