@@ -13,8 +13,8 @@ from config.settings import LUNARCRUSH_API_KEY
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Define the cache
-cache = cachetools.TTLCache(maxsize=100, ttl=3600)
+# Define the cache for the LunarCrush API respons data with a TTL of 1 hour
+@cachetools.cached(cachetools.TTLCache(maxsize=100, ttl=3600))
 
 # Define the WhatsupHandler class
 class WhatsupHandler:
@@ -25,7 +25,6 @@ class WhatsupHandler:
 
     @staticmethod
     @log_command_usage("whatsup")
-    @cachetools.cached(cache)
     def whatsup(update: Update, context: CallbackContext):
         """
         Fetches and sends the top URLs engagement data to the user.
@@ -51,8 +50,18 @@ class WhatsupHandler:
             if response_data['config']['generated']:
                 # Process and format the data
                 coins_data = response_data['data']['coins']['urls_engagement']
-                message = "🚀 Top URLs Engagement for Cryptocurrencies 🚀\n\n"
+
+                # Filter out duplicate entries based on URL
+                unique_coins_data = []
+                seen_urls = set()
                 for coin in coins_data:
+                    url = coin['meta']['url']
+                    if url not in seen_urls:
+                        unique_coins_data.append(coin)
+                        seen_urls.add(url)
+
+                message = "🚀 Top URLs Engagement for Cryptocurrencies 🚀\n\n"
+                for coin in unique_coins_data:
                     # Convert timestamp to human-readable format
                     timestamp = datetime.fromtimestamp(coin['meta']['time'])
                     message += f"🔗 Title: {coin['meta']['title']}\n"
@@ -77,4 +86,4 @@ class WhatsupHandler:
             update.message.reply_text("A network error occurred while processing the /whatsup command. Please check your connection and try again.")
         except Exception as e:
             logger.exception("An error occurred while processing the /whatsup command: %s", e)
-            update.message.reply_text("An unexpected error occurred while processing the /whatsup command. Please try againlater.")
+            update.message.reply_text("An unexpected error occurred while processing the /whatsup command. Please try again later.")
