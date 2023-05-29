@@ -7,6 +7,7 @@ load_dotenv()
 # Load database connection
 MY_POSTGRESQL_URL = os.getenv("MY_POSTGRESQL_URL")
 
+
 def get_connection():
     return psycopg2.connect(MY_POSTGRESQL_URL, sslmode='require')
 
