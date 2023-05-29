@@ -9,7 +9,8 @@ import pandas as pd
 import ta
 import os
 from datetime import datetime, timedelta
-
+import asyncio
+import cachetools
 
 from telegram import Update
 from telegram.ext import CallbackContext
@@ -22,8 +23,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class CotdHandler:
+    # Create a TLL cache for the coin of the day data
+    # that expires every 12 hours starting at midnight
+    cache = cachetools.TTLCache(maxsize=100, ttl=43200)
     @staticmethod
-    def plot_ohlcv_chart(symbol):
+    async def plot_ohlcv_chart(symbol):
         # Fetch OHLCV data from Binance
         exchange = ccxt.bybit()
         ohlcv = exchange.fetch_ohlcv(symbol.upper()+'/USDT', '4h')
@@ -78,19 +82,25 @@ class CotdHandler:
 
     @staticmethod
     @log_command_usage("cotd")
-    def coin_of_the_day(update: Update, context: CallbackContext):
-        # Fetch Coin of the Day data from LunarCrush API
-        url = "https://lunarcrush.com/api3/coinoftheday"
-        headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
+    async def coin_of_the_day(update: Update, context: CallbackContext):
+        # Check if the coin of the day data is cached
+        if "cotd" in CotdHandler.cache:
+            data = CotdHandler.cache["cotd"]
+        else:
+            # Fetch Coin of the Day data from LunarCrush API
+            url = "https://lunarcrush.com/api3/coinoftheday"
+            headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
 
-        try:
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-            data = response.json()
-        except requests.exceptions.RequestException as e:
-            logger.exception("Connection error while fetching Coin of the Day from LunarCrush API")
-            update.message.reply_text("Error connecting to LunarCrush API. Please try again later.")
-            return
+            try:
+                response = requests.get(url, headers=headers)
+                response.raise_for_status()
+                data = response.json()
+                # Cache the data
+                CotdHandler.cache["cotd"] = data
+            except requests.exceptions.RequestException as e:
+                logger.exception("Connection error while fetching Coin of the Day from LunarCrush API")
+                update.message.reply_text("Error connecting to LunarCrush API. Please try again later.")
+                return
 
         if "name" in data and "symbol" in data:
             coin_name = data["name"]
@@ -98,30 +108,22 @@ class CotdHandler:
 
             # Fetch and plot the OHLCV chart
             try:
-                CotdHandler.plot_ohlcv_chart(coin_symbol)
-            except Exception as e:
-                logger.exception("Error while plotting the OHLCV chart")
-                update.message.reply_text("Error while plotting the OHLCV chart. Please try again later.")
-                return
-
-            # Send the chart and the Coin of the Day message
-            image_path = f"charts/{coin_symbol}_chart.png"
-            try:
+                await CotdHandler.plot_ohlcv_chart(coin_symbol)
+                # Send the chart and the Coin of the Day message
+                image_path = f"charts/{coin_symbol}_chart.png"
                 with open(image_path, "rb") as f:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
-                update.message.reply_text(f"Coin of the Day: {coin_name} ({coin_symbol})")
-                
                 # Delete the image file after sending it
                 os.remove(image_path)
             except Exception as e:
-                logger.exception("Error while sending the chart and the Coin of the Day message")
-                update.message.reply_text("Error while sending the chart and the Coin of the Day message. Please try again later.")
-                return
-            
+                logger.exception("Error while plotting the OHLCV chart or sending the chart message")
+
+            # Send the Coin of the Day message regardless of whether the chart was sent
+            update.message.reply_text(f"Coin of the Day: {coin_name} ({coin_symbol})")
         else:
             logger.error("Error in LunarCrush API response: Required data not found")
             update.message.reply_text("Error fetching Coin of the Day data. Please try again later.")
 
-
-
-
+    @staticmethod
+    def run(update: Update, context: CallbackContext):
+        asyncio.run(CotdHandler.coin_of_the_day(update, context))

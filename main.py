@@ -85,7 +85,7 @@ def main() -> None:
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start)) # StartHandler.start is the function that will be called when the user sends the /start command
     dp.add_handler(CommandHandler("help", HelpHandler.help)) # HelpHandler.help is the function that will be called when the user sends the /help command. It will display the help message
-    dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day)) # CotdHandler.coin_of_the_day is the function that will be called when the user sends the /cotd command to get the coin of the day
+    dp.add_handler(CommandHandler("cotd", CotdHandler.run)) # CotdHandler.coin_of_the_day is the function that will be called when the user sends the /cotd command to get the coin of the day
     dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)) # GlobalTopHandler.global_top is the function that will be called when the user sends the /global_top command to get the global top coins
     dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token)) # UseTokenHandler.use_token is the function that will be called when the user sends the /use_token command to use a token
     dp.add_handler(CommandHandler("gainers", GainersHandler.gainers)) # GainersHandler.gainers is the function that will be called when the user sends the /gainers command to get the gainers of the day

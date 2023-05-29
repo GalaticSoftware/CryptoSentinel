@@ -11,6 +11,12 @@ import os
 from datetime import datetime, timedelta
 import requests
 from config.settings import LUNARCRUSH_API_KEY
+import asyncio
+import aiohttp
+import ccxt
+import pandas as pd
+import plotly.graph_objects as go
+import ta
 
 
 import functools
@@ -77,48 +83,14 @@ def command_usage_example(example_text: str):
 
 class PlotChart:
     @staticmethod
-    def plot_ohlcv_chart(symbol, time_frame):
-        # Define the list of exchanges
-        exchanges = [
-            ccxt.binance(),
-            ccxt.bybit(),
-            ccxt.kucoin(),
-        ]
+    async def fetch_ohlcv(exchange, symbol, time_frame):
+        try:
+            return await exchange.fetch_ohlcv(symbol, time_frame)
+        except ccxt.BaseError:
+            return None
 
-        # Fetch OHLCV data from the first exchange that supports the market
-        for exchange in exchanges:
-            try:
-                ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', time_frame)
-                break
-            except ccxt.BaseError:
-                continue
-        else:
-            return None  # Return None if no exchange supports the market
-
-        # Define the time horizon for each time frame
-        time_horizon = {
-            '1m': timedelta(hours=12),
-            '5m': timedelta(days=1),
-            '15m': timedelta(days=3),
-            '1h': timedelta(days=7),
-            '4h': timedelta(weeks=2),
-            '1d': timedelta(weeks=12),
-            '1w': timedelta(weeks=80),
-            '1M': timedelta(weeks=324),
-        }
-
-        # Filter data based on the selected time frame
-        start_time = datetime.now() - time_horizon.get(time_frame, timedelta(weeks=4))
-        ohlcv = [entry for entry in ohlcv if datetime.fromtimestamp(entry[0] // 1000) >= start_time]
-
-        # Convert timestamp to datetime objects
-        for entry in ohlcv:
-            entry[0] = datetime.fromtimestamp(entry[0] // 1000)
-
-        # Create a DataFrame and set 'Date' as the index
-        df = pd.DataFrame(ohlcv, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        df.set_index('Date', inplace=True)
-
+    @staticmethod
+    def add_indicators(df):
         # Add RSI
         delta = df['Close'].diff()
         gain, loss = delta.where(delta > 0, 0), delta.where(delta < 0, 0).abs()
@@ -132,6 +104,8 @@ class PlotChart:
         df['SMA21'] = ta.trend.sma_indicator(df['Close'], window=21)
         df['SMA50'] = ta.trend.sma_indicator(df['Close'], window=50)
 
+    @staticmethod
+    def generate_chart(df, symbol, time_frame):
         # Create a Plotly figure
         fig = go.Figure()
 
@@ -158,7 +132,52 @@ class PlotChart:
 
         return chart_file
 
+    @staticmethod
+    async def plot_ohlcv_chart(symbol, time_frame):
+        # Define the list of exchanges
+        exchanges = [
+            ccxt.binance(),
+            ccxt.bybit(),
+            ccxt.kucoin(),
+        ]
 
+        async with aiohttp.ClientSession() as session:
+            tasks = []
+            for exchange in exchanges:
+                task = asyncio.ensure_future(
+                    PlotChart.fetch_ohlcv(exchange, symbol.upper() + '/USDT', time_frame)
+                )
+                tasks.append(task)
 
+            ohlcv_results = await asyncio.gather(*tasks)
 
+        # Filter out None values and select the first OHLCV data
+        ohlcv = next((data for data in ohlcv_results if data is not None), None)
 
+        if ohlcv is None:
+            return None  # Return None if no exchange supports the market
+
+        # Create a DataFrame and set 'Date' as the index
+        df = pd.DataFrame(ohlcv, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
+        df['Date'] = pd.to_datetime(df['Date'], unit='ms')
+        df.set_index('Date', inplace=True)
+
+        # Filter data based on the selected time frame
+        time_horizon = {
+            '1m': '12H',
+            '5m': '1D',
+            '15m': '3D',
+            '1h': '7D',
+            '4h': '2W',
+            '1d': '12W',
+            '1w': '80W',
+            '1M': '324W',
+        }
+        start_time = pd.Timestamp.now() - pd.Timedelta(time_horizon.get(time_frame, '4W'))
+        df = df[df.index >= start_time]
+
+        # Add indicators
+        PlotChart.add_indicators(df)
+
+        # Generate the chart
+        return PlotChart.generate_chart(df, symbol, time_frame)
