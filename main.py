@@ -31,7 +31,6 @@ from bot.handlers.start import StartHandler
 from bot.handlers.subscribe import SubscribeHandler
 from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
-from bot.handlers.free.contact import get_contact_handler
 
 from bot.scripts.price_alerts import PriceAlerts
 
@@ -112,8 +111,6 @@ def main() -> None:
     three_monthly_handler = CallbackQueryHandler(SubscribeHandler.send_invoice_3_monthly, pattern="^subscribe_3_monthly_subscription$")
     yearly_handler = CallbackQueryHandler(SubscribeHandler.send_invoice_yearly, pattern="^subscribe_yearly_subscription$")
 
-    # Add Support Handlers
-    dp.add_handler(get_contact_handler())
 
     dp.add_handler(subscribe_handler)
     dp.add_handler(payment_handler)
