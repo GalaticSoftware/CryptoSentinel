@@ -3,13 +3,11 @@ import logging
 import ccxt
 import datetime
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
 import ta
 import os
 from datetime import datetime, timedelta
-
 
 from telegram import Update
 from telegram.ext import CallbackContext
@@ -17,29 +15,42 @@ from bot.utils import restricted
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import log_command_usage
 
+from cachetools import TTLCache
+
+cotd_cache = TTLCache(maxsize=1, ttl=3600)
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class CotdHandler:
     @staticmethod
-    def plot_ohlcv_chart(symbol):
-        # Fetch OHLCV data from Binance
-        exchange = ccxt.bybit()
-        ohlcv = exchange.fetch_ohlcv(symbol.upper()+'/USDT', '4h')
-        
+    def fetch_ohlcv_data(symbol):
+        """Fetch OHLCV data from Binance and return as a DataFrame"""
+        try:
+            exchange = ccxt.bybit()
+            ohlcv = exchange.fetch_ohlcv(symbol.upper()+'/USDT', '4h')
+        except Exception as e:
+            logger.exception("Error fetching OHLCV data")
+            raise e
+
         # Filter data to display only the last 4 weeks
         two_weeks_ago = datetime.now() - timedelta(weeks=4)
         ohlcv = [entry for entry in ohlcv if datetime.fromtimestamp(entry[0] // 1000) >= two_weeks_ago]
-        
+
         # Convert timestamp to datetime objects
         for entry in ohlcv:
             entry[0] = datetime.fromtimestamp(entry[0] // 1000)
-        
+
         # Create a DataFrame and set 'Date' as the index
         df = pd.DataFrame(ohlcv, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
         df.set_index('Date', inplace=True)
 
+        return df
+
+    @staticmethod
+    def add_indicators(df):
+        """Add RSI and moving averages to the DataFrame"""
         # Add RSI
         delta = df['Close'].diff()
         gain, loss = delta.where(delta > 0, 0), delta.where(delta < 0, 0).abs()
@@ -53,6 +64,11 @@ class CotdHandler:
         df['SMA21'] = ta.trend.sma_indicator(df['Close'], window=21)
         df['SMA50'] = ta.trend.sma_indicator(df['Close'], window=50) 
 
+        return df
+
+    @staticmethod
+    def plot_ohlcv_chart(df, symbol):
+        """Plot OHLCV chart and save as PNG image"""
         # Create a Plotly figure
         fig = go.Figure()
 
@@ -98,10 +114,12 @@ class CotdHandler:
 
             # Fetch and plot the OHLCV chart
             try:
-                CotdHandler.plot_ohlcv_chart(coin_symbol)
+                df = CotdHandler.fetch_ohlcv_data(coin_symbol)
+                df = CotdHandler.add_indicators(df)
+                CotdHandler.plot_ohlcv_chart(df, coin_symbol)
             except Exception as e:
                 logger.exception("Error while plotting the OHLCV chart")
-                update.message.reply_text("Error while plotting the OHLCV chart. Please try again later.")
+                update.message.reply_text(f"Coin of the Day: {coin_name} ({coin_symbol}). Error while plotting the OHLCV chart.")
                 return
 
             # Send the chart and the Coin of the Day message
@@ -121,7 +139,3 @@ class CotdHandler:
         else:
             logger.error("Error in LunarCrush API response: Required data not found")
             update.message.reply_text("Error fetching Coin of the Day data. Please try again later.")
-
-
-
-
