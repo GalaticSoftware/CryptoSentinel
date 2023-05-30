@@ -13,3 +13,7 @@ venv/
 
 # Ignore generate_token.py
 generate_token.py
+
+# Logfiles
+*.log
+```
