@@ -15,80 +15,86 @@ logger = logging.getLogger(__name__)
 
 class StatsHandler:
     @staticmethod
-    def stats(update: Update, context: CallbackContext):
-        logger.info("Stats command received")
-        symbol = context.args[0] if context.args else "BTCUSDT"
-        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/patterns/{symbol}/4h"
+    def fetch_data(symbol: str, endpoint: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{endpoint}/{symbol}/4h"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
             "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
         }
-
-        # Send a loading message
-        message = update.message.reply_text("Fetching data...")
-
         response = requests.get(url, headers=headers)
-        data = response.json()
-        logger.info(data)
+        return response.json()
 
-        # Filter out patterns that are not present
-        patterns = {
+    @staticmethod
+    def filter_patterns(data: dict):
+        return {
             k: v
             for k, v in data.items()
             if v is True and k not in ["timestamp", "symbol", "timeframe", "prices"]
         }
-        logger.info(patterns)
 
-        # Generate a message with the present patterns
-        patterns_message = f"Patterns for {symbol}:\n\n" + "\n".join(patterns.keys())
-        logger.info(patterns_message)
+    @staticmethod
+    def generate_patterns_message(symbol: str, patterns: dict):
+        return f"Patterns for {symbol}:\n\n" + "\n".join(patterns.keys())
 
-        # Update the loading message to indicate that the data has been fetched
-        message.edit_text("Data fetched. Generating chart...")
-        logger.info("Loading message updated")
-
-        # Send the message
+    @staticmethod
+    def send_patterns_message(update: Update, patterns_message: str):
         update.message.reply_text(patterns_message)
-        logger.info("Stats command completed")
+        logger.info("Patterns message sent")
 
-        # Fetch technical indicator data
-        # TODO: Fetch technical indicator data
-        # Fetch Indicator data from the below endpoints:
-        # url = "https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/macd/{symbol}/4h/5/8/3"
-        # url = "https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/rsi/{symbol}/4h/14"
-        # url = "https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/obv/{symbol}/4h/4"
+    @staticmethod
+    def fetch_indicator_data(symbol: str, indicator: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/14"
+        headers = {
+            "X-RapidAPI-Key": X_RAPIDAPI_KEY,
+            "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        return data
 
-        # Check for MACD crossover
-        # A "MACD Golden Cross" occurs when the MACD line (the difference between the 12-period EMA and the 26-period EMA)
-        # crosses above the signal line (the 9-period EMA of the MACD line).
-        # A "MACD Death Cross" occurs when the MACD line crosses below the signal line.
+    @staticmethod
+    def stats(update: Update, context: CallbackContext):
+        logger.info("Stats command received")
+        symbol = context.args[0] if context.args else "BTCUSDT"
 
-        # Check for RSI overbought/oversold
-        # An asset is considered overbought when the RSI is above 70%.
-        # An asset is considered oversold when the RSI is below 30%.
+        # Send a loading message
+        message = update.message.reply_text("Fetching data...")
 
-        # Check for RSI divergence
-        # there are 4 types of divergence:
-        # 1. Regular Bullish Divergence
-        # a. Regular Bullish Divergence occurs when the price is making lower lows (LL) but the RSI is making higher lows (HL).
-        # 2. Regular Bearish Divergence
-        # a. Regular Bearish Divergence occurs when the price is making higher highs (HH) but the RSI is making lower highs (LH).
-        # 3. Hidden Bullish Divergence
-        # a Hidden Bullish Divergence occurs when the price is making higher lows (HL) but the RSI is making lower lows (LL).
-        # 4. Hidden Bearish Divergence
-        # a. Hidden Bearish Divergence occurs when the price is making lower highs (LH) but the RSI is making higher highs (HH).
+        # Fetch pattern data
+        pattern_data = StatsHandler.fetch_data(symbol, "patterns")
+        patterns = StatsHandler.filter_patterns(pattern_data)
+        patterns_message = StatsHandler.generate_patterns_message(symbol, patterns)
 
-        # Check for OBV divergence
-        # OBV divergence occurs when the price of an asset moves in one direction and the OBV indicator moves in the opposite direction.
-        # If the price is rising and the OBV is flat or falling, the price may be near a top.
-        # If the price is falling and the OBV is flat or rising, the price may be nearing a bottom.
+        # Send patterns message
+        StatsHandler.send_patterns_message(update, patterns_message)
+
+        # Fetch RSI data
+        rsi_data = StatsHandler.fetch_indicator_data(symbol, "rsi")
+
+        # TODO: Check for MACD crossover, RSI overbought/oversold, RSI divergence, and OBV divergence
+        # RSI overbought/oversold
+        if "rsi" in rsi_data and rsi_data["rsi"]:
+            latest_rsi = rsi_data["rsi"][-1]
+            if latest_rsi > 70:
+                rsi_status = "RSI overbought"
+            elif latest_rsi < 30:
+                rsi_status = "RSI oversold"
+            else:
+                rsi_status = "RSI is in normal range"
+            update.message.reply_text(f"Latest RSI: {latest_rsi}. {rsi_status}")
+        else:
+            logger.error("RSI data not found in API response")
+            update.message.reply_text(
+                "Unable to check RSI overbought/oversold status due to missing data"
+            )
+
+        logger.info("RSI overbought/oversold checked")
 
         # Plot chart
         chart_file = PlotChart.plot_ohlcv_chart(symbol, "4h")
 
         # Update the loading message to indicate that the chart has been generated
         message.edit_text("Chart generated. Sending chart...")
-        logger.info("Loading message updated")
 
         # Send chart to user and then delete it
         if chart_file:
@@ -98,7 +104,6 @@ class StatsHandler:
 
         # Update the loading message to indicate that the chart has been sent and the command has completed
         message.edit_text("Chart sent. Command completed.")
-        logger.info("Loading message updated")
         logger.info("Stats command completed")
 
     @staticmethod
