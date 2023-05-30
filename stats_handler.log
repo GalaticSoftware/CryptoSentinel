@@ -1,0 +1,41 @@
+2023-05-30 20:34:36,405 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:34:37,383 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:34:37,865 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 20:35:20,702 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:35:21,568 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:35:22,284 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 20:38:07,400 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:38:08,334 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:38:09,024 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 20:38:09,138 - bot.handlers.premium.stats - ERROR - MACD data not found in API response or no MACD crossover detected
+2023-05-30 20:39:32,730 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:39:33,654 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:39:34,335 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 20:39:34,430 - bot.handlers.premium.stats - ERROR - MACD data not found in API response or no MACD crossover detected
+2023-05-30 20:39:39,889 - bot.handlers.premium.stats - INFO - Stats command completed
+2023-05-30 20:41:35,796 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:41:36,767 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:41:37,447 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 20:41:37,645 - bot.handlers.premium.stats - ERROR - MACD data not found in API response or no MACD crossover detected
+2023-05-30 20:41:42,700 - bot.handlers.premium.stats - INFO - Stats command completed
+2023-05-30 20:42:56,475 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:42:57,418 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:42:57,874 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 20:42:57,983 - bot.handlers.premium.stats - ERROR - MACD data not found in API response or no MACD crossover detected
+2023-05-30 20:43:08,723 - bot.handlers.premium.stats - INFO - Stats command completed
+2023-05-30 20:43:48,804 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 20:43:49,635 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 20:43:49,745 - bot.handlers.premium.stats - ERROR - RSI data not found in API response
+2023-05-30 20:43:49,811 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 21:19:37,604 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 21:19:39,542 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 21:19:39,656 - bot.handlers.premium.stats - ERROR - RSI data not found in API response
+2023-05-30 21:19:39,719 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 21:19:40,409 - bot.handlers.premium.stats - INFO - [{'MACD': -157.85599999999977}, {'MACD': -216.51050000000032}, {'MACD': -300.5625, 'signal': -224.97633333333337, 'histogram': -75.58616666666663}, {'MACD': -425.1944999999978, 'signal': -314.089166666666, 'histogram': -111.10533333333177}, {'MACD': -551.6020000000026, 'signal': -425.78633333333346, 'histogram': -125.81566666666913}]
+2023-05-30 21:23:01,213 - bot.handlers.premium.stats - INFO - Stats command received
+2023-05-30 21:23:02,218 - bot.handlers.premium.stats - INFO - Patterns message sent
+2023-05-30 21:23:02,325 - bot.handlers.premium.stats - ERROR - RSI data not found in API response
+2023-05-30 21:23:02,413 - bot.handlers.premium.stats - INFO - RSI overbought/oversold checked
+2023-05-30 21:23:03,073 - bot.handlers.premium.stats - INFO - [{'MACD': -157.85599999999977}, {'MACD': -216.51050000000032}, {'MACD': -300.5625, 'signal': -224.97633333333337, 'histogram': -75.58616666666663}, {'MACD': -425.1944999999978, 'signal': -314.089166666666, 'histogram': -111.10533333333177}, {'MACD': -551.6020000000026, 'signal': -425.78633333333346, 'histogram': -125.81566666666913}]
+2023-05-30 21:23:03,161 - bot.handlers.premium.stats - INFO - Unable to determine MACD crossover due to missing data
+2023-05-30 21:23:07,589 - bot.handlers.premium.stats - INFO - Stats command completed
