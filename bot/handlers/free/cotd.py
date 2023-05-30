@@ -23,28 +23,35 @@ cotd_cache = TTLCache(maxsize=1, ttl=3600)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class CotdHandler:
     @staticmethod
     def fetch_ohlcv_data(symbol):
         """Fetch OHLCV data from Binance and return as a DataFrame"""
         try:
             exchange = ccxt.bybit()
-            ohlcv = exchange.fetch_ohlcv(symbol.upper()+'/USDT', '4h')
+            ohlcv = exchange.fetch_ohlcv(symbol.upper() + "/USDT", "4h")
         except Exception as e:
             logger.exception("Error fetching OHLCV data")
             raise e
 
         # Filter data to display only the last 4 weeks
         two_weeks_ago = datetime.now() - timedelta(weeks=4)
-        ohlcv = [entry for entry in ohlcv if datetime.fromtimestamp(entry[0] // 1000) >= two_weeks_ago]
+        ohlcv = [
+            entry
+            for entry in ohlcv
+            if datetime.fromtimestamp(entry[0] // 1000) >= two_weeks_ago
+        ]
 
         # Convert timestamp to datetime objects
         for entry in ohlcv:
             entry[0] = datetime.fromtimestamp(entry[0] // 1000)
 
         # Create a DataFrame and set 'Date' as the index
-        df = pd.DataFrame(ohlcv, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        df.set_index('Date', inplace=True)
+        df = pd.DataFrame(
+            ohlcv, columns=["Date", "Open", "High", "Low", "Close", "Volume"]
+        )
+        df.set_index("Date", inplace=True)
 
         return df
 
@@ -52,17 +59,17 @@ class CotdHandler:
     def add_indicators(df):
         """Add RSI and moving averages to the DataFrame"""
         # Add RSI
-        delta = df['Close'].diff()
+        delta = df["Close"].diff()
         gain, loss = delta.where(delta > 0, 0), delta.where(delta < 0, 0).abs()
         avg_gain = gain.rolling(window=14).mean()
         avg_loss = loss.rolling(window=14).mean()
         rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
-        df['RSI'] = rsi
+        df["RSI"] = rsi
 
         # Add moving averages
-        df['SMA21'] = ta.trend.sma_indicator(df['Close'], window=21)
-        df['SMA50'] = ta.trend.sma_indicator(df['Close'], window=50) 
+        df["SMA21"] = ta.trend.sma_indicator(df["Close"], window=21)
+        df["SMA50"] = ta.trend.sma_indicator(df["Close"], window=50)
 
         return df
 
@@ -73,20 +80,53 @@ class CotdHandler:
         fig = go.Figure()
 
         # Add OHLCV data
-        fig.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'], name='Price'))
+        fig.add_trace(
+            go.Candlestick(
+                x=df.index,
+                open=df["Open"],
+                high=df["High"],
+                low=df["Low"],
+                close=df["Close"],
+                name="Price",
+            )
+        )
 
         # Add moving averages
-        fig.add_trace(go.Scatter(x=df.index, y=df['SMA21'], mode='lines', name='SMA21', line=dict(color='orange', width=1)))
-        fig.add_trace(go.Scatter(x=df.index, y=df['SMA50'], mode='lines', name='SMA50', line=dict(color='blue', width=1)))
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df["SMA21"],
+                mode="lines",
+                name="SMA21",
+                line=dict(color="orange", width=1),
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df["SMA50"],
+                mode="lines",
+                name="SMA50",
+                line=dict(color="blue", width=1),
+            )
+        )
 
         # Customize the layout
         fig.update_layout(
-            title=f'{symbol} OHLCV Chart',
-            xaxis=dict(type='date', tickformat="%H:%M %b-%d", tickmode='auto', nticks=10, rangeslider=dict(visible=False)),
-            yaxis=dict(title='Price (USDT)'),
-            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
-            template='plotly_dark',
-            margin=dict(b=40, t=40, r=40, l=40)
+            title=f"{symbol} OHLCV Chart",
+            xaxis=dict(
+                type="date",
+                tickformat="%H:%M %b-%d",
+                tickmode="auto",
+                nticks=10,
+                rangeslider=dict(visible=False),
+            ),
+            yaxis=dict(title="Price (USDT)"),
+            legend=dict(
+                orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1
+            ),
+            template="plotly_dark",
+            margin=dict(b=40, t=40, r=40, l=40),
         )
 
         # Save the chart as a PNG image
@@ -104,8 +144,12 @@ class CotdHandler:
             response.raise_for_status()
             data = response.json()
         except requests.exceptions.RequestException as e:
-            logger.exception("Connection error while fetching Coin of the Day from LunarCrush API")
-            update.message.reply_text("Error connecting to LunarCrush API. Please try again later.")
+            logger.exception(
+                "Connection error while fetching Coin of the Day from LunarCrush API"
+            )
+            update.message.reply_text(
+                "Error connecting to LunarCrush API. Please try again later."
+            )
             return
 
         if "name" in data and "symbol" in data:
@@ -119,7 +163,9 @@ class CotdHandler:
                 CotdHandler.plot_ohlcv_chart(df, coin_symbol)
             except Exception as e:
                 logger.exception("Error while plotting the OHLCV chart")
-                update.message.reply_text(f"Coin of the Day: {coin_name} ({coin_symbol}). Error while plotting the OHLCV chart.")
+                update.message.reply_text(
+                    f"Coin of the Day: {coin_name} ({coin_symbol}). Error while plotting the OHLCV chart."
+                )
                 return
 
             # Send the chart and the Coin of the Day message
@@ -127,15 +173,23 @@ class CotdHandler:
             try:
                 with open(image_path, "rb") as f:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
-                update.message.reply_text(f"Coin of the Day: {coin_name} ({coin_symbol})")
-                
+                update.message.reply_text(
+                    f"Coin of the Day: {coin_name} ({coin_symbol})"
+                )
+
                 # Delete the image file after sending it
                 os.remove(image_path)
             except Exception as e:
-                logger.exception("Error while sending the chart and the Coin of the Day message")
-                update.message.reply_text("Error while sending the chart and the Coin of the Day message. Please try again later.")
+                logger.exception(
+                    "Error while sending the chart and the Coin of the Day message"
+                )
+                update.message.reply_text(
+                    "Error while sending the chart and the Coin of the Day message. Please try again later."
+                )
                 return
-            
+
         else:
             logger.error("Error in LunarCrush API response: Required data not found")
-            update.message.reply_text("Error fetching Coin of the Day data. Please try again later.")
+            update.message.reply_text(
+                "Error fetching Coin of the Day data. Please try again later."
+            )

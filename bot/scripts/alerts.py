@@ -9,7 +9,9 @@ from bot.database import PriceAlertRequest, Session, PatternData, User
 
 # setup logging
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 class PriceAlerts:
     def check_price_alerts(context: CallbackContext):
@@ -20,13 +22,15 @@ class PriceAlerts:
         for price_alert_request in price_alert_requests:
             exchange = ccxt.bybit()
             ticker = exchange.fetch_ticker(price_alert_request.symbol)
-            current_price = ticker['last']
+            current_price = ticker["last"]
 
             # If the current price is within 0.5% of the price alert request, send a message to the user
-            if current_price >= price_alert_request.price_level * Decimal('0.995') and current_price <= price_alert_request.price_level * Decimal('1.005'):
+            if current_price >= price_alert_request.price_level * Decimal(
+                "0.995"
+            ) and current_price <= price_alert_request.price_level * Decimal("1.005"):
                 context.bot.send_message(
                     chat_id=price_alert_request.user_id,
-                    text=f"🔔 Price Alert! 🔔\n\nThe price of {price_alert_request.symbol} has reached your set level of {price_alert_request.price_level}. The current price is now: {current_price}."
+                    text=f"🔔 Price Alert! 🔔\n\nThe price of {price_alert_request.symbol} has reached your set level of {price_alert_request.price_level}. The current price is now: {current_price}.",
                 )
 
                 # Add the price alert request to the list of requests to be deleted
@@ -53,10 +57,9 @@ class PatternAlerts:
             if alerts:
                 try:
                     context.bot.send_message(
-                        chat_id=user.telegram_id,
-                        text='\n'.join(alerts)
+                        chat_id=user.telegram_id, text="\n".join(alerts)
                     )
                 except BadRequest as e:
-                    logger.error(f"Failed to send message to user {user.telegram_id}: {e.message}")
-
-
+                    logger.error(
+                        f"Failed to send message to user {user.telegram_id}: {e.message}"
+                    )
