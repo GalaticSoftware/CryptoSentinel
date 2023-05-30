@@ -3,7 +3,7 @@ import requests
 import os
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
-from bot.utils import restricted, log_command_usage, PlotChart
+from bot.utils import restricted, log_command_usage, PlotChart, command_usage_example
 from config.settings import X_RAPIDAPI_KEY
 
 # Configure logging
@@ -53,6 +53,9 @@ class StatsHandler:
         return data
 
     @staticmethod
+    @restricted
+    @log_command_usage("stats")
+    @command_usage_example("/stats BTCUSDT")
     def stats(update: Update, context: CallbackContext):
         logger.info("Stats command received")
         symbol = context.args[0] if context.args else "BTCUSDT"
