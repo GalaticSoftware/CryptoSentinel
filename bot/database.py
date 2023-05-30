@@ -27,6 +27,14 @@ class OneTimeToken(Base):
     access_duration = Column(String)  # Access duration (one_month, three_months, yearly, or lifetime)
 
 
+# Waiting List table class definition
+class WaitingList(Base):
+    __tablename__ = 'waiting_list'
+    id = Column(Integer, primary_key=True)
+    telegram_id = Column(Integer, unique=True, nullable=False)
+    username = Column(String)
+    join_timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+
 # Summary table class definition
 class SummaryData(Base):
     __tablename__ = 'summary_history'
