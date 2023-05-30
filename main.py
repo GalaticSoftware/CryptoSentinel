@@ -53,6 +53,7 @@ from bot.handlers.premium.wdom import WdomHandler
 from bot.handlers.premium.sentiment import SentimentHandler
 from bot.handlers.premium.positions import PositionsHandler
 from bot.handlers.premium.plot_chart import ChartHandler
+from bot.handlers.premium.stats import StatsHandler
 
 from users.management import check_expired_subscriptions
 
@@ -119,6 +120,7 @@ def main() -> None:
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
     dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
     dp.add_handler(CommandHandler("chart", ChartHandler.plot_chart, pass_args=True))
+    dp.add_handler(StatsHandler.command_handler())
 
     # Subscribe Handlers
     subscribe_handler = SubscribeHandler.subscribe_handler
