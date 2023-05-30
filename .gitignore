@@ -11,6 +11,5 @@ venv/
 .idea/
 .vscode/
 
-# One Time Token Generator in bot/token_generator/one_time_token_generator.py
-one_time_token_generator.py
-
+# Ignore generate_token.py
+generate_token.py
