@@ -15,6 +15,7 @@ from config.settings import TELEGRAM_API_TOKEN
 
 import os
 import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import logging
@@ -32,8 +33,10 @@ from bot.handlers.subscribe import SubscribeHandler
 from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
 from bot.handlers.free.join_waitlist import JoinWaitlistHandler
+from bot.handlers.free.contact import ContactHandler
 
-from bot.scripts.alerts import PriceAlerts # PatternAlerts
+from bot.scripts.alerts import PriceAlerts  # PatternAlerts
+
 # from CryptoSentinel.bot.scripts.fetcher import fetch_pattern_data
 
 # Free handlers
@@ -62,7 +65,10 @@ def check_and_revoke_expired_subscriptions(context: CallbackContext):
         revoked_users = []
 
     for user_id in revoked_users:
-        context.bot.send_message(user_id, "Your subscription has expired. Please subscribe again to regain access.")
+        context.bot.send_message(
+            user_id,
+            "Your subscription has expired. Please subscribe again to regain access.",
+        )
         logger.info(f"Revoked access for user {user_id}")
 
 
@@ -86,22 +92,26 @@ def main() -> None:
     # # Run Pattern Alerts every 4 hours
     # jq.run_repeating(PatternAlerts.check_pattern_alerts, interval=60, first=0)
 
-
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start))
     dp.add_handler(CommandHandler("help", HelpHandler.help))
     dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
-    dp.add_handler(CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True))
+    dp.add_handler(
+        CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)
+    )
     dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token))
     dp.add_handler(CommandHandler("gainers", GainersHandler.gainers))
     dp.add_handler(CommandHandler("losers", LosersHandler.losers))
     dp.add_handler(CommandHandler("news", NewsHandler.news_handler))
-    dp.add_handler(CommandHandler("set_alert",
-                                  PriceAlertHandler.request_price_alert,
-                                  pass_args=True) )
-    dp.add_handler(CommandHandler('list_alerts', PriceAlertHandler.list_alerts))
-    dp.add_handler(CommandHandler('remove_alert', PriceAlertHandler.remove_alert, pass_args=True))
-
+    dp.add_handler(
+        CommandHandler(
+            "set_alert", PriceAlertHandler.request_price_alert, pass_args=True
+        )
+    )
+    dp.add_handler(CommandHandler("list_alerts", PriceAlertHandler.list_alerts))
+    dp.add_handler(
+        CommandHandler("remove_alert", PriceAlertHandler.remove_alert, pass_args=True)
+    )
 
     # Add all the paid handlers to the dispatcher
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
@@ -116,21 +126,21 @@ def main() -> None:
 
     monthly_handler = CallbackQueryHandler(
         SubscribeHandler.send_invoice_monthly,
-        pattern="^subscribe_monthly_subscription$"
-        )
-    
+        pattern="^subscribe_monthly_subscription$",
+    )
+
     three_monthly_handler = CallbackQueryHandler(
         SubscribeHandler.send_invoice_3_monthly,
-        pattern="^subscribe_3_monthly_subscription$"
-        )
-    
+        pattern="^subscribe_3_monthly_subscription$",
+    )
+
     yearly_handler = CallbackQueryHandler(
-        SubscribeHandler.send_invoice_yearly,
-        pattern="^subscribe_yearly_subscription$"
-        )
+        SubscribeHandler.send_invoice_yearly, pattern="^subscribe_yearly_subscription$"
+    )
 
     # waitlist_handler = JoinWaitlistHandler.join_waitlist_handler
     dp.add_handler(CommandHandler("join_waitlist", JoinWaitlistHandler.join_waitlist))
+    dp.add_handler(ContactHandler.conversation_handler())
 
     dp.add_handler(subscribe_handler)
     dp.add_handler(payment_handler)
@@ -138,9 +148,9 @@ def main() -> None:
     dp.add_handler(three_monthly_handler)
     dp.add_handler(yearly_handler)
 
-
     updater.start_polling()
     updater.idle()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

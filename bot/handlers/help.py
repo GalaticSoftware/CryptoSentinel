@@ -3,6 +3,7 @@ from telegram.ext import CallbackContext
 
 from bot.utils import log_command_usage
 
+
 class HelpHandler:
     @staticmethod
     def help(update: Update, context: CallbackContext) -> None:
@@ -23,7 +24,7 @@ class HelpHandler:
             #   "info": "/info [symbol] - Obtain detailed information about a specific coin using its symbol. Example: /info BTCUSDT",
             "set_alert": "/set_alert <Symbol> <Price_level> - Set a price alert. You will be notified when the price of the specified symbol reaches the specified level. Example: /set_alert BTCUSDT 50000",
             "list_alerts": "/list_alerts - List all your active price alerts.",
-            "remove_alert": "/remove_alert <ID> - Remove a specific price alert by its ID. Example: /remove_alert 1"
+            "remove_alert": "/remove_alert <ID> - Remove a specific price alert by its ID. Example: /remove_alert 1",
         }
 
         if command and command in command_help_text:
@@ -33,7 +34,6 @@ class HelpHandler:
                 "🤖 Crypto Sentinel Bot 🤖\n\n"
                 "🔍 /help [command] - For command details\n"
                 "🚀 /start - To begin\n\n"
-                
                 "🆓 Free Commands:\n"
                 "💫 /cotd - Coin of the Day\n"
                 "🌐 /global_top [metric] - Top coins\n"
@@ -44,19 +44,18 @@ class HelpHandler:
                 "💹 /set_alert <Symbol> <Price_level> - Set a price alert\n"
                 "🔔 /list_alerts - List all your active price alerts\n"
                 "🚫 /remove_alert <ID> - Remove a specific price alert\n\n"
-
                 "🔐 Premium Commands:\n"
                 "📊 /sentiment - Coin sentiments\n"
                 "💹 /positions - Big Positions from Binance\n"
                 "🔍 /wdom - Bitcoin & Altcoin dominance\n"
                 # "🔎 /info [symbol] - Coin info. Ex: /info BTC\n"
                 "📉 /chart [symbol] [interval] - Coin chart. Ex: /chart BTCUSDT 1d.\n\n"
-                
                 "💎 How to get Premium access:\n"
                 "Type /start and then click on the 'Subscribe' button. Choose your preferred payment option to get access to premium features.\n\n"
-
                 "🆘 Support:\n"
-                "If you have any questions or need assistance, don't hesitate to reach out to us at [support email]."
+                "If you need help,  you can contact our support team by doing:\n"
+                "/contact \n"
+                "and then follow the instructions provided.\n\n"
             )
 
             update.message.reply_text(help_text)

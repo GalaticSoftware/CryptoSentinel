@@ -3,6 +3,7 @@ from telegram.ext import CallbackContext
 
 from users.management import get_or_create_user, update_user_access, check_user_access
 
+
 class StartHandler:
     OPEN_BETA_PHASE = True  # Set this to False when the open beta phase ends
 
@@ -40,7 +41,9 @@ class StartHandler:
                 "Unlock premium features and stay ahead of the market by subscribing now."
             )
 
-            subscribe_button = InlineKeyboardButton("Subscribe", callback_data="subscribe")
+            subscribe_button = InlineKeyboardButton(
+                "Subscribe", callback_data="subscribe"
+            )
             keyboard = InlineKeyboardMarkup.from_button(subscribe_button)
 
             update.message.reply_text(welcome_message, reply_markup=keyboard)
