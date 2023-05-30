@@ -47,7 +47,29 @@ class StatsHandler:
         logger.info("Patterns message sent")
 
     @staticmethod
-    def fetch_indicator_data(symbol: str, indicator: str):
+    def fetch_rsi_data(symbol: str, indicator: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/14"
+        headers = {
+            "X-RapidAPI-Key": X_RAPIDAPI_KEY,
+            "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        return data
+
+    @staticmethod
+    def fetch_obv_data(symbol: str, indicator: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/4"
+        headers = {
+            "X-RapidAPI-Key": X_RAPIDAPI_KEY,
+            "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        return data
+
+    @staticmethod
+    def fetch_mfi_data(symbol: str, indicator: str):
         url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/14"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
@@ -77,9 +99,8 @@ class StatsHandler:
         StatsHandler.send_patterns_message(update, patterns_message)
 
         # Fetch RSI data
-        rsi_data = StatsHandler.fetch_indicator_data(symbol, "rsi")
+        rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi")
 
-        # TODO: Check for MACD crossover, RSI overbought/oversold, RSI divergence, and OBV divergence
         # RSI overbought/oversold
         if "rsi" in rsi_data and rsi_data["rsi"]:
             latest_rsi = rsi_data["rsi"][-1]
@@ -97,6 +118,64 @@ class StatsHandler:
             )
 
         logger.info("RSI overbought/oversold checked")
+
+        # Fetch OBV data
+        obv_data = StatsHandler.fetch_obv_data(symbol, "obv")
+
+        if "obv" in obv_data and obv_data["obv"]:
+            latest_obv = obv_data["obv"][-1]
+            previous_obv = obv_data["obv"][-2]
+            if latest_obv > previous_obv:
+                obv_status = "OBV is rising"
+            elif latest_obv < previous_obv:
+                obv_status = "OBV is falling"
+            else:
+                obv_status = "OBV is flat"
+            update.message.reply_text(f"Latest OBV: {latest_obv}. {obv_status}")
+
+        # Fetch MFI data
+        mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi")
+
+        # The MFI can be interpreted much like the RSI. A value above 80 is generally considered overbought, which could indicate a price reversal to the downside is imminent. Conversely, a value below 20 is considered oversold, suggesting a price reversal to the upside may be coming.The Money Flow Index (MFI) is a technical analysis indicator that measures buying and selling
+        # pressure in the market. It is a momentum oscillator that uses both price and volume data to
+        # identify potential trend reversals.
+        # The mfi_data looks like this:
+        #         {
+        #   "timestamp": 1685482200000,
+        #   "symbol": "BTCUSDT",
+        #   "timeframe": "1m",
+        #   "mfi": [
+        #     46.63,
+        #     58,
+        #     58.92,
+        #     49.77,
+        #     45.95,
+        #     46.99,
+        #     54.87,
+        #     52.65,
+        #     42.38,
+        #     44.15,
+        #     36.82,
+        #     41.13,
+        #     42.36,
+        #     46.9,
+        #     43.62,
+        #     37.61,
+        #     37.22,
+        #     36.3,
+        #     30.38
+        #   ]
+        # }
+
+        if "mfi" in mfi_data and mfi_data["mfi"]:
+            latest_mfi = mfi_data["mfi"][-1]
+            if latest_mfi > 80:
+                mfi_status = "MFI overbought"
+            elif latest_mfi < 20:
+                mfi_status = "MFI oversold"
+            else:
+                mfi_status = "MFI is in normal range"
+            update.message.reply_text(f"Latest MFI: {latest_mfi}. {mfi_status}")
 
         # Plot chart
         chart_file = PlotChart.plot_ohlcv_chart(symbol, "4h")
