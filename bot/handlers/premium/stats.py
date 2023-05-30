@@ -20,8 +20,8 @@ cache = TTLCache(maxsize=100, ttl=14400)
 class StatsHandler:
     @staticmethod
     @cached(cache)
-    def fetch_data(symbol: str, endpoint: str):
-        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{endpoint}/{symbol}/4h"
+    def fetch_data(symbol: str, endpoint: str, timeframe: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{endpoint}/{symbol}/{timeframe}"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
             "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
@@ -47,8 +47,8 @@ class StatsHandler:
         logger.info("Patterns message sent")
 
     @staticmethod
-    def fetch_rsi_data(symbol: str, indicator: str):
-        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/14"
+    def fetch_rsi_data(symbol: str, indicator: str, timeframe: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/{timeframe}/14"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
             "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
@@ -58,8 +58,8 @@ class StatsHandler:
         return data
 
     @staticmethod
-    def fetch_obv_data(symbol: str, indicator: str):
-        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/4"
+    def fetch_obv_data(symbol: str, indicator: str, timeframe: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/{timeframe}/4"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
             "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
@@ -69,8 +69,8 @@ class StatsHandler:
         return data
 
     @staticmethod
-    def fetch_mfi_data(symbol: str, indicator: str):
-        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/4h/14"
+    def fetch_mfi_data(symbol: str, indicator: str, timeframe: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/{timeframe}/14"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
             "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
@@ -82,16 +82,21 @@ class StatsHandler:
     @staticmethod
     @restricted
     @log_command_usage("stats")
-    @command_usage_example("/stats BTCUSDT")
+    @command_usage_example("/stats BTCUSDT 1d")
     def stats(update: Update, context: CallbackContext):
         logger.info("Stats command received")
-        symbol = context.args[0] if context.args else "BTCUSDT"
+        if len(context.args) < 2:
+            update.message.reply_text("Please provide both symbol and timeframe.")
+            return
+
+        symbol = context.args[0]
+        timeframe = context.args[1]
 
         # Send a loading message
         message = update.message.reply_text("Fetching data...")
 
         # Fetch pattern data
-        pattern_data = StatsHandler.fetch_data(symbol, "patterns")
+        pattern_data = StatsHandler.fetch_data(symbol, "patterns", timeframe)
         patterns = StatsHandler.filter_patterns(pattern_data)
         patterns_message = StatsHandler.generate_patterns_message(symbol, patterns)
 
@@ -99,7 +104,7 @@ class StatsHandler:
         StatsHandler.send_patterns_message(update, patterns_message)
 
         # Fetch RSI data
-        rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi")
+        rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi", timeframe)
 
         # RSI overbought/oversold
         if "rsi" in rsi_data and rsi_data["rsi"]:
@@ -120,7 +125,7 @@ class StatsHandler:
         logger.info("RSI overbought/oversold checked")
 
         # Fetch OBV data
-        obv_data = StatsHandler.fetch_obv_data(symbol, "obv")
+        obv_data = StatsHandler.fetch_obv_data(symbol, "obv", timeframe)
 
         if "obv" in obv_data and obv_data["obv"]:
             latest_obv = obv_data["obv"][-1]
@@ -134,7 +139,7 @@ class StatsHandler:
             update.message.reply_text(f"Latest OBV: {latest_obv}. {obv_status}")
 
         # Fetch MFI data
-        mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi")
+        mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi", timeframe)
 
         if "mfi" in mfi_data and mfi_data["mfi"]:
             latest_mfi = mfi_data["mfi"][-1]
@@ -147,7 +152,7 @@ class StatsHandler:
             update.message.reply_text(f"Latest MFI: {latest_mfi}. {mfi_status}")
 
         # Plot chart
-        chart_file = PlotChart.plot_ohlcv_chart(symbol, "4h")
+        chart_file = PlotChart.plot_ohlcv_chart(symbol, timeframe)
 
         # Update the loading message to indicate that the chart has been generated
         message.edit_text("Chart generated. Sending chart...")
