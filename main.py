@@ -32,7 +32,7 @@ from bot.handlers.subscribe import SubscribeHandler
 from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
 
-from CryptoSentinel.bot.scripts.alerts import PriceAlerts # PatternAlerts
+from bot.scripts.alerts import PriceAlerts # PatternAlerts
 # from CryptoSentinel.bot.scripts.fetcher import fetch_pattern_data
 
 # Free handlers
