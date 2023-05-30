@@ -1,18 +1,10 @@
 import logging
 import requests
-import ccxt
-import datetime
-import plotly.graph_objects as go
-import numpy as np
-import pandas as pd
-import ta
 import os
-from datetime import datetime, timedelta
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 from bot.utils import log_command_usage, restricted, command_usage_example
-from config.settings import LUNARCRUSH_API_KEY
-from bot.utils import restricted
+from config.settings import X_RAPIDAPI_KEY
 from bot.utils import PlotChart
 from bot.handlers.premium.stats import StatsHandler
 
@@ -28,15 +20,20 @@ class SignalHandler:
     @command_usage_example("/signal BTCUSDT")
     def signal_handler(update: Update, context: CallbackContext):
         logger.info("General Signal command received")
-        symbol = context.args[0] if context.args else "BTCUSDT"
+        if len(context.args) < 2:
+            update.message.reply_text("Please provide both symbol and timeframe.")
+            return
+
+        symbol = context.args[0]
+        timeframe = context.args[1]
 
         # Send a loading message
         message = update.message.reply_text("Fetching data...")
 
         # Fetch RSI, OBV, and MFI data
-        rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi")
-        obv_data = StatsHandler.fetch_obv_data(symbol, "obv")
-        mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi")
+        rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi", timeframe)
+        obv_data = StatsHandler.fetch_obv_data(symbol, "obv", timeframe)
+        mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi", timeframe)
 
         # Calculate composite score
         composite_score = 0
@@ -75,8 +72,7 @@ class SignalHandler:
                 mfi_status = "oversold"
                 composite_score += 1
 
-                # Generate general signal based on composite score
-
+        # Generate general signal based on composite score
         if composite_score > 0:
             general_signal = "Bullish"
         elif composite_score < 0:
@@ -117,7 +113,7 @@ class SignalHandler:
         message.edit_text("Fetching chart data...")
 
         # Plot chart
-        chart_file = PlotChart.plot_ohlcv_chart(symbol, "4h")
+        chart_file = PlotChart.plot_ohlcv_chart(symbol, timeframe)
 
         # Update the loading message to indicate that the chart has been generated
         message.edit_text("Chart generated. Sending chart...")

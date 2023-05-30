@@ -20,8 +20,8 @@ class HelpHandler:
             "losers": "/losers - View the bottom 10 coins by 24h price change.",
             "sentiment": "/sentiment - View top coins by 24h volume along with their bullish and bearish sentiment percentages.",
             "positions": "/positions - Compare the largest positions on Binance Copy Trading to smaller ones.",
-            "stats": "/stats [symbol]. view the latest stats for a specific coin. Example: /stats BTCUSDT",
-            "signal": "/signal [symbol] - View the latest Sentinel signal for a specific coin. Example: /signal BTCUSDT",
+            "stats": "/stats [symbol] [timeframe]. view the latest stats for a specific coin. Example: /stats BTCUSDT 1d",
+            "signal": "/signal [symbol] [timeframe] - View the latest Sentinel signal for a specific coin. Example: /signal BTCUSDT 1d",
             # "wdom": "/wdom - Track the weekly dominance change for Bitcoin and Altcoins.",
             #   "info": "/info [symbol] - Obtain detailed information about a specific coin using its symbol. Example: /info BTCUSDT",
             "set_alert": "/set_alert <Symbol> <Price_level> - Set a price alert. You will be notified when the price of the specified symbol reaches the specified level. Example: /set_alert BTCUSDT 50000",
@@ -49,8 +49,8 @@ class HelpHandler:
                 "🔐 Premium Commands:\n"
                 "📊 /sentiment - Coin sentiments\n"
                 "💹 /positions - Big Positions from Binance\n"
-                "📊 /stats [symbol] - Coin stats\n"
-                "📈 /signal [symbol] - Sentinel signals\n"
+                "📊 /stats [symbol] [timeframe] - Coin stats\n"
+                "📈 /signal [symbol] [timeframe] - Sentinel signals\n"
                 # "🔍 /wdom - Bitcoin & Altcoin dominance\n"
                 # "🔎 /info [symbol] - Coin info. Ex: /info BTC\n"
                 "📉 /chart [symbol] [interval] - Coin chart. Ex: /chart BTCUSDT 1d.\n\n"
