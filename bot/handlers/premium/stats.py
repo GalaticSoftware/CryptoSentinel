@@ -136,37 +136,6 @@ class StatsHandler:
         # Fetch MFI data
         mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi")
 
-        # The MFI can be interpreted much like the RSI. A value above 80 is generally considered overbought, which could indicate a price reversal to the downside is imminent. Conversely, a value below 20 is considered oversold, suggesting a price reversal to the upside may be coming.The Money Flow Index (MFI) is a technical analysis indicator that measures buying and selling
-        # pressure in the market. It is a momentum oscillator that uses both price and volume data to
-        # identify potential trend reversals.
-        # The mfi_data looks like this:
-        #         {
-        #   "timestamp": 1685482200000,
-        #   "symbol": "BTCUSDT",
-        #   "timeframe": "1m",
-        #   "mfi": [
-        #     46.63,
-        #     58,
-        #     58.92,
-        #     49.77,
-        #     45.95,
-        #     46.99,
-        #     54.87,
-        #     52.65,
-        #     42.38,
-        #     44.15,
-        #     36.82,
-        #     41.13,
-        #     42.36,
-        #     46.9,
-        #     43.62,
-        #     37.61,
-        #     37.22,
-        #     36.3,
-        #     30.38
-        #   ]
-        # }
-
         if "mfi" in mfi_data and mfi_data["mfi"]:
             latest_mfi = mfi_data["mfi"][-1]
             if latest_mfi > 80:
