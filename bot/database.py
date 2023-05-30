@@ -55,6 +55,14 @@ class PriceAlertRequest(Base):
     symbol = Column(String, nullable=False, index=True)
     price_level = Column(Numeric(20, 2), nullable=False)
 
+# Define database models
+class PatternData(Base):
+    __tablename__ = "pattern_data"
+    id = Column(String, primary_key=True)
+    timestamp = Column(DateTime, nullable=False)
+    symbol = Column(String, nullable=False)
+    timeframe = Column(String, nullable=False)
+    pattern = Column(String, nullable=False)
 
 # Create a connection to the database and bind the engine
 engine = create_engine(MY_POSTGRESQL_URL)

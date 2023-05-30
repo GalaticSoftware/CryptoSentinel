@@ -21,7 +21,7 @@ class ChartHandler:
     @staticmethod
     @restricted
     @log_command_usage("chart")
-    @command_usage_example('/chart BTC 4h - Defaults to 4hr chart if time frame is not provided')
+    @command_usage_example('/chart BTCUSDT 4h - Defaults to 4hr chart if time frame is not provided')
     def plot_chart(update: Update, context: CallbackContext):
         # Get the user's input
         symbol = context.args[0]  # symbol is passed as a command argument
