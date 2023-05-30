@@ -32,7 +32,8 @@ from bot.handlers.subscribe import SubscribeHandler
 from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
 
-from bot.scripts.price_alerts import PriceAlerts
+from CryptoSentinel.bot.scripts.alerts import PriceAlerts, PatternAlerts
+from CryptoSentinel.bot.scripts.fetcher import fetch_pattern_data
 
 # Free handlers
 from bot.handlers.free.cotd import CotdHandler
@@ -48,7 +49,6 @@ from bot.handlers.premium.wdom import WdomHandler
 from bot.handlers.premium.sentiment import SentimentHandler
 from bot.handlers.premium.positions import PositionsHandler
 from bot.handlers.premium.plot_chart import ChartHandler
-from bot.handlers.premium.info import InfoHandler
 
 from users.management import check_expired_subscriptions
 
@@ -80,6 +80,10 @@ def main() -> None:
     jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=0)
     # Schedule the job to check for price alerts every 30 seconds
     jq.run_repeating(PriceAlerts.check_price_alerts, interval=30, first=0)
+    # # Run Fetcher every 4 hours
+    # jq.run_repeating(fetch_pattern_data, interval=60, first=0)
+    # # Run Pattern Alerts every 4 hours
+    # jq.run_repeating(PatternAlerts.check_pattern_alerts, interval=60, first=0)
 
 
     # Add all the free handlers to the dispatcher
@@ -104,7 +108,6 @@ def main() -> None:
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
     dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
     dp.add_handler(CommandHandler("chart", ChartHandler.plot_chart, pass_args=True))
-    dp.add_handler(CommandHandler("info", InfoHandler.get_coin_info_command, pass_args=True))
 
     # Subscribe Handlers
     subscribe_handler = SubscribeHandler.subscribe_handler

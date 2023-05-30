@@ -88,7 +88,7 @@ class PlotChart:
         # Fetch OHLCV data from the first exchange that supports the market
         for exchange in exchanges:
             try:
-                ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', time_frame)
+                ohlcv = exchange.fetch_ohlcv(symbol.upper(), time_frame)
                 break
             except ccxt.BaseError:
                 continue

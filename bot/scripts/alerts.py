@@ -2,9 +2,10 @@ import ccxt
 from decimal import Decimal
 
 from telegram.ext import CallbackContext
+from telegram.error import BadRequest
 
 # setup database
-from bot.database import PriceAlertRequest, Session
+from bot.database import PriceAlertRequest, Session, PatternData, User
 
 # setup logging
 import logging
@@ -35,3 +36,27 @@ class PriceAlerts:
         for alert in to_delete:
             session.delete(alert)
         session.commit()
+
+
+class PatternAlerts:
+    def check_pattern_alerts(context: CallbackContext):
+        session = Session()
+        pattern_data_records = session.query(PatternData).all()
+        users = session.query(User).filter_by(has_access=True).all()
+
+        for user in users:
+            alerts = []
+            for pattern_data in pattern_data_records:
+                alert = f"🔔 Pattern Alert! 🔔\n\n{pattern_data.pattern} has been detected on {pattern_data.symbol} / {pattern_data.timeframe} time frame."
+                alerts.append(alert)
+
+            if alerts:
+                try:
+                    context.bot.send_message(
+                        chat_id=user.telegram_id,
+                        text='\n'.join(alerts)
+                    )
+                except BadRequest as e:
+                    logger.error(f"Failed to send message to user {user.telegram_id}: {e.message}")
+
+
