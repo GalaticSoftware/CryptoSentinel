@@ -164,7 +164,8 @@ class CotdHandler:
             except Exception as e:
                 logger.exception("Error while plotting the OHLCV chart")
                 update.message.reply_text(
-                    f"Coin of the Day: {coin_name} ({coin_symbol}). Error while plotting the OHLCV chart."
+                    f"Coin of the Day: {coin_name} ({coin_symbol}).\n\n"
+                    "Can't generate the chart. Symbol not listed on available exchanges."
                 )
                 return
 

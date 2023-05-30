@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 from bot.utils import restricted, log_command_usage, PlotChart, command_usage_example
 from config.settings import X_RAPIDAPI_KEY
+from cachetools import cached, TTLCache
 
 # Configure logging
 logging.basicConfig(
@@ -12,9 +13,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Initialize cache with a TTL of 4 hours
+cache = TTLCache(maxsize=100, ttl=14400)
+
 
 class StatsHandler:
     @staticmethod
+    @cached(cache)
     def fetch_data(symbol: str, endpoint: str):
         url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{endpoint}/{symbol}/4h"
         headers = {
