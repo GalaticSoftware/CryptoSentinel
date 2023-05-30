@@ -54,6 +54,7 @@ from bot.handlers.premium.sentiment import SentimentHandler
 from bot.handlers.premium.positions import PositionsHandler
 from bot.handlers.premium.plot_chart import ChartHandler
 from bot.handlers.premium.stats import StatsHandler
+from bot.handlers.premium.signal import SignalHandler
 
 from users.management import check_expired_subscriptions
 
@@ -116,11 +117,12 @@ def main() -> None:
 
     # Add all the paid handlers to the dispatcher
     dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
-    dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
+    # dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
     dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
     dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
     dp.add_handler(CommandHandler("chart", ChartHandler.plot_chart, pass_args=True))
     dp.add_handler(StatsHandler.command_handler())
+    dp.add_handler(SignalHandler.command_handler())
 
     # Subscribe Handlers
     subscribe_handler = SubscribeHandler.subscribe_handler
