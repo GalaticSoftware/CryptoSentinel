@@ -35,7 +35,10 @@ class SentimentHandler:
             top_coins = data["top"]
 
             # Format the response message
-            response_message = "Bullish vs. Bearish engagement on socials:\n"
+            response_message = (
+                "📊 Bullish vs. Bearish Engagement:\n\n"
+                "We compare the sentiment on Reddit, Twitter, and YouTube, with the coin's total social volume.\n\n"
+            )
             for coin in top_coins:
                 volume = (
                     f"Volume: ${coin['volume_24h']:.4f}\n"
