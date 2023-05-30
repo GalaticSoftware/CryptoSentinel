@@ -23,6 +23,8 @@ class StartHandler:
             welcome_message = (
                 "🚀 Welcome to Crypto Sentinel Bot! 🚀\n\n"
                 "We're currently in our Open Beta phase. You can use all of our free features. "
+                "Join the waiting list for our premium tier to get a free one-month trial once it becomes available.\n"
+                "You can join the waiting list by typing /join_waitlist.\n\n"
                 "Premium features will be coming soon. Join our Community Channel (https://t.me/+vDUy90wEaoVkMWUy) to stay updated and not miss out!\n\n"
                 "Type /help to explore the list of commands."
             )

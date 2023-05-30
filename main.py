@@ -31,6 +31,7 @@ from bot.handlers.start import StartHandler
 from bot.handlers.subscribe import SubscribeHandler
 from bot.handlers.help import HelpHandler
 from bot.handlers.free.use_token import UseTokenHandler
+from bot.handlers.free.join_waitlist import JoinWaitlistHandler
 
 from bot.scripts.alerts import PriceAlerts # PatternAlerts
 # from CryptoSentinel.bot.scripts.fetcher import fetch_pattern_data
@@ -128,6 +129,8 @@ def main() -> None:
         pattern="^subscribe_yearly_subscription$"
         )
 
+    # waitlist_handler = JoinWaitlistHandler.join_waitlist_handler
+    dp.add_handler(CommandHandler("join_waitlist", JoinWaitlistHandler.join_waitlist))
 
     dp.add_handler(subscribe_handler)
     dp.add_handler(payment_handler)
