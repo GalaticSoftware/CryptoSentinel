@@ -92,8 +92,10 @@ class StatsHandler:
         symbol = context.args[0]
         timeframe = context.args[1]
 
-        # Send a loading message
-        message = update.message.reply_text("Fetching data...")
+        # Send a Loading message and tag it so we can delete it later
+        loading_message = update.message.reply_text(
+            "Loading Data... Please wait.", quote=True
+        )
 
         # Fetch pattern data
         pattern_data = StatsHandler.fetch_data(symbol, "patterns", timeframe)
@@ -151,11 +153,13 @@ class StatsHandler:
                 mfi_status = "MFI is in normal range"
             update.message.reply_text(f"Latest MFI: {latest_mfi}. {mfi_status}")
 
+        # Update the loading message to indicate that the chart is being generated
+        loading_message.edit_text("Generating chart...")
         # Plot chart
         chart_file = PlotChart.plot_ohlcv_chart(symbol, timeframe)
 
         # Update the loading message to indicate that the chart has been generated
-        message.edit_text("Chart generated. Sending chart...")
+        loading_message.edit_text("Sending chart...")
 
         # Send chart to user and then delete it
         if chart_file:
@@ -163,8 +167,8 @@ class StatsHandler:
                 context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
             os.remove(chart_file)
 
-        # Update the loading message to indicate that the chart has been sent and the command has completed
-        message.edit_text("Chart sent. Command completed.")
+        # Delete the loading message
+        loading_message.delete()
         logger.info("Stats command completed")
 
     @staticmethod

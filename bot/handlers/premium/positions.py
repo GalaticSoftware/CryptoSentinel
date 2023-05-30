@@ -12,7 +12,7 @@ import functools
 import time
 from datetime import datetime
 
-from telegram import Update
+from telegram import Update, ParseMode
 from telegram.ext import CallbackContext
 from telegram import ParseMode
 
@@ -74,6 +74,7 @@ class PositionsHandler:
     @restricted
     @log_command_usage("positions")
     def trader_positions(update: Update, context: CallbackContext):
+        # Get the user id
         uid_list = [
             "3AFFCB67ED4F1D1D8437BA17F4E8E5ED",
             "F5335CE565C1C0712A254FB595193E84",
@@ -109,6 +110,11 @@ class PositionsHandler:
             "FB7B3C9E5AE654B39231923DDB4D5260",
             "49A7275656A7ABF56830126ACC619FEB",
         ]
+
+        # Send a Loading message and tag it so we can delete it later
+        loading_message = update.message.reply_text(
+            "Fetching Positions Data From Binance... Please wait.", quote=True
+        )
 
         total_short_below_threshold = 0
         total_long_below_threshold = 0
@@ -334,6 +340,11 @@ class PositionsHandler:
         summary += f" Total Shorts: {total_short_percent:.2f}%\n"
 
         update.message.reply_text(summary, parse_mode=ParseMode.HTML)
+
+        # Delete the loading message from the chat
+        context.bot.delete_message(
+            chat_id=update.message.chat_id, message_id=loading_message.message_id
+        )
 
         if not is_cached:
             # Create a new session

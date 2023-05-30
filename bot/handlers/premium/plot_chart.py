@@ -32,6 +32,11 @@ class ChartHandler:
             context.args[1] if len(context.args) > 1 else "4h"
         )  # Set default to 4h if not provided
 
+        # Send a Loading message and tag it so we can delete it later
+        loading_message = update.message.reply_text(
+            "Generating chart... Please wait.", quote=True
+        )
+
         try:
             chart_file = PlotChart.plot_ohlcv_chart(symbol, time_frame)
         except Exception as e:
@@ -54,3 +59,5 @@ class ChartHandler:
 
         # Delete the image file after sending it
         os.remove(chart_file)
+        # Delete the Loading message
+        loading_message.delete()
