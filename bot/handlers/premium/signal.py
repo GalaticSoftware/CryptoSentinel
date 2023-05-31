@@ -32,10 +32,11 @@ class SignalHandler:
             "Loading Data... Please wait.", quote=True
         )
 
-        # Fetch RSI, OBV, and MFI data
+        # Fetch indicator data
         rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi", timeframe)
         obv_data = StatsHandler.fetch_obv_data(symbol, "obv", timeframe)
         mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi", timeframe)
+        macd_data = StatsHandler.fetch_macd_data(symbol, "macd", timeframe)
 
         # Calculate composite score
         composite_score = 0
@@ -74,6 +75,38 @@ class SignalHandler:
                 mfi_status = "oversold"
                 composite_score += 1
 
+        # define 2 dictionaries to store the last 2 periods of MACD data
+        latest_macd = {}
+        previous_macd = {}
+
+        # filter and store the last 2 periods of MACD data
+        if "macd" in macd_data and macd_data["macd"]:
+            latest_macd = macd_data["macd"][-1]
+            previous_macd = macd_data["macd"][-2]
+
+        # check if the histogram is rising or falling
+        if (
+            "histogram" in latest_macd
+            and "histogram" in previous_macd
+            and latest_macd["histogram"] > previous_macd["histogram"]
+        ):
+            macd_status = "MACD histogram is rising"
+        elif (
+            "histogram" in latest_macd
+            and "histogram" in previous_macd
+            and latest_macd["histogram"] < previous_macd["histogram"]
+        ):
+            macd_status = "MACD histogram is falling"
+        else:
+            macd_status = "MACD histogram is flat"
+
+        # if the macd_stats is rising, add 1 to the composite score
+        if macd_status == "MACD histogram is rising":
+            composite_score += 1
+        # if the macd_stats is falling, subtract 1 from the composite score
+        elif macd_status == "MACD histogram is falling":
+            composite_score -= 1
+
         # Generate general signal based on composite score
         if composite_score > 0:
             general_signal = "Bullish"
@@ -92,7 +125,8 @@ class SignalHandler:
         update.message.reply_text(
             f"RSI: {rsi_status} (Current RSI: {latest_rsi})\n"
             f"OBV: {obv_status} (Current OBV: {latest_obv})\n"
-            f"MFI: {mfi_status} (Current MFI: {latest_mfi})"
+            f"MFI: {mfi_status} (Current MFI: {latest_mfi})\n"
+            f"{macd_status} (Current MACD hist: {latest_macd['histogram']})"
         )
         # Explain the composite score
         update.message.reply_text(
