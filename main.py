@@ -10,8 +10,9 @@ from telegram.ext import (
 )
 
 from telegram.utils.request import Request
-from config.settings import TELEGRAM_API_TOKEN
+from config.settings import TELEGRAM_API_TOKEN, X_RAPIDAPI_KEY
 
+import threading
 import os
 import sys
 
@@ -56,6 +57,12 @@ from bot.handlers.premium.signal import SignalHandler
 
 from users.management import check_expired_subscriptions
 from bot.alerts.position_alerts import run_position_alerts
+from data_analyzer_module.positions.fetcher import UIDFetcher
+from data_analyzer_module.positions.scanner import (
+    PositionsScanner,
+    define_fetched_position,
+    setup_database,
+)
 from data_analyzer_module.market.fetcher import OHLCVFetcher
 from data_analyzer_module.market.alerts import IndicatorAlerts
 
@@ -73,6 +80,14 @@ def check_and_revoke_expired_subscriptions(context: CallbackContext):
             "Your subscription has expired. Please subscribe again to regain access.",
         )
         logger.info(f"Revoked access for user {user_id}")
+
+
+# API setup
+API_URL = "https://binance-futures-leaderboard1.p.rapidapi.com/v2/getTraderPositions"
+HEADERS = {
+    "X-RapidAPI-Key": X_RAPIDAPI_KEY,
+    "X-RapidAPI-Host": "binance-futures-leaderboard1.p.rapidapi.com",
+}
 
 
 # Main function
@@ -94,6 +109,20 @@ def main() -> None:
     # jq.run_repeating(fetch_pattern_data, interval=60, first=0)
     # # Run Pattern Alerts every 4 hours
     # jq.run_repeating(PatternAlerts.check_pattern_alerts, interval=60, first=0)
+
+    # Run Positions Fetcher every 2 hours and the first time after 0 seconds
+    fetcher = UIDFetcher(API_URL, HEADERS)
+    jq.run_repeating(fetcher.run, interval=7200, first=0)
+
+    # Create an instance of PositionsScanner
+    logger = logging.getLogger(__name__)
+    Session, Base = setup_database()
+    FetchedPosition = define_fetched_position(Base)
+    scanner = PositionsScanner(logger, Session, FetchedPosition)
+
+    # Start a new thread to run the PositionsScanner
+    scanner_thread = threading.Thread(target=scanner.run)
+    scanner_thread.start()
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start))

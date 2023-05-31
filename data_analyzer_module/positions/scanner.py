@@ -7,9 +7,6 @@
 # TODO: Add functionality to export the data collected to a CSV file for further analysis.
 
 
-
-
-
 import logging
 import time
 from datetime import datetime, timedelta
@@ -39,14 +36,16 @@ SHARK_SIZE_THRESHOLD = 100_000
 DOLPHIN_SIZE_THRESHOLD = 10_000
 FISH_SIZE_THRESHOLD = 1_000
 
+
 # Setup logging
 def setup_logging():
     """This function sets up logging to both a file and the console"""
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
     return logging.getLogger(__name__)
+
 
 # Database setup
 def setup_database():
@@ -56,11 +55,13 @@ def setup_database():
     Base = declarative_base()
     return Session, Base
 
+
 # Fetched Position table class definition
 def define_fetched_position(Base):
     """This function defines the FetchedPosition class, which represents the fetched_positions table in the database"""
+
     class FetchedPosition(Base):
-        __tablename__ = 'fetched_positions'
+        __tablename__ = "fetched_positions"
         id = Column(Integer, primary_key=True, autoincrement=True)
         position_id = Column(String, unique=True)
         uid = Column(String, nullable=False)
@@ -77,7 +78,9 @@ def define_fetched_position(Base):
         leverage = Column(Integer, nullable=False)
         opened_at = Column(DateTime, default=datetime.utcnow)
         closed_at = Column(DateTime)
+
     return FetchedPosition
+
 
 # Main class definition
 class PositionsScanner:
@@ -89,16 +92,19 @@ class PositionsScanner:
 
     def fetch_recent_positions(self, session):
         """This function fetches recent positions from the database"""
-        tz = timezone('UTC')  # Set the appropriate timezone
+        tz = timezone("UTC")  # Set the appropriate timezone
         thirty_minutes_ago = datetime.now(tz) - timedelta(minutes=THIRTY_MINUTES)
-        positions = session.query(self.FetchedPosition).filter(
-            or_(
-                self.FetchedPosition.opened_at >= thirty_minutes_ago,
-                self.FetchedPosition.closed_at >= thirty_minutes_ago
+        positions = (
+            session.query(self.FetchedPosition)
+            .filter(
+                or_(
+                    self.FetchedPosition.opened_at >= thirty_minutes_ago,
+                    self.FetchedPosition.closed_at >= thirty_minutes_ago,
+                )
             )
-        ).all()
+            .all()
+        )
         return positions if positions else []
-
 
     def calculate_position_cost(self, positions):
         """This function calculates the cost of multiple positions by multiplying the amount and entry price
@@ -110,18 +116,23 @@ class PositionsScanner:
 
     def find_whale_positions(self, positions):
         """This function finds whale positions that were opened or closed in the last 30 minutes"""
-        tz = timezone('UTC')  # Set the appropriate timezone
+        tz = timezone("UTC")  # Set the appropriate timezone
         thirty_minutes_ago = datetime.now(tz) - timedelta(minutes=THIRTY_MINUTES)
         whale_positions = [
-            position for position in positions
+            position
+            for position in positions
             if self.calculate_position_cost([position]) > WHALE_SIZE_THRESHOLD
-            and (position.opened_at >= thirty_minutes_ago or position.closed_at >= thirty_minutes_ago)
+            and (
+                position.opened_at >= thirty_minutes_ago
+                or position.closed_at >= thirty_minutes_ago
+            )
         ]
         return whale_positions
 
     def find_similar_positions(self, positions):
-        """This function finds similar positions among traders. Similarity is determined based on the symbol, 
-        direction (long or short), and entry price. Similar positions are stored in a list of lists."""
+        """This function finds similar positions among traders. Similarity is determined based on the symbol,
+        direction (long or short), and entry price. Similar positions are stored in a list of lists.
+        """
         similar_positions = []
         for position in positions:
             if position in similar_positions:
@@ -133,12 +144,16 @@ class PositionsScanner:
                 if (
                     position.symbol == position2.symbol
                     and position.long == position2.long
-                    and decimal.Decimal(str(position.entry_price)) * decimal.Decimal('0.985')
+                    and decimal.Decimal(str(position.entry_price))
+                    * decimal.Decimal("0.985")
                     <= position2.entry_price
-                    <= decimal.Decimal(str(position.entry_price)) * decimal.Decimal('1.015')
-                    and abs(position.leverage - position2.leverage) <= LEVERAGE_THRESHOLD
+                    <= decimal.Decimal(str(position.entry_price))
+                    * decimal.Decimal("1.015")
+                    and abs(position.leverage - position2.leverage)
+                    <= LEVERAGE_THRESHOLD
                     and abs(position.amount - position2.amount) <= SIMILARITY_THRESHOLD
-                    and abs((position.opened_at - position2.opened_at).total_seconds()) <= THIRTY_MINUTES
+                    and abs((position.opened_at - position2.opened_at).total_seconds())
+                    <= THIRTY_MINUTES
                 ):
                     similar_positions[-1].append(position2)
         return similar_positions
@@ -153,15 +168,22 @@ class PositionsScanner:
             # Only consider Moderate and High concentration positions
             if similarity_percentage > 30:
                 # Find the position with the highest position cost
-                max_position_cost = max(position_list, key=lambda position: self.calculate_position_cost([position]))
+                max_position_cost = max(
+                    position_list,
+                    key=lambda position: self.calculate_position_cost([position]),
+                )
 
                 # Print only the symbol of the position with the highest position cost
                 print(f"Symbol: {max_position_cost.symbol}")
 
                 if similarity_percentage > 70:
                     print("High concentration of similar positions")
-                    print("This could indicate significant trading interest and liquidity in the symbol.")
-                    print("Retail traders may be getting trapped and providing liquidity to market makers.")
+                    print(
+                        "This could indicate significant trading interest and liquidity in the symbol."
+                    )
+                    print(
+                        "Retail traders may be getting trapped and providing liquidity to market makers."
+                    )
                 else:
                     print("Moderate concentration of similar positions")
                     print("Traders are showing interest in the symbol.")
@@ -169,8 +191,6 @@ class PositionsScanner:
                 # Print additional information about the position with the highest position cost
                 self.print_position_info(max_position_cost)
                 print("")
-
-
 
     # TODO: Improve Risk Management Functionality
 
@@ -184,7 +204,7 @@ class PositionsScanner:
     # For each position above the threshold, calculate a directional risk value.
     # This could be based on the size of the position and the magnitude of the negative PNL.
     # The directional risk value could indicate the potential impact of a squeeze in the opposite direction.
-    
+
     # Break Even Price Analysis:
     # Then we get the entry prices for positions with negative PNL.
     # we do this separately for long and short positions.
@@ -192,18 +212,17 @@ class PositionsScanner:
     # so we will group similar entry prices for the same symbol and direction together.
     # and Turn them into support/resistance zones.
     # as traders might be more likely to cover their positions when the market price reaches these levels.
-    
+
     # Volatility Risk Analysis:
     # Based on the over exposure analysis and the directional risk values,
     # estimate the risk of increased volatility in each direction for each symbol we have data for.
     # If there is a large over exposure and high directional risk values in one direction on a symbol,
     # this could indicate a risk of increased volatility in the opposite direction.
-        
+
     # Risk Reporting:
     # Generate a risk report that includes the over exposure analysis,
     # directional risk values, break even price analysis, and volatility risk analysis.
     # The report could highlight the directions with the highest risk of a squeeze and increased volatility.
-
 
     def calculate_average(self, values):
         """Calculate the average of a list of values"""
@@ -213,7 +232,9 @@ class PositionsScanner:
 
     def risk_management(self, positions):
         """This function calculates the risk value of the open positions"""
-        open_positions = [position for position in positions if position.closed_at is None]
+        open_positions = [
+            position for position in positions if position.closed_at is None
+        ]
         if not open_positions:
             print("No open positions.")
             return
@@ -221,20 +242,39 @@ class PositionsScanner:
         long_positions = [position for position in open_positions if position.long]
         short_positions = [position for position in open_positions if not position.long]
 
-        total_long_position_cost = sum([self.calculate_position_cost([position]) for position in long_positions])
-        total_short_position_cost = sum([self.calculate_position_cost([position]) for position in short_positions])
+        total_long_position_cost = sum(
+            [self.calculate_position_cost([position]) for position in long_positions]
+        )
+        total_short_position_cost = sum(
+            [self.calculate_position_cost([position]) for position in short_positions]
+        )
 
-        average_open_pnl = self.calculate_average([position.pnl for position in open_positions])
-        average_open_roe = self.calculate_average([position.roe for position in open_positions])
-        average_leverage = self.calculate_average([position.leverage for position in open_positions])
-        average_position_cost = self.calculate_average([self.calculate_position_cost([position]) for position in open_positions])
-        total_position_cost = sum([self.calculate_position_cost([position]) for position in open_positions])
+        average_open_pnl = self.calculate_average(
+            [position.pnl for position in open_positions]
+        )
+        average_open_roe = self.calculate_average(
+            [position.roe for position in open_positions]
+        )
+        average_leverage = self.calculate_average(
+            [position.leverage for position in open_positions]
+        )
+        average_position_cost = self.calculate_average(
+            [self.calculate_position_cost([position]) for position in open_positions]
+        )
+        total_position_cost = sum(
+            [self.calculate_position_cost([position]) for position in open_positions]
+        )
         total_position_pnl = sum([position.pnl for position in open_positions])
 
-        biggest_open_position = max(open_positions, key=lambda position: self.calculate_position_cost([position]))
+        biggest_open_position = max(
+            open_positions,
+            key=lambda position: self.calculate_position_cost([position]),
+        )
 
         # Calculate risk value based on the exposure and average PNL
-        risk_value = Decimal(abs(total_long_position_cost - total_short_position_cost)) * (1 - Decimal(average_open_pnl))
+        risk_value = Decimal(
+            abs(total_long_position_cost - total_short_position_cost)
+        ) * (1 - Decimal(average_open_pnl))
 
         # Print risk management information
         # If there are more long positions than short positions, and the average open pnl of those long positions is negative, then there is a high risk for downside
@@ -261,11 +301,15 @@ class PositionsScanner:
         print(f"Risk Value: {risk_value:,.2f}")
         print(f"Biggest Open Position: {biggest_open_position.symbol}")
         print(f"Direction: {'Long' if biggest_open_position.long else 'Short'}")
-        print(f"Amount: {biggest_open_position.amount:.4f}/{biggest_open_position.symbol.replace('USDT', '')}")
+        print(
+            f"Amount: {biggest_open_position.amount:.4f}/{biggest_open_position.symbol.replace('USDT', '')}"
+        )
         print(f"Entry Price: {biggest_open_position.entry_price:,.2f}$")
         print(f"PNL: {biggest_open_position.pnl:.2f}$")
         print(f"ROE: {biggest_open_position.roe:.2f}%")
-        print(f"Position Cost: {self.calculate_position_cost([biggest_open_position]):,.2f}$")
+        print(
+            f"Position Cost: {self.calculate_position_cost([biggest_open_position]):,.2f}$"
+        )
         print(f"Average Open PNL: {average_open_pnl:.2f}$")
         print(f"Average Open ROE: {average_open_roe:.2f}%")
         print(f"Average Leverage: {average_leverage:.2f}x")
@@ -274,16 +318,6 @@ class PositionsScanner:
         # print total long and short position costs
         print(f"Total Long Position Cost: {total_long_position_cost:,.2f}$")
         print(f"Total Short Position Cost: {total_short_position_cost:,.2f}$")
-
-
-
-
-
-
-
-
-
-
 
     def print_whale_positions(self, whale_positions):
         """This function prints the whale positions"""
