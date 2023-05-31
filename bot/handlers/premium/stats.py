@@ -1,11 +1,20 @@
 import logging
 import requests
 import os
+import sys
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import matplotlib.ticker as mticker
+import numpy as np
+import pandas as pd
+import ta
+from datetime import datetime, timedelta
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 from bot.utils import restricted, log_command_usage, PlotChart, command_usage_example
 from config.settings import X_RAPIDAPI_KEY
 from cachetools import cached, TTLCache
+
 
 # Configure logging
 logging.basicConfig(
@@ -71,6 +80,17 @@ class StatsHandler:
     @staticmethod
     def fetch_mfi_data(symbol: str, indicator: str, timeframe: str):
         url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/{timeframe}/14"
+        headers = {
+            "X-RapidAPI-Key": X_RAPIDAPI_KEY,
+            "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        return data
+
+    @staticmethod
+    def fetch_macd_data(symbol: str, indicator: str, timeframe: str):
+        url = f"https://cryptocurrencies-technical-study.p.rapidapi.com/crypto/{indicator}/{symbol}/{timeframe}/5/8/3"
         headers = {
             "X-RapidAPI-Key": X_RAPIDAPI_KEY,
             "X-RapidAPI-Host": "cryptocurrencies-technical-study.p.rapidapi.com",
@@ -152,6 +172,37 @@ class StatsHandler:
             else:
                 mfi_status = "MFI is in normal range"
             update.message.reply_text(f"Latest MFI: {latest_mfi}. {mfi_status}")
+
+        # Fetch MACD data
+        macd_data = StatsHandler.fetch_macd_data(symbol, "macd", timeframe)
+
+        # define 2 dictionaries to store the last 2 periods of MACD data
+        latest_macd = {}
+        previous_macd = {}
+
+        # filter and store the last 2 periods of MACD data
+        if "macd" in macd_data and macd_data["macd"]:
+            latest_macd = macd_data["macd"][-1]
+            previous_macd = macd_data["macd"][-2]
+
+        # check if the histogram is rising or falling
+        if (
+            "histogram" in latest_macd
+            and "histogram" in previous_macd
+            and latest_macd["histogram"] > previous_macd["histogram"]
+        ):
+            macd_status = "MACD histogram is rising"
+        elif (
+            "histogram" in latest_macd
+            and "histogram" in previous_macd
+            and latest_macd["histogram"] < previous_macd["histogram"]
+        ):
+            macd_status = "MACD histogram is falling"
+        else:
+            macd_status = "MACD histogram is flat"
+
+        # send MACD status to user
+        update.message.reply_text(f"{macd_status}")
 
         # Update the loading message to indicate that the chart is being generated
         loading_message.edit_text("Generating chart...")
