@@ -8,6 +8,7 @@ import matplotlib.ticker as mticker
 import numpy as np
 import pandas as pd
 import ta
+import ccxt
 from datetime import datetime, timedelta
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
@@ -24,6 +25,22 @@ logger = logging.getLogger(__name__)
 
 # Initialize cache with a TTL of 4 hours
 cache = TTLCache(maxsize=100, ttl=14400)
+
+
+# Fetch ohlcv data using ccxt for the given symbol and timeframe. (cache the result for 4 hours for a given symbol and timeframe)
+class SymbolOHLCVFetcher:
+    @staticmethod
+    @cached(cache)
+    def fetch_ohlcv_data(symbol: str, timeframe: str):
+        exchange = ccxt.binance()
+        ohlcv = exchange.fetch_ohlcv(symbol, timeframe)
+        df = pd.DataFrame(
+            ohlcv,
+            columns=["timestamp", "open", "high", "low", "close", "volume"],
+        )
+        df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
+        df.set_index("timestamp", inplace=True)
+        return df
 
 
 class StatsHandler:
@@ -100,6 +117,64 @@ class StatsHandler:
         return data
 
     @staticmethod
+    def check_rsi_divergence(symbol: str, timeframe: str, ohlcv_data: pd.DataFrame):
+        # Fetch RSI data
+        rsi_data = StatsHandler.fetch_rsi_data(symbol, "rsi", timeframe)
+        rsi = rsi_data["rsi"]
+
+        # Fetch prices
+        prices = ohlcv_data["close"]
+
+        # Check for bullish divergence
+        if (
+            prices[-1] < prices[-2]
+            and rsi[-1] > rsi[-2]
+            and prices[-2] < prices[-3]
+            and rsi[-2] > rsi[-3]
+        ):
+            return "Bullish Divergence"
+
+        # Check for bearish divergence
+        elif (
+            prices[-1] > prices[-2]
+            and rsi[-1] < rsi[-2]
+            and prices[-2] > prices[-3]
+            and rsi[-2] < rsi[-3]
+        ):
+            return "Bearish Divergence"
+        else:
+            return "No Divergence"
+
+    @staticmethod
+    def check_obv_divergence(symbol: str, timeframe: str, ohlcv_data: pd.DataFrame):
+        # Fetch OBV data
+        obv_data = StatsHandler.fetch_obv_data(symbol, "obv", timeframe)
+        obv = obv_data["obv"]
+
+        # Fetch prices
+        prices = ohlcv_data["close"]
+
+        # Check for bullish divergence
+        if (
+            prices[-1] < prices[-2]
+            and obv[-1] > obv[-2]
+            and prices[-2] < prices[-3]
+            and obv[-2] > obv[-3]
+        ):
+            return "Bullish Divergence"
+
+        # Check for bearish divergence
+        elif (
+            prices[-1] > prices[-2]
+            and obv[-1] < obv[-2]
+            and prices[-2] > prices[-3]
+            and obv[-2] < obv[-3]
+        ):
+            return "Bearish Divergence"
+        else:
+            return "No Divergence"
+
+    @staticmethod
     @restricted
     @log_command_usage("stats")
     @command_usage_example("/stats BTCUSDT 1d")
@@ -114,8 +189,11 @@ class StatsHandler:
 
         # Send a Loading message and tag it so we can delete it later
         loading_message = update.message.reply_text(
-            "Loading Data... Please wait.", quote=True
+            "Fetching Data... Please wait.", quote=True
         )
+
+        # Fetch OHLCV data and save it for quick access
+        ohlcv_data = SymbolOHLCVFetcher.fetch_ohlcv_data(symbol, timeframe)
 
         # Fetch pattern data
         pattern_data = StatsHandler.fetch_data(symbol, "patterns", timeframe)
@@ -146,6 +224,12 @@ class StatsHandler:
 
         logger.info("RSI overbought/oversold checked")
 
+        # RSI divergence
+        rsi_divergence = StatsHandler.check_rsi_divergence(
+            symbol, timeframe, ohlcv_data
+        )
+        update.message.reply_text(f"RSI Divergence: {rsi_divergence}")
+
         # Fetch OBV data
         obv_data = StatsHandler.fetch_obv_data(symbol, "obv", timeframe)
 
@@ -159,6 +243,12 @@ class StatsHandler:
             else:
                 obv_status = "OBV is flat"
             update.message.reply_text(f"Latest OBV: {latest_obv}. {obv_status}")
+
+        # OBV divergence
+        obv_divergence = StatsHandler.check_obv_divergence(
+            symbol, timeframe, ohlcv_data
+        )
+        update.message.reply_text(f"OBV Divergence: {obv_divergence}")
 
         # Fetch MFI data
         mfi_data = StatsHandler.fetch_mfi_data(symbol, "mfi", timeframe)
