@@ -17,21 +17,33 @@ from bot.utils import PlotChart
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class ChartHandler:
     @staticmethod
     @restricted
     @log_command_usage("chart")
-    @command_usage_example('/chart BTC 4h - Defaults to 4hr chart if time frame is not provided')
+    @command_usage_example(
+        "/chart BTCUSDT 4h - Defaults to 4hr chart if time frame is not provided"
+    )
     def plot_chart(update: Update, context: CallbackContext):
         # Get the user's input
         symbol = context.args[0]  # symbol is passed as a command argument
-        time_frame = context.args[1] if len(context.args) > 1 else '4h'  # Set default to 4h if not provided
+        time_frame = (
+            context.args[1] if len(context.args) > 1 else "4h"
+        )  # Set default to 4h if not provided
+
+        # Send a Loading message and tag it so we can delete it later
+        loading_message = update.message.reply_text(
+            "Generating chart... Please wait.", quote=True
+        )
 
         try:
             chart_file = PlotChart.plot_ohlcv_chart(symbol, time_frame)
         except Exception as e:
             logger.exception("Error while plotting the OHLCV chart")
-            update.message.reply_text("Error while plotting the OHLCV chart. Please try again later.")
+            update.message.reply_text(
+                "Error while plotting the OHLCV chart. Please try again later."
+            )
             return
 
         # Send the chart
@@ -40,9 +52,12 @@ class ChartHandler:
                 context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
         except Exception as e:
             logger.exception("Error while sending the chart")
-            update.message.reply_text("Error while sending the chart. Please try again later.")
+            update.message.reply_text(
+                "Error while sending the chart. Please try again later."
+            )
             return
 
         # Delete the image file after sending it
         os.remove(chart_file)
-
+        # Delete the Loading message
+        loading_message.delete()

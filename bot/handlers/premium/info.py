@@ -66,10 +66,14 @@ class InfoHandler:
     @staticmethod
     @restricted
     @log_command_usage("info")
-    @command_usage_example("/info BTC 1d - Defaults to 4h if no time frame is provided")
+    @command_usage_example("/info BTCUSDT 1d - Defaults to 4h if no time frame is provided")
     def get_coin_info_command(update: Update, context: CallbackContext):
         # Get the user's input
-        symbol = context.args[0]  # Assuming the symbol is passed as a command argument
+        input_arg = context.args[0]  # Assuming the symbol is passed as a command argument
+
+        # Split the input_arg into cryptocurrency symbol and currency symbol
+        symbol = input_arg[:-4]  # Get the cryptocurrency symbol (e.g., "BTC" from "BTCUSDT")
+        currency = input_arg[-4:]  # Get the currency symbol (e.g., "USDT" from "BTCUSDT")
 
         # Set default time frame
         time_frame = '4h'
@@ -98,12 +102,11 @@ class InfoHandler:
             f"Coin Info:\n"
             f"🪙 Symbol: {symbol}\n"
             f"📛 Name: {name}\n"
-            f"💰 Price: {price}\n"
+            f"💰 Price: {price} {currency}\n"
             f"📈 {percent_change_24h}% (Change in 24 hours)\n"
             f"📊 {percent_change_7d}% (Change in 7 days)\n"
             f"📊 {percent_chagne_30d}% (Change in 30 days)"
         )
-
 
         # Plot chart with specified time frame
         chart_file = PlotChart.plot_ohlcv_chart(symbol, time_frame)

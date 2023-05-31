@@ -16,6 +16,7 @@ from config.settings import LUNARCRUSH_API_KEY
 import functools
 from bot.database import Session, CommandUsage
 
+
 def restricted(func):
     @wraps(func)
     def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
@@ -43,12 +44,20 @@ def log_command_usage(command_name):
 
             # Log command usage to the database
             session = Session()
-            command_usage = session.query(CommandUsage).filter_by(user_id=user_id, command_name=command_name).first()
+            command_usage = (
+                session.query(CommandUsage)
+                .filter_by(user_id=user_id, command_name=command_name)
+                .first()
+            )
 
             if command_usage:
-                command_usage.usage_count += 1  # Increment the counter if the command usage record exists
+                command_usage.usage_count += (
+                    1  # Increment the counter if the command usage record exists
+                )
             else:
-                command_usage = CommandUsage(user_id=user_id, command_name=command_name, usage_count=1)
+                command_usage = CommandUsage(
+                    user_id=user_id, command_name=command_name, usage_count=1
+                )
                 session.add(command_usage)
 
             session.commit()
@@ -57,11 +66,8 @@ def log_command_usage(command_name):
             return func(*args, **kwargs)
 
         return wrapper
+
     return decorator
-
-
-
-
 
 
 def command_usage_example(example_text: str):
@@ -71,7 +77,9 @@ def command_usage_example(example_text: str):
                 update.message.reply_text(f"Usage example: {example_text}")
                 return
             return function(update, context, *args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -88,7 +96,7 @@ class PlotChart:
         # Fetch OHLCV data from the first exchange that supports the market
         for exchange in exchanges:
             try:
-                ohlcv = exchange.fetch_ohlcv(symbol.upper() + '/USDT', time_frame)
+                ohlcv = exchange.fetch_ohlcv(symbol.upper(), time_frame)
                 break
             except ccxt.BaseError:
                 continue
@@ -97,59 +105,98 @@ class PlotChart:
 
         # Define the time horizon for each time frame
         time_horizon = {
-            '1m': timedelta(hours=12),
-            '5m': timedelta(days=1),
-            '15m': timedelta(days=3),
-            '1h': timedelta(days=7),
-            '4h': timedelta(weeks=2),
-            '1d': timedelta(weeks=12),
-            '1w': timedelta(weeks=80),
-            '1M': timedelta(weeks=324),
+            "1m": timedelta(hours=12),
+            "5m": timedelta(days=1),
+            "15m": timedelta(days=3),
+            "1h": timedelta(days=7),
+            "4h": timedelta(weeks=2),
+            "1d": timedelta(weeks=12),
+            "1w": timedelta(weeks=80),
+            "1M": timedelta(weeks=324),
         }
 
         # Filter data based on the selected time frame
         start_time = datetime.now() - time_horizon.get(time_frame, timedelta(weeks=4))
-        ohlcv = [entry for entry in ohlcv if datetime.fromtimestamp(entry[0] // 1000) >= start_time]
+        ohlcv = [
+            entry
+            for entry in ohlcv
+            if datetime.fromtimestamp(entry[0] // 1000) >= start_time
+        ]
 
         # Convert timestamp to datetime objects
         for entry in ohlcv:
             entry[0] = datetime.fromtimestamp(entry[0] // 1000)
 
         # Create a DataFrame and set 'Date' as the index
-        df = pd.DataFrame(ohlcv, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        df.set_index('Date', inplace=True)
+        df = pd.DataFrame(
+            ohlcv, columns=["Date", "Open", "High", "Low", "Close", "Volume"]
+        )
+        df.set_index("Date", inplace=True)
 
         # Add RSI
-        delta = df['Close'].diff()
+        delta = df["Close"].diff()
         gain, loss = delta.where(delta > 0, 0), delta.where(delta < 0, 0).abs()
         avg_gain = gain.rolling(window=14).mean()
         avg_loss = loss.rolling(window=14).mean()
         rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
-        df['RSI'] = rsi
+        df["RSI"] = rsi
 
         # Add moving averages
-        df['SMA21'] = ta.trend.sma_indicator(df['Close'], window=21)
-        df['SMA50'] = ta.trend.sma_indicator(df['Close'], window=50)
+        df["SMA21"] = ta.trend.sma_indicator(df["Close"], window=21)
+        df["SMA50"] = ta.trend.sma_indicator(df["Close"], window=50)
 
         # Create a Plotly figure
         fig = go.Figure()
 
         # Add OHLCV data
-        fig.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'], name='Price'))
+        fig.add_trace(
+            go.Candlestick(
+                x=df.index,
+                open=df["Open"],
+                high=df["High"],
+                low=df["Low"],
+                close=df["Close"],
+                name="Price",
+            )
+        )
 
         # Add moving averages
-        fig.add_trace(go.Scatter(x=df.index, y=df['SMA21'], mode='lines', name='SMA21', line=dict(color='orange', width=1)))
-        fig.add_trace(go.Scatter(x=df.index, y=df['SMA50'], mode='lines', name='SMA50', line=dict(color='blue', width=1)))
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df["SMA21"],
+                mode="lines",
+                name="SMA21",
+                line=dict(color="orange", width=1),
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df["SMA50"],
+                mode="lines",
+                name="SMA50",
+                line=dict(color="blue", width=1),
+            )
+        )
 
         # Customize the layout
         fig.update_layout(
-            title=f'{symbol} OHLCV Chart ({time_frame})',
-            xaxis=dict(type='date', tickformat="%H:%M %b-%d", tickmode='auto', nticks=10, rangeslider=dict(visible=False)),
-            yaxis=dict(title='Price (USDT)'),
-            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1),
-            template='plotly_dark',
-            margin=dict(b=40, t=40, r=40, l=40)
+            title=f"{symbol} OHLCV Chart ({time_frame})",
+            xaxis=dict(
+                type="date",
+                tickformat="%H:%M %b-%d",
+                tickmode="auto",
+                nticks=10,
+                rangeslider=dict(visible=False),
+            ),
+            yaxis=dict(title="Price (USDT)"),
+            legend=dict(
+                orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1
+            ),
+            template="plotly_dark",
+            margin=dict(b=40, t=40, r=40, l=40),
         )
 
         # Save the chart as a PNG image
@@ -157,8 +204,3 @@ class PlotChart:
         fig.write_image(chart_file, scale=1.5, width=1000, height=600)
 
         return chart_file
-
-
-
-
-
