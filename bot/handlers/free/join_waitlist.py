@@ -27,3 +27,15 @@ class JoinWaitlistHandler:
             )
 
         session.close()
+
+    def waitlist_status(update: Update, context: CallbackContext):
+        session = Session()
+
+        # Get the number of users in the waiting list
+        waiting_list_count = session.query(WaitingList).count()
+
+        update.message.reply_text(
+            f"There are currently {waiting_list_count} users in the waiting list for the premium tier."
+        )
+
+        session.close()

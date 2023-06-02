@@ -17,20 +17,23 @@ import functools
 from bot.database import Session, CommandUsage
 
 
-def restricted(func):
-    @wraps(func)
-    def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
-        user_id = update.effective_user.id
-        if user_id == 1:  # bypass restriction for test user
+# setup decorator to check for user access
+def requires_permission(permission):
+    def decorator(func):
+        @wraps(func)
+        def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
+            user_id = update.effective_user.id
+            if user_id == 1: # Bypass for test user
+                return func(update, context, *args, **kwargs)
+            user = check_user_access(user_id)
+            if not user_has_permission(user, permission):
+                update.message.reply_text(
+                    "You don't have permission to execute this command."
+                )
+                return
             return func(update, context, *args, **kwargs)
-        if not check_user_access(user_id):
-            update.message.reply_text(
-                "You don't have access to this feature. Please subscribe first by using /start."
-            )
-            return
-        return func(update, context, *args, **kwargs)
-
-    return wrapped
+        return wrapped
+    return decorator
 
 
 def log_command_usage(command_name):

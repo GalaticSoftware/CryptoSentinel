@@ -12,6 +12,7 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from bot.controllers.access_control import Role
 
 from config.settings import MY_POSTGRESQL_URL
 
@@ -25,7 +26,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)  # Primary key
     telegram_id = Column(Integer, unique=True)  # Unique Telegram ID
     username = Column(String)  # Telegram username
-    has_access = Column(Boolean, default=False)  # Access status (default: False)
+    role = Column(String, default=Role.FREE.value)  # User role
     subscription_end = Column(DateTime)  # Subscription end date
     subscription_type = Column(String)  # Subscription type
 

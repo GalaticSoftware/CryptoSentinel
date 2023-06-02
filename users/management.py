@@ -3,17 +3,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from config.settings import MY_POSTGRESQL_URL
+from bot.controllers.access_control import Role 
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, Numeric, ForeignKey, func
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+from bot.database import Session, CommandUsage, User, Role
 
 Base = declarative_base()
-
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    telegram_id = Column(Integer, unique=True)
-    username = Column(String)
-    has_access = Column(Boolean, default=False)
-    subscription_end = Column(DateTime)
-    subscription_type = Column(String)
 
 engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
@@ -39,20 +36,20 @@ def get_or_create_user(telegram_id, username):
     session.close()
     return user
 
-def check_user_access(telegram_id):
-    """
-    Checks if a user with the given telegram_id has access to the bot's features.
+# def check_user_access(telegram_id):
+#     """
+#     Checks if a user with the given telegram_id has access to the bot's features.
 
-    Args:
-        telegram_id (int): The telegram_id of the user to check.
+#     Args:
+#         telegram_id (int): The telegram_id of the user to check.
 
-    Returns:
-        bool: True if the user has access, False otherwise.
-    """
-    session = Session()
-    user = session.query(User).filter_by(telegram_id=telegram_id).first()
-    session.close()
-    return user and user.has_access
+#     Returns:
+#         bool: True if the user has access, False otherwise.
+#     """
+#     session = Session()
+#     user = session.query(User).filter_by(telegram_id=telegram_id).first()
+#     session.close()
+#     return user and user.has_access
 
 def check_expired_subscriptions():
     """
@@ -63,7 +60,7 @@ def check_expired_subscriptions():
     expired_users = session.query(User).filter(User.has_access == True, User.subscription_end <= current_time).all()
 
     for user in expired_users:
-        user.has_access = False
+        user.role = Role.FREE.value
         user.subscription_end = None
         session.commit()
     session.close()
