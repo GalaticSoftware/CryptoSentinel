@@ -8,6 +8,7 @@ import hashlib
 from config.settings import X_RAPIDAPI_KEY
 from config.settings import MY_POSTGRESQL_URL
 
+
 # Set up database
 engine = create_engine(MY_POSTGRESQL_URL)
 Session = sessionmaker(bind=engine)

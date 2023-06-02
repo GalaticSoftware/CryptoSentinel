@@ -1,4 +1,5 @@
 from telegram import Update, Bot
+    # Could not bind method gainers because Type[GainersHandler] is not assignable to "update"
 from telegram.ext import (
     CallbackContext,
     CommandHandler,
@@ -24,7 +25,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger(__name__)
-
 
 # Import all the command handlers
 # Start and help handlers
