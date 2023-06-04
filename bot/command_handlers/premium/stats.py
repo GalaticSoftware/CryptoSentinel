@@ -1,15 +1,8 @@
 import logging
 import requests
 import os
-import sys
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.ticker as mticker
-import numpy as np
-import pandas as pd
-import ta
 import ccxt
-from datetime import datetime, timedelta
+import pandas as pd
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 from bot.utils import restricted, log_command_usage, PlotChart, command_usage_example

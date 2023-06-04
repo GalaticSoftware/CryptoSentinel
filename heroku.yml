@@ -6,3 +6,4 @@ build:
     - numrut/ta-lib
 run:
   web: python main.py
+  bot: python worker.py

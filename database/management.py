@@ -54,6 +54,8 @@ def check_user_access(telegram_id):
     session.close()
     return user and user.has_access
 
+
+
 def check_expired_subscriptions():
     """
     Checks for expired subscriptions and revokes access for those users.
@@ -67,6 +69,10 @@ def check_expired_subscriptions():
         user.subscription_end = None
         session.commit()
     session.close()
+
+
+
+
 
 def update_user_access(telegram_id, has_access, subscription_end: datetime = None, subscription_type: str = None):
     """
