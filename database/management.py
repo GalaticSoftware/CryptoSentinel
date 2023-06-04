@@ -19,6 +19,14 @@ engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
+import logging
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+
+logger = logging.getLogger(__name__)
+
 def get_or_create_user(telegram_id, username):
     """
     Retrieves or creates a user with the given telegram_id and username.
@@ -56,10 +64,12 @@ def check_user_access(telegram_id):
 
 
 
-def check_expired_subscriptions():
+def check_expired_subscriptions(context):
     """
     Checks for expired subscriptions and revokes access for those users.
     """
+    logger.info("Checking for expired subscriptions...")
+
     session = Session()
     current_time = datetime.now()
     expired_users = session.query(User).filter(User.has_access == True, User.subscription_end <= current_time).all()
@@ -68,6 +78,7 @@ def check_expired_subscriptions():
         user.has_access = False
         user.subscription_end = None
         session.commit()
+        logger.info(f"Revoked access for user {user.username}.")
     session.close()
 
 

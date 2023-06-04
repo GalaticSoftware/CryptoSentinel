@@ -31,3 +31,5 @@ TELEGRAM_IDS = os.getenv("TELEGRAM_IDS")
 
 # Load CLOUDAMQP_URL
 CLOUDAMQP_URL = os.getenv("CLOUDAMQP_URL")
+
+

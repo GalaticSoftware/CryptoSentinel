@@ -17,6 +17,7 @@ class PriceAlerts:
     def check_price_alerts(context: CallbackContext):
         session = Session()
         price_alert_requests = session.query(PriceAlertRequest).all()
+        logger.info(f"Checking {len(price_alert_requests)} price alert requests...")
 
         to_delete = []
         for price_alert_request in price_alert_requests:
@@ -36,9 +37,16 @@ class PriceAlerts:
                 # Add the price alert request to the list of requests to be deleted
                 to_delete.append(price_alert_request)
 
+                logger.info(
+                    f"Price alert triggered for user {price_alert_request.user_id} on {price_alert_request.symbol}."
+                )
+
         # Delete all the price alert requests in the list
         for alert in to_delete:
             session.delete(alert)
+            logger.info(
+                f"Deleted price alert request for user {alert.user_id} on {alert.symbol}."
+            )
         session.commit()
 
 

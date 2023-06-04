@@ -1,7 +1,9 @@
 import pika
 import json
+from apscheduler.schedulers.background import BackgroundScheduler
 from telegram import Update
-from telegram.ext import Dispatcher, CommandHandler
+from telegram.ext import Dispatcher, CommandHandler, CallbackQueryHandler
+from bot.bot_instance import bot, updater
 from bot.bot_instance import bot
 from bot.rate_limiting import TokenBucket
 
@@ -27,8 +29,17 @@ from bot.command_handlers.premium.plot_chart import ChartHandler
 from bot.command_handlers.premium.stats import StatsHandler
 from bot.command_handlers.premium.signal import SignalHandler
 
-from bot.scripts.alerts import PriceAlerts, PatternAlerts
+from bot.scripts.alerts import PriceAlerts
 from database.management import check_expired_subscriptions
+
+# Import and setup logging
+import logging
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+
+logger = logging.getLogger(__name__)
 
 def main():
     url = CLOUDAMQP_URL
@@ -42,7 +53,7 @@ def main():
 
     dp = Dispatcher(bot, None, workers=1)
 
-    jq = dp.job_queue
+    jq = updater.job_queue
 
 
     # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
@@ -124,7 +135,7 @@ def main():
         if token_bucket.consume():
             # If a token is available, process the update and acknowledge the message
             try:
-                dispatcher.process_update(update)
+                dp.process_update(update)
                 ch.basic_ack(delivery_tag=method.delivery_tag)
             except Exception as e:
                 print(f"Error processing update: {e}")
@@ -137,5 +148,9 @@ def main():
     channel.start_consuming()
 
 if __name__ == "__main__":
+    logger.info("Starting bot")
+    scheduler = BackgroundScheduler()
+    scheduler.start()
     main()
+    scheduler.print_jobs()
 
