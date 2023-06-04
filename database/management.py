@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from config.settings import MY_POSTGRESQL_URL
+from telegram.ext import CallbackContext
 
 Base = declarative_base()
 
@@ -20,11 +21,6 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 import logging
-
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-
 logger = logging.getLogger(__name__)
 
 def get_or_create_user(telegram_id, username):
@@ -64,11 +60,12 @@ def check_user_access(telegram_id):
 
 
 
-def check_expired_subscriptions(context):
+def check_expired_subscriptions(context: CallbackContext):
     """
     Checks for expired subscriptions and revokes access for those users.
     """
     logger.info("Checking for expired subscriptions...")
+    print("Checking for expired subscriptions...")
 
     session = Session()
     current_time = datetime.now()
@@ -78,8 +75,11 @@ def check_expired_subscriptions(context):
         user.has_access = False
         user.subscription_end = None
         session.commit()
+        context.bot.send_message(chat_id=user.username, text=f"Revoked access for user {user.username}.")
         logger.info(f"Revoked access for user {user.username}.")
+        print(f"Revoked access for user {user.username}.")
     session.close()
+
 
 
 

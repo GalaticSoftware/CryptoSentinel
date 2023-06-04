@@ -1,8 +1,7 @@
 import pika
 import json
-from apscheduler.schedulers.background import BackgroundScheduler
 from telegram import Update
-from telegram.ext import Dispatcher, CommandHandler, CallbackQueryHandler
+from telegram.ext import Dispatcher, CommandHandler, CallbackQueryHandler, CallbackContext
 from bot.bot_instance import bot, updater
 from bot.bot_instance import bot
 from bot.rate_limiting import TokenBucket
@@ -31,6 +30,7 @@ from bot.command_handlers.premium.signal import SignalHandler
 
 from bot.scripts.alerts import PriceAlerts
 from database.management import check_expired_subscriptions
+from apscheduler.schedulers.background import BackgroundScheduler
 
 # Import and setup logging
 import logging
@@ -53,17 +53,14 @@ def main():
 
     dp = Dispatcher(bot, None, workers=1)
 
-    jq = updater.job_queue
-
+    scheduler = BackgroundScheduler()
+    scheduler.start()
 
     # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
-    jq.run_repeating(check_expired_subscriptions, interval=300, first=0)
+    scheduler.add_job(check_expired_subscriptions, 'interval', minutes=5, args=[dp])
     # Schedule the job to check for price alerts every 30 seconds
-    jq.run_repeating(PriceAlerts.check_price_alerts, interval=30, first=0)
-    # # Run Fetcher every 4 hours
-    # jq.run_repeating(fetch_pattern_data, interval=60, first=0)
-    # # Run Pattern Alerts every 4 hours
-    # jq.run_repeating(PatternAlerts.check_pattern_alerts, interval=60, first=0)
+    scheduler.add_job(PriceAlerts.check_price_alerts, 'interval', seconds=30, args=[dp])
+
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start))
@@ -149,8 +146,5 @@ def main():
 
 if __name__ == "__main__":
     logger.info("Starting bot")
-    scheduler = BackgroundScheduler()
-    scheduler.start()
     main()
-    scheduler.print_jobs()
 

@@ -14,10 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class PriceAlerts:
+    @staticmethod
     def check_price_alerts(context: CallbackContext):
         session = Session()
         price_alert_requests = session.query(PriceAlertRequest).all()
         logger.info(f"Checking {len(price_alert_requests)} price alert requests...")
+        print(f"Checking {len(price_alert_requests)} price alert requests...")
 
         to_delete = []
         for price_alert_request in price_alert_requests:
@@ -40,6 +42,9 @@ class PriceAlerts:
                 logger.info(
                     f"Price alert triggered for user {price_alert_request.user_id} on {price_alert_request.symbol}."
                 )
+                print(
+                    f"Price alert triggered for user {price_alert_request.user_id} on {price_alert_request.symbol}."
+                )
 
         # Delete all the price alert requests in the list
         for alert in to_delete:
@@ -47,7 +52,12 @@ class PriceAlerts:
             logger.info(
                 f"Deleted price alert request for user {alert.user_id} on {alert.symbol}."
             )
+            print(
+                f"Deleted price alert request for user {alert.user_id} on {alert.symbol}."
+            )
+
         session.commit()
+
 
 
 class PatternAlerts:
