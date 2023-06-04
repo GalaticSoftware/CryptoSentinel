@@ -1,7 +1,7 @@
 from functools import wraps
 from telegram import Update
 from telegram.ext import CallbackContext
-from users.management import check_user_access
+from database.management import check_user_access
 import ccxt
 import plotly.graph_objects as go
 import numpy as np
@@ -14,8 +14,7 @@ from config.settings import LUNARCRUSH_API_KEY
 
 
 import functools
-from bot.database import Session, CommandUsage
-
+from database.models import CommandUsage, Session, User
 
 def restricted(func):
     @wraps(func)

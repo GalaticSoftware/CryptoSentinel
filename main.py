@@ -1,98 +1,46 @@
-from telegram import Update, Bot
-from telegram.ext import (
-    CallbackContext,
-    CommandHandler,
-    MessageHandler,
-    Updater,
-    CallbackQueryHandler,
-    PreCheckoutQueryHandler,
-    Filters,
-)
-
-from telegram.utils.request import Request
-
-from config.settings import TELEGRAM_API_TOKEN
-
-import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-import logging
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-
-logger = logging.getLogger(__name__)
-
+from bot.bot_instance import updater 
+from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, Filters, CallbackContext
+from telegram import Update
+import pika
+import json
 
 # Import all the command handlers
 # Start and help handlers
-from bot.handlers.start import StartHandler
-from bot.handlers.subscribe import SubscribeHandler
-from bot.handlers.help import HelpHandler
-from bot.handlers.free.use_token import UseTokenHandler
-from bot.handlers.free.join_waitlist import JoinWaitlistHandler
-from bot.handlers.free.contact import ContactHandler
+from bot.command_handlers.start import StartHandler
+from bot.command_handlers.subscribe import SubscribeHandler
+from bot.command_handlers.help import HelpHandler
+from bot.command_handlers.free.use_token import UseTokenHandler
+from bot.command_handlers.free.join_waitlist import JoinWaitlistHandler
+from bot.command_handlers.free.contact import ContactHandler
 
 from bot.scripts.alerts import PriceAlerts  # PatternAlerts
 
 # from CryptoSentinel.bot.scripts.fetcher import fetch_pattern_data
 
 # Free handlers
-from bot.handlers.free.cotd import CotdHandler
-from bot.handlers.free.global_top import GlobalTopHandler
-from bot.handlers.free.whatsup import WhatsupHandler
-from bot.handlers.free.gainers import GainersHandler
-from bot.handlers.free.losers import LosersHandler
-from bot.handlers.free.news import NewsHandler
-from bot.handlers.free.request_alert import PriceAlertHandler
+from bot.command_handlers.free.cotd import CotdHandler
+from bot.command_handlers.free.global_top import GlobalTopHandler
+from bot.command_handlers.free.whatsup import WhatsupHandler
+from bot.command_handlers.free.gainers import GainersHandler
+from bot.command_handlers.free.losers import LosersHandler
+from bot.command_handlers.free.news import NewsHandler
+from bot.command_handlers.free.request_alert import PriceAlertHandler
 
 # Premium handlers
-from bot.handlers.premium.wdom import WdomHandler
-from bot.handlers.premium.sentiment import SentimentHandler
-from bot.handlers.premium.positions import PositionsHandler
-from bot.handlers.premium.plot_chart import ChartHandler
-from bot.handlers.premium.stats import StatsHandler
-from bot.handlers.premium.signal import SignalHandler
+from bot.command_handlers.premium.wdom import WdomHandler
+from bot.command_handlers.premium.sentiment import SentimentHandler
+from bot.command_handlers.premium.positions import PositionsHandler
+from bot.command_handlers.premium.plot_chart import ChartHandler
+from bot.command_handlers.premium.stats import StatsHandler
+from bot.command_handlers.premium.signal import SignalHandler
 
-from users.management import check_expired_subscriptions
+from config.settings import CLOUDAMQP_URL
 
 ### Telegram Bot ###
 
-
-def check_and_revoke_expired_subscriptions(context: CallbackContext):
-    revoked_users = check_expired_subscriptions()
-    if revoked_users is None:
-        revoked_users = []
-
-    for user_id in revoked_users:
-        context.bot.send_message(
-            user_id,
-            "Your subscription has expired. Please subscribe again to regain access.",
-        )
-        logger.info(f"Revoked access for user {user_id}")
-
-
-# Main function
 def main() -> None:
-    request = Request(connect_timeout=60, read_timeout=60)
-
-    bot = Bot(token=TELEGRAM_API_TOKEN, request=request)
-
-    updater = Updater(TELEGRAM_API_TOKEN, use_context=True)
 
     dp = updater.dispatcher
-    jq = updater.job_queue
-
-    # Schedule the job to check for expired subscriptions every 5 minutes (300 seconds)
-    jq.run_repeating(check_and_revoke_expired_subscriptions, interval=300, first=0)
-    # Schedule the job to check for price alerts every 30 seconds
-    jq.run_repeating(PriceAlerts.check_price_alerts, interval=30, first=0)
-    # # Run Fetcher every 4 hours
-    # jq.run_repeating(fetch_pattern_data, interval=60, first=0)
-    # # Run Pattern Alerts every 4 hours
-    # jq.run_repeating(PatternAlerts.check_pattern_alerts, interval=60, first=0)
 
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start))
@@ -137,7 +85,6 @@ def main() -> None:
         SubscribeHandler.send_invoice_3_monthly,
         pattern="^subscribe_3_monthly_subscription$",
     )
-
     yearly_handler = CallbackQueryHandler(
         SubscribeHandler.send_invoice_yearly, pattern="^subscribe_yearly_subscription$"
     )
@@ -152,9 +99,21 @@ def main() -> None:
     dp.add_handler(three_monthly_handler)
     dp.add_handler(yearly_handler)
 
+
+    def process_update(update: Update, context: CallbackContext):
+        url = CLOUDAMQP_URL
+        params = pika.URLParameters(url)
+        connection = pika.BlockingConnection(params)
+        channel = connection.channel()
+        channel.queue_declare(queue='telegram_updates')
+        channel.basic_publish(exchange='', routing_key='telegram_updates', body=json.dumps(update.to_dict()))
+        connection.close()
+
+
     updater.start_polling()
     updater.idle()
 
 
 if __name__ == "__main__":
+    from bot.bot_instance import bot, updater
     main()

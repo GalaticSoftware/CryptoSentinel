@@ -5,7 +5,7 @@ from telegram.ext import CallbackContext
 from telegram.error import BadRequest
 
 # setup database
-from bot.database import PriceAlertRequest, Session, PatternData, User
+from database.models import PriceAlertRequest, Session, PatternData, User
 
 # setup logging
 import logging
