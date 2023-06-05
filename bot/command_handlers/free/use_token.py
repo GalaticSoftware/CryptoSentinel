@@ -118,7 +118,7 @@ class UseReferralCode:
                 user.subscription_type = "one_week_free"  # Set subscription type to "one_week_free"
                 session.commit()
 
-                update.message.reply_text("Referral code accepted! You have been referred by " + referral.user.username + " and have received one week of free premium access.")
+                update.message.reply_text("Referral code accepted! You've received one week of free premium access.")
                 logger.debug("Referral code accepted message sent.")
             else:
                 update.message.reply_text("User not found. Please try again.")
