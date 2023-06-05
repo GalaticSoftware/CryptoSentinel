@@ -62,7 +62,7 @@ def main():
     # Initialize the token bucket with a rate of 20 messages per second and a capacity of 20 messages
     token_bucket = TokenBucket(20, 20)
 
-    dp = Dispatcher(bot, None, workers=1)
+    dp = Dispatcher(bot, None, workers=0)
 
     scheduler = BackgroundScheduler()
     scheduler.start()
