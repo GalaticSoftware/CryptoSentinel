@@ -31,6 +31,7 @@ class User(Base):
     has_access = Column(Boolean, default=False)  # Access status (default: False)
     subscription_end = Column(DateTime)  # Subscription end date
     subscription_type = Column(String)  # Subscription type
+    accepted_policy = Column(Boolean, default=False)  # Accepted privacy policy
 
 
 # One Time Token table class definition

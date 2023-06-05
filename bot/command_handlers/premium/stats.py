@@ -5,7 +5,7 @@ import ccxt
 import pandas as pd
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
-from bot.utils import restricted, log_command_usage, PlotChart, command_usage_example
+from bot.utils import restricted, log_command_usage, PlotChart, command_usage_example, privacy_policy_accepted
 from config.settings import X_RAPIDAPI_KEY
 from cachetools import cached, TTLCache
 
@@ -171,6 +171,7 @@ class StatsHandler:
     @restricted
     @log_command_usage("stats")
     @command_usage_example("/stats BTCUSDT 1d")
+    @privacy_policy_accepted
     def stats(update: Update, context: CallbackContext):
         logger.info("Stats command received")
         if len(context.args) < 2:

@@ -3,7 +3,7 @@ from decimal import Decimal
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext
 from config.settings import X_RAPIDAPI_KEY, MY_POSTGRESQL_URL
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, privacy_policy_accepted
 import logging
 import ccxt
 
@@ -14,6 +14,8 @@ from database.models import PriceAlertRequest, Session
 
 class PriceAlertHandler:
     @staticmethod
+    @log_command_usage("pricealert")
+    @privacy_policy_accepted
     def request_price_alert(update: Update, context: CallbackContext):
         user_id = update.message.from_user.id
         try:

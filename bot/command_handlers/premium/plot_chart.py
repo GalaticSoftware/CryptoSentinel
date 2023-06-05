@@ -8,7 +8,7 @@ import os
 from datetime import datetime, timedelta
 from telegram import Update
 from telegram.ext import CallbackContext
-from bot.utils import log_command_usage, restricted, command_usage_example
+from bot.utils import log_command_usage, restricted, command_usage_example, privacy_policy_accepted
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
 from bot.utils import PlotChart
@@ -25,6 +25,7 @@ class ChartHandler:
     @command_usage_example(
         "/chart BTCUSDT 4h - Defaults to 4hr chart if time frame is not provided"
     )
+    @privacy_policy_accepted
     def plot_chart(update: Update, context: CallbackContext):
         # Get the user's input
         symbol = context.args[0]  # symbol is passed as a command argument

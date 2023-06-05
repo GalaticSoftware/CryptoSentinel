@@ -1,9 +1,12 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 from database.models import Session, User, WaitingList
+from bot.utils import privacy_policy_accepted
 
 
 class JoinWaitlistHandler:
+    @staticmethod
+    @privacy_policy_accepted
     def join_waitlist(update: Update, context: CallbackContext):
         user_id = update.message.from_user.id
         username = update.message.from_user.username

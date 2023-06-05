@@ -2,7 +2,7 @@ import requests
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext
 from config.settings import X_RAPIDAPI_KEY
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, privacy_policy_accepted
 import logging
 
 logger = logging.getLogger(__name__)
@@ -66,6 +66,7 @@ class NewsHandler:
 
 
     @log_command_usage("news")
+    @privacy_policy_accepted
     def news_handler(update: Update, context: CallbackContext):
         """
         Handle the /news command and send the fetched news to the user.

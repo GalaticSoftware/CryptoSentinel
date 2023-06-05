@@ -1,7 +1,8 @@
 from functools import wraps
 from telegram import Update
 from telegram.ext import CallbackContext
-from database.management import check_user_access
+from database.management import check_user_access, check_user_policy_status
+from bot.command_handlers.accept_privacy_policy import accept_privacy_policy
 import ccxt
 import plotly.graph_objects as go
 import numpy as np
@@ -27,6 +28,25 @@ def restricted(func):
                 "You don't have access to this feature. Please subscribe first by using /start."
             )
             return
+        return func(update, context, *args, **kwargs)
+
+    return wrapped
+
+
+# decorator function that will check if users have accepted the privacy policy.
+# If they have, the function will be executed. If not, the user will be prompted to accept the privacy policy.
+def privacy_policy_accepted(func):
+    @wraps(func)
+    def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
+        user_id = update.effective_user.id
+        if not check_user_policy_status(user_id):
+            update.message.reply_text(
+                "Please accept our privacy policy before using the bot."
+                "You can do so by doing /start."
+            )
+            return
+        else:
+            pass
         return func(update, context, *args, **kwargs)
 
     return wrapped

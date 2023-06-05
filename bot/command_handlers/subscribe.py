@@ -1,7 +1,7 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, LabeledPrice
 from telegram.ext import CallbackContext, CallbackQueryHandler, PreCheckoutQueryHandler
 from database.management import get_or_create_user, update_user_access, revoke_user_access
-from config.settings import STRIPE_PROVIDER_TOKEN
+from config.settings import STRIPE_PROVIDER_TOKEN_TEST
 from datetime import datetime, timedelta
 import logging
 
@@ -143,7 +143,7 @@ def send_invoice(update: Update, context: CallbackContext, plan):
         title=plan["label"],
         description=plan["description"],
         payload=payload,
-        provider_token=STRIPE_PROVIDER_TOKEN,
+        provider_token=STRIPE_PROVIDER_TOKEN_TEST,
         start_parameter=start_parameter,
         currency=currency,
         prices=[price],

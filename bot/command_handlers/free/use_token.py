@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, DateTime
 from database.models import OneTimeToken, User, Base
-from bot.utils import restricted
+from bot.utils import restricted, privacy_policy_accepted
 from datetime import datetime, timedelta
 
 # Import the database URL from the settings
@@ -22,6 +22,7 @@ Base.metadata.create_all(engine)
 
 class UseTokenHandler:
     @staticmethod
+    @privacy_policy_accepted
     def use_token(update: Update, context: CallbackContext):
         user_id = update.effective_user.id
         username = update.effective_user.username

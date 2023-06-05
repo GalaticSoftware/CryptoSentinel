@@ -3,7 +3,7 @@ import requests
 import os
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
-from bot.utils import log_command_usage, restricted, command_usage_example
+from bot.utils import log_command_usage, restricted, command_usage_example, privacy_policy_accepted
 from config.settings import X_RAPIDAPI_KEY
 from bot.utils import PlotChart
 from bot.command_handlers.premium.stats import StatsHandler
@@ -18,6 +18,7 @@ class SignalHandler:
     @restricted
     @log_command_usage("general_signal")
     @command_usage_example("/signal BTCUSDT")
+    @privacy_policy_accepted
     def signal_handler(update: Update, context: CallbackContext):
         logger.info("General Signal command received")
         if len(context.args) < 2:

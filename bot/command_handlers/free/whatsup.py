@@ -6,7 +6,7 @@ import datetime
 from datetime import datetime
 import cachetools
 
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, privacy_policy_accepted
 from config.settings import LUNARCRUSH_API_KEY
 
 # Configure logging
@@ -22,6 +22,7 @@ class WhatsupHandler:
 
     @staticmethod
     @log_command_usage("whatsup")
+    @privacy_policy_accepted
     def whatsup(update: Update, context: CallbackContext):
         """
         Fetches and sends the top URLs engagement data to the user.

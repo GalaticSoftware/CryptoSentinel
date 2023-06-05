@@ -5,7 +5,7 @@ from telegram.ext import CallbackContext
 
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, restricted, command_usage_example, privacy_policy_accepted
 
 # Configure logging
 logging.basicConfig(
@@ -18,6 +18,7 @@ class SentimentHandler:
     @staticmethod
     @restricted
     @log_command_usage("sentiment")
+    @privacy_policy_accepted
     def sentiment(update: Update, context: CallbackContext):
         logger.info("Received /sentiment command")
 

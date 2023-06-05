@@ -3,7 +3,7 @@ import requests
 import os
 from telegram import Update
 from telegram.ext import CallbackContext
-from bot.utils import log_command_usage, restricted, PlotChart, command_usage_example
+from bot.utils import log_command_usage, restricted, PlotChart, command_usage_example, privacy_policy_accepted
 from config.settings import LUNARCRUSH_API_KEY
 
 # Set up logging
@@ -67,6 +67,7 @@ class InfoHandler:
     @restricted
     @log_command_usage("info")
     @command_usage_example("/info BTCUSDT 1d - Defaults to 4h if no time frame is provided")
+    @privacy_policy_accepted
     def get_coin_info_command(update: Update, context: CallbackContext):
         # Get the user's input
         input_arg = context.args[0]  # Assuming the symbol is passed as a command argument

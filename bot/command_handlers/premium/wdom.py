@@ -4,7 +4,7 @@ from telegram.ext import CallbackContext
 
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, command_usage_example, privacy_policy_accepted
 import logging
 
 logger = logging.getLogger(__name__)
@@ -41,6 +41,7 @@ class WdomHandler:
 
     @log_command_usage("wdom")
     @restricted
+    @privacy_policy_accepted
     def wdom_handler(update: Update, context: CallbackContext):
         """
         Handle the /weekly_dom_change command and send the response to the user.

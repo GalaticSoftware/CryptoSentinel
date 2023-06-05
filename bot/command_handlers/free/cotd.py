@@ -13,7 +13,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 from bot.utils import restricted
 from config.settings import LUNARCRUSH_API_KEY
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, privacy_policy_accepted
 
 from cachetools import TTLCache
 
@@ -134,6 +134,7 @@ class CotdHandler:
 
     @staticmethod
     @log_command_usage("cotd")
+    @privacy_policy_accepted
     def coin_of_the_day(update: Update, context: CallbackContext):
         # Fetch Coin of the Day data from LunarCrush API
         url = "https://lunarcrush.com/api3/coinoftheday"

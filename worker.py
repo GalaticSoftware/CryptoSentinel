@@ -92,34 +92,9 @@ def main():
     dp.add_handler(StatsHandler.command_handler())
     dp.add_handler(SignalHandler.command_handler())
 
-    # Subscribe Handlers
-    subscribe_handler = SubscribeHandler.subscribe_handler
-    payment_handler = SubscribeHandler.payment_handler
-
-    monthly_handler = CallbackQueryHandler(
-        SubscribeHandler.send_invoice_monthly,
-        pattern="^subscribe_monthly_subscription$",
-    )
-
-    three_monthly_handler = CallbackQueryHandler(
-        SubscribeHandler.send_invoice_3_monthly,
-        pattern="^subscribe_3_monthly_subscription$",
-    )
-
-    yearly_handler = CallbackQueryHandler(
-        SubscribeHandler.send_invoice_yearly, pattern="^subscribe_yearly_subscription$"
-    )
-
     # waitlist_handler = JoinWaitlistHandler.join_waitlist_handler
     dp.add_handler(CommandHandler("join_waitlist", JoinWaitlistHandler.join_waitlist))
     dp.add_handler(ContactHandler.conversation_handler())
-
-    dp.add_handler(subscribe_handler)
-    dp.add_handler(payment_handler)
-    dp.add_handler(monthly_handler)
-    dp.add_handler(three_monthly_handler)
-    dp.add_handler(yearly_handler)
-
 
     def callback(ch, method, properties, body):
         update = json.loads(body)

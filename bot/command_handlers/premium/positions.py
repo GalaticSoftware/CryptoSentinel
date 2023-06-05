@@ -21,7 +21,7 @@ from config.settings import TELEGRAM_API_TOKEN
 from config.settings import LUNARCRUSH_API_KEY
 from bot.utils import restricted
 from database.models import Session, SummaryData
-from bot.utils import log_command_usage
+from bot.utils import log_command_usage, restricted, privacy_policy_accepted
 
 import logging
 
@@ -73,6 +73,7 @@ class PositionsHandler:
 
     @restricted
     @log_command_usage("positions")
+    @privacy_policy_accepted
     def trader_positions(update: Update, context: CallbackContext):
         # Get the user id
         uid_list = [

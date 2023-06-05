@@ -1,7 +1,7 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 
-from database.management import get_or_create_user, check_user_access
+from database.management import get_or_create_user, check_user_access, check_user_policy_status
 
 class StartHandler:
     OPEN_BETA_PHASE = True  # Set this to False when the open beta phase ends
@@ -14,6 +14,27 @@ class StartHandler:
 
         # Create or retrieve the user from the database
         user = get_or_create_user(user_id, username)
+
+        accepted_policy = check_user_policy_status(user_id)
+
+        # Check if the user has accepted the privacy policy
+        if not accepted_policy:
+            privacy_policy_button = InlineKeyboardButton(
+                "Accept Privacy Policy", callback_data="accept_privacy_policy"
+            )
+            keyboard = InlineKeyboardMarkup.from_button(privacy_policy_button)
+
+            update.message.reply_text(
+                "Before using this bot, you must accept our privacy policy.\n"
+                "Please click the button below to accept and continue.\n\n"
+                "For any questions, contact us via /contact, Discord, or Telegram.\n"
+                "Thank you for your cooperation."
+                "\n\n[Privacy Policy](https://accursedgalaxy.github.io/Sentinel-Policy/privacy-policy.html)"
+                "\n[Legal Notice and Disclaimer](https://accursedgalaxy.github.io/Sentinel-Policy/legal-notice-and-disclaimer.html)",
+                parse_mode="Markdown",
+                reply_markup=keyboard
+            )
+            return
 
         # Check if the user is subscribed
         has_access = check_user_access(user_id)
@@ -56,3 +77,4 @@ class StartHandler:
             )
 
             update.message.reply_text(welcome_message)
+
