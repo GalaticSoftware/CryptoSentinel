@@ -5,5 +5,5 @@ build:
     - heroku/python
     - numrut/ta-lib
 run:
-  web: python main.py
-  bot: python worker.py
+  bot: python main.py
+  worker: python worker.py
