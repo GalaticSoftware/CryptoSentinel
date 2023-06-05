@@ -40,12 +40,24 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+import time
+
+def send_heartbeat(channel):
+    while True:
+        channel.basic_publish(exchange='', routing_key='heartbeat', body='heartbeat')
+        time.sleep(30)
+
 def main():
     url = CLOUDAMQP_URL
     params = pika.URLParameters(url)
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
     channel.queue_declare(queue='telegram_updates')
+    channel.queue_declare(queue='heartbeat') # declare the queue for heartbeat
+
+    # start a thread to send heartbeat
+    import threading
+    threading.Thread(target=send_heartbeat, args=(channel,)).start()
 
     # Initialize the token bucket with a rate of 20 messages per second and a capacity of 20 messages
     token_bucket = TokenBucket(20, 20)

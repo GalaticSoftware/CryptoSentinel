@@ -25,7 +25,7 @@ class SymbolOHLCVFetcher:
     @staticmethod
     @cached(cache)
     def fetch_ohlcv_data(symbol: str, timeframe: str):
-        exchange = ccxt.binance()
+        exchange = ccxt.bybit()
         ohlcv = exchange.fetch_ohlcv(symbol, timeframe)
         df = pd.DataFrame(
             ohlcv,
