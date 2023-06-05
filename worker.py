@@ -10,9 +10,8 @@ from config.settings import CLOUDAMQP_URL
 
 # Import all the command handlers
 from bot.command_handlers.start import StartHandler
-from bot.command_handlers.subscribe import SubscribeHandler
 from bot.command_handlers.help import HelpHandler
-from bot.command_handlers.free.use_token import UseTokenHandler
+from bot.command_handlers.free.use_token import UseTokenHandler, UseReferralCode
 from bot.command_handlers.free.join_waitlist import JoinWaitlistHandler
 from bot.command_handlers.free.contact import ContactHandler
 from bot.command_handlers.free.cotd import CotdHandler
@@ -61,7 +60,6 @@ def main():
     # Schedule the job to check for price alerts every 30 seconds
     scheduler.add_job(PriceAlerts.check_price_alerts, 'interval', seconds=30, args=[dp])
 
-
     # Add all the free handlers to the dispatcher
     dp.add_handler(CommandHandler("start", StartHandler.start))
     dp.add_handler(CommandHandler("help", HelpHandler.help))
@@ -70,6 +68,7 @@ def main():
         CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)
     )
     dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token))
+    dp.add_handler(CommandHandler("use_ref_code", UseReferralCode.use_referral_code))
     dp.add_handler(CommandHandler("gainers", GainersHandler.gainers))
     dp.add_handler(CommandHandler("losers", LosersHandler.losers))
     dp.add_handler(CommandHandler("news", NewsHandler.news_handler))

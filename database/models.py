@@ -10,8 +10,8 @@ from sqlalchemy import (
     DateTime,
     Numeric,
     ForeignKey,
-    func,
 )
+from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -32,6 +32,19 @@ class User(Base):
     subscription_end = Column(DateTime)  # Subscription end date
     subscription_type = Column(String)  # Subscription type
     accepted_policy = Column(Boolean, default=False)  # Accepted privacy policy
+    referrer_id = Column(String, default=None)  # Referrer ID as a string
+    used_referral_code = Column(String, default=None)  # Referral code used by the user
+
+
+class ReferralCode(Base):
+    __tablename__ = "referral_codes"  # Define the table name
+    id = Column(Integer, primary_key=True)  # Primary key
+    user_id = Column(Integer, ForeignKey('users.id'))  # Foreign key to the users table
+    code = Column(String, unique=True)  # Unique referral code
+    user = relationship("User", back_populates="referral_code")  # Relationship to the User model
+
+User.referral_code = relationship("ReferralCode", back_populates="user", uselist=False)  # Add a relationship to the ReferralCode model in the User model
+
 
 
 # One Time Token table class definition

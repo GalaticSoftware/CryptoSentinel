@@ -1,9 +1,9 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, DateTime
-from database.models import OneTimeToken, User, Base
-from bot.utils import restricted, privacy_policy_accepted
+from sqlalchemy import create_engine
+from database.models import OneTimeToken, User, Base, ReferralCode
+from bot.utils import privacy_policy_accepted
 from datetime import datetime, timedelta
 
 # Import the database URL from the settings
@@ -78,3 +78,52 @@ class UseTokenHandler:
             logger.debug("Invalid or expired token message sent.")
         session.close()
 
+
+class UseReferralCode:
+    @staticmethod
+    @privacy_policy_accepted
+    def use_referral_code(update: Update, context: CallbackContext):
+        user_id = update.effective_user.id
+        chat_id = update.effective_chat.id
+        username = update.effective_user.username
+        args = context.args
+
+        if len(args) != 1:
+            update.message.reply_text("Usage: /use_ref_code  <your_referral_code>")
+            logger.info("Usage message sent")
+            return
+
+        referral_code = args[0]
+        session = Session()
+        referral = session.query(ReferralCode).filter_by(code=referral_code).first()
+
+        if referral:
+            user = session.query(User).filter_by(telegram_id=user_id).first()
+            if not user:
+                # Create a new user if not found
+                user = User(telegram_id=user_id, username=username, has_access=True, referrer_id=referrer.id, subscription_end=datetime.utcnow() + timedelta(days=7), subscription_type="one_week_free")
+                session.add(user)
+                session.commit()
+                user = session.query(User).filter_by(telegram_id=user_id).first()
+
+            if user:
+                if user.used_referral_code is not None:
+                    update.message.reply_text("You have already used a referral code.")
+                    logger.debug("User has already used a referral code message sent.")
+                    return
+
+                user.has_access = True
+                user.used_referral_code = referral_code  # Store the used referral code
+                user.subscription_end = datetime.utcnow() + timedelta(days=7)  # Set subscription end to one week from now
+                user.subscription_type = "one_week_free"  # Set subscription type to "one_week_free"
+                session.commit()
+
+                update.message.reply_text("Referral code accepted! You have been referred by " + referral.user.username + " and have received one week of free premium access.")
+                logger.debug("Referral code accepted message sent.")
+            else:
+                update.message.reply_text("User not found. Please try again.")
+                logger.debug("User not found message sent.")
+        else:
+            update.message.reply_text("Invalid referral code. Please try again.")
+            logger.debug("Invalid referral code message sent.")
+        session.close()

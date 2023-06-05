@@ -164,3 +164,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Ignore Token Generators
+ref_code_gen.py
