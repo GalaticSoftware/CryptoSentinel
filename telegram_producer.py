@@ -30,9 +30,15 @@ params = pika.URLParameters(CLOUDAMQP_URL)
 # configure heartbeat to keep connection open (even when idle for a long time) to avoid timeouts
 # send heartbeat every 30 seconds
 params.heartbeat = 30
-connection = pika.BlockingConnection(params)
-channel = connection.channel()
-channel.queue_declare(queue='telegram')
+
+# Create a connection and channel
+def create_connection_and_channel():
+    connection = pika.BlockingConnection(params)
+    channel = connection.channel()
+    channel.queue_declare(queue='telegram')
+    return connection, channel
+
+connection, channel = create_connection_and_channel()
 
 # Handle messages
 # When a message is received, publish it to RabbitMQ
@@ -52,18 +58,20 @@ def handle_message(update: Update, context: CallbackContext) -> None:
             break
         except (ConnectionClosedByBroker, AMQPConnectionError, ssl.SSLEOFError) as err:
             logging.error('Could not publish update to RabbitMQ: %s', err)
-            # Reconnect to RabbitMQ
-            connection = pika.BlockingConnection(params)
-            channel = connection.channel()
-            channel.queue_declare(queue='telegram')
-
-
-
+            # Close the old connection and create a new one
+            try:
+                connection.close()
+            except AMQPConnectionError:
+                pass  # Ignore errors when closing a broken connection
+            connection, channel = create_connection_and_channel()
 
 # Signal handling for graceful shutdown
 def signal_handler(sig, frame):
     logging.info('Signal received, closing RabbitMQ connection...')
-    connection.close()
+    try:
+        connection.close()
+    except AMQPConnectionError:
+        pass  # Ignore errors when closing a broken connection
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
