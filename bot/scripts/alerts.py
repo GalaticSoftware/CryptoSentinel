@@ -14,7 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 class PriceAlerts:
-    def check_price_alerts(context: CallbackContext):
+    @staticmethod
+    def check_price_alerts(bot):
         session = Session()
         price_alert_requests = session.query(PriceAlertRequest).all()
 
@@ -28,7 +29,7 @@ class PriceAlerts:
             if current_price >= price_alert_request.price_level * Decimal(
                 "0.995"
             ) and current_price <= price_alert_request.price_level * Decimal("1.005"):
-                context.bot.send_message(
+                bot.send_message(
                     chat_id=price_alert_request.user_id,
                     text=f"🔔 Price Alert! 🔔\n\nThe price of {price_alert_request.symbol} has reached your set level of {price_alert_request.price_level}. The current price is now: {current_price}.",
                 )
@@ -40,6 +41,7 @@ class PriceAlerts:
         for alert in to_delete:
             session.delete(alert)
         session.commit()
+
 
 
 class PatternAlerts:
