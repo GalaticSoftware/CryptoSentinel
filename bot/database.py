@@ -28,6 +28,8 @@ class User(Base):
     has_access = Column(Boolean, default=False)  # Access status (default: False)
     subscription_end = Column(DateTime)  # Subscription end date
     subscription_type = Column(String)  # Subscription type
+    referrer_id = Column(Integer) # Referrer's Telegram ID
+    used_referral_code = Column(String, default="no") # has already used a referral code - (yes, no) - default: no
 
 
 # One Time Token table class definition
@@ -81,8 +83,8 @@ class PriceAlertRequest(Base):
     symbol = Column(String, nullable=False, index=True)
     price_level = Column(Numeric(20, 2), nullable=False)
 
+    
 
-# Define database models
 class PatternData(Base):
     __tablename__ = "pattern_data"
     id = Column(String, primary_key=True)
@@ -90,6 +92,24 @@ class PatternData(Base):
     symbol = Column(String, nullable=False)
     timeframe = Column(String, nullable=False)
     pattern = Column(String, nullable=False)
+
+
+class ReferralCodes(Base):
+    __tablename__ = "referral_codes"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)  # Changed from "users.telegram_id" to "users.id"
+    code = Column(String, nullable=False)
+
+
+class Referrals(Base):
+    __tablename__ = "referrals"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False) # Referrer's Telegram ID
+    referral_code = Column(String, nullable=False) # Referral code used
+    referred_user_id = Column(Integer, ForeignKey("users.telegram_id"), nullable=False) # Referred user's Telegram ID
+    referred_user_username = Column(String, nullable=False) # Referred user's Telegram username
+    status = Column(String, nullable=False) # Status of the referral - membership status of the referred user - (active, expired, cancelled)
+    timestamp = Column(DateTime, default=datetime.utcnow, nullable=False) # Timestamp of the referral
 
 
 # Create a connection to the database and bind the engine

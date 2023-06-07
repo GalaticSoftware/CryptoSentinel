@@ -56,6 +56,7 @@ from bot.handlers.free.gainers import GainersHandler
 from bot.handlers.free.losers import LosersHandler
 from bot.handlers.free.news import NewsHandler
 from bot.handlers.free.request_alert import PriceAlertHandler
+from bot.handlers.referral import UseReferralHandler
 
 # Premium handlers
 from bot.handlers.premium.wdom import WdomHandler
@@ -69,7 +70,7 @@ from users.management import check_expired_subscriptions
 
 # Set up logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+                    level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +90,7 @@ dp = Dispatcher(bot, None, workers=1)
 # Add all command handlers to the Dispatcher
 # Add all the free handlers to the dispatcher
 dp.add_handler(CommandHandler("start", StartHandler.start))
+# dp.add_handler(CommandHandler("use_referral", UseReferralHandler.use_referral))
 dp.add_handler(CommandHandler("help", HelpHandler.help))
 dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
 dp.add_handler(
