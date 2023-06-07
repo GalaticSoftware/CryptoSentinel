@@ -90,7 +90,7 @@ dp = Dispatcher(bot, None, workers=1)
 # Add all command handlers to the Dispatcher
 # Add all the free handlers to the dispatcher
 dp.add_handler(CommandHandler("start", StartHandler.start))
-dp.add_handler(CommandHandler("use_referral", UseReferralHandler.use_referral))
+# dp.add_handler(CommandHandler("use_referral", UseReferralHandler.use_referral))
 dp.add_handler(CommandHandler("help", HelpHandler.help))
 dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
 dp.add_handler(

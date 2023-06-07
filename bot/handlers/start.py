@@ -5,7 +5,7 @@ from users.management import get_or_create_user, update_user_access, check_user_
 
 
 class StartHandler:
-    OPEN_BETA_PHASE = False  # Set this to False when the open beta phase ends
+    OPEN_BETA_PHASE = True  # Set this to False when the open beta phase ends
 
     @staticmethod
     def start(update: Update, context: CallbackContext):
