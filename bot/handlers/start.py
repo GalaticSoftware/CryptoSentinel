@@ -5,7 +5,7 @@ from users.management import get_or_create_user, update_user_access, check_user_
 
 
 class StartHandler:
-    OPEN_BETA_PHASE = True  # Set this to False when the open beta phase ends
+    OPEN_BETA_PHASE = False  # Set this to False when the open beta phase ends
 
     @staticmethod
     def start(update: Update, context: CallbackContext):
@@ -36,10 +36,11 @@ class StartHandler:
         elif not has_access:
             welcome_message = (
                 "🚀 Welcome to Crypto Sentinel Bot! 🚀\n\n"
-                "Your one-stop solution for the latest news, insights, and trends in the crypto market.\n\n"
-                "Type /help to explore the list of commands.\n\n"
-                "Unlock premium features and stay ahead of the market by subscribing now."
+                "Your one-stop solution for the latest news, insights, and trends in the crypto market.\n"
+                "If you have a referral code, please enter it now by typing /use_referral <code>. If not, you can continue to explore the bot's features.\n\n"
+                "Type /help to see the list of commands."
             )
+
 
             subscribe_button = InlineKeyboardButton(
                 "Subscribe", callback_data="subscribe"
