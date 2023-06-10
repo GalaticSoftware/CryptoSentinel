@@ -157,6 +157,7 @@ class CotdHandler:
         # Update the loading message with the Coin of the Day data
         loading_message.edit_text(
             f"Coin of the Day: {data['name']} ({data['symbol']}).\n\n"
+            f"Loading OHLCV chart...\n"
         )
 
 
