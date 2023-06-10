@@ -25,6 +25,15 @@ class GainersHandler:
             # Convert the coin name to the symbol for the chart. For example, "Bitcoin" -> "BTCUSDT",  "Filecoin" -> "FILUSDT"
             symbol = coin["symbol"].upper() + "USDT"
             chart_file = PlotChart.plot_ohlcv_chart(symbol, "4h")
+            
+            # if chart_file is None delete the loading message and continue to the next coin
+            if chart_file is None:
+                context.bot.delete_message(
+                    chat_id=update.effective_chat.id,
+                    message_id=loading_message.message_id,
+                )
+                continue
+
             if chart_file is not None:
                 with open(chart_file, "rb") as file:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=file)
