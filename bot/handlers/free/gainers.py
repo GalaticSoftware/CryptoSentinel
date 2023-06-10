@@ -26,11 +26,14 @@ class GainersHandler:
             symbol = coin["symbol"].upper() + "USDT"
             chart_file = PlotChart.plot_ohlcv_chart(symbol, "4h")
             
-            # if chart_file is None delete the loading message and continue to the next coin
+            # if chart_file is None delete the loading message, send a symbol not found message and continue to the next coin
             if chart_file is None:
                 context.bot.delete_message(
                     chat_id=update.effective_chat.id,
                     message_id=loading_message.message_id,
+                )
+                update.message.reply_text(
+                    f"Symbol not listed on available exchanges."
                 )
                 continue
 
