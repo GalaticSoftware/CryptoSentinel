@@ -139,8 +139,7 @@ class CotdHandler:
         url = "https://lunarcrush.com/api3/coinoftheday"
         headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
 
-        #send loading message to user
-        update.message.reply_text("Fetching Coin of the Day...")
+        loading_message = update.message.reply_text("Fetching Coin of the Day...", quote=True)
 
         try:
             response = requests.get(url, headers=headers)
@@ -154,16 +153,12 @@ class CotdHandler:
                 "Error connecting to LunarCrush API. Please try again later."
             )
             return
-
-        #update loading message with cotd
-        update.message.reply_text("Coin of the Day fetched!")
-        update.message.reply_text(
+        
+        # Update the loading message with the Coin of the Day data
+        loading_message.edit_text(
             f"Coin of the Day: {data['name']} ({data['symbol']}).\n\n"
-            f"Price: ${data['price']:.2f}\n"
-            f"Volume: ${data['volume']:.2f}\n"
-            f"Change 24h: {data['percent_change_24h']:.2f}%\n"
-            f"Change 7d: {data['percent_change_7d']:.2f}%\n"
         )
+
 
         if "name" in data and "symbol" in data:
             coin_name = data["name"]
@@ -189,13 +184,7 @@ class CotdHandler:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
                 update.message.reply_text(
                     f"Coin of the Day: {coin_name} ({coin_symbol})"
-                    f"Current price: ${data['price']:.2f}"
-                    f"Volume: ${data['volume']:.2f}"
-                    f"Change 24h: {data['percent_change_24h']:.2f}%"
-                    f"Change 7d: {data['percent_change_7d']:.2f}%"
                 )
-                # Delete the loading message
-                update.message.delete()
 
                 # Delete the image file after sending it
                 os.remove(image_path)
@@ -207,6 +196,12 @@ class CotdHandler:
                     "Error while sending the chart and the Coin of the Day message. Please try again later."
                 )
                 return
+
+            # Delete the loading message
+            context.bot.delete_message(
+                chat_id=update.effective_chat.id, message_id=loading_message.message_id
+            )
+
 
         else:
             logger.error("Error in LunarCrush API response: Required data not found")
