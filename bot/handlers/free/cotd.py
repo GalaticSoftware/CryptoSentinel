@@ -139,6 +139,9 @@ class CotdHandler:
         url = "https://lunarcrush.com/api3/coinoftheday"
         headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
 
+        #send loading message to user
+        update.message.reply_text("Fetching Coin of the Day...")
+
         try:
             response = requests.get(url, headers=headers)
             response.raise_for_status()
@@ -151,6 +154,16 @@ class CotdHandler:
                 "Error connecting to LunarCrush API. Please try again later."
             )
             return
+
+        #update loading message with cotd
+        update.message.reply_text("Coin of the Day fetched!")
+        update.message.reply_text(
+            f"Coin of the Day: {data['name']} ({data['symbol']}).\n\n"
+            f"Price: ${data['price']:.2f}\n"
+            f"Volume: ${data['volume']:.2f}\n"
+            f"Change 24h: {data['percent_change_24h']:.2f}%\n"
+            f"Change 7d: {data['percent_change_7d']:.2f}%\n"
+        )
 
         if "name" in data and "symbol" in data:
             coin_name = data["name"]
@@ -176,7 +189,13 @@ class CotdHandler:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
                 update.message.reply_text(
                     f"Coin of the Day: {coin_name} ({coin_symbol})"
+                    f"Current price: ${data['price']:.2f}"
+                    f"Volume: ${data['volume']:.2f}"
+                    f"Change 24h: {data['percent_change_24h']:.2f}%"
+                    f"Change 7d: {data['percent_change_7d']:.2f}%"
                 )
+                # Delete the loading message
+                update.message.delete()
 
                 # Delete the image file after sending it
                 os.remove(image_path)
