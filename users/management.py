@@ -4,16 +4,9 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from config.settings import MY_POSTGRESQL_URL
 
-Base = declarative_base()
+from bot.database import User, Base
 
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    telegram_id = Column(Integer, unique=True)
-    username = Column(String)
-    has_access = Column(Boolean, default=False)
-    subscription_end = Column(DateTime)
-    subscription_type = Column(String)
+Base = declarative_base()
 
 engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
