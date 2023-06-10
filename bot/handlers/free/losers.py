@@ -41,3 +41,8 @@ class LosersHandler:
                 with open(chart_file, "rb") as file:
                     context.bot.send_photo(chat_id=update.effective_chat.id, photo=file)
                 os.remove(chart_file)  # Delete the chart file after sending it
+
+                context.bot.delete_message(
+                    chat_id=update.effective_chat.id,
+                    message_id=loading_message.message_id,
+                )
