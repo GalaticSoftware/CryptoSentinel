@@ -139,6 +139,8 @@ class CotdHandler:
         url = "https://lunarcrush.com/api3/coinoftheday"
         headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
 
+        loading_message = update.message.reply_text("Fetching Coin of the Day...", quote=True)
+
         try:
             response = requests.get(url, headers=headers)
             response.raise_for_status()
@@ -151,6 +153,13 @@ class CotdHandler:
                 "Error connecting to LunarCrush API. Please try again later."
             )
             return
+        
+        # Update the loading message with the Coin of the Day data
+        loading_message.edit_text(
+            f"Coin of the Day: {data['name']} ({data['symbol']}).\n\n"
+            f"Loading OHLCV chart...\n"
+        )
+
 
         if "name" in data and "symbol" in data:
             coin_name = data["name"]
@@ -188,6 +197,12 @@ class CotdHandler:
                     "Error while sending the chart and the Coin of the Day message. Please try again later."
                 )
                 return
+
+            # Delete the loading message
+            context.bot.delete_message(
+                chat_id=update.effective_chat.id, message_id=loading_message.message_id
+            )
+
 
         else:
             logger.error("Error in LunarCrush API response: Required data not found")
