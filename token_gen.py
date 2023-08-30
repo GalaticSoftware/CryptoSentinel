@@ -52,7 +52,7 @@ def generate_token(access_duration):
 
 
 if __name__ == "__main__":
-    access_duration = "one_month"  # You can change this to the desired access duration
+    access_duration = "one_month"  # change this to the desired access duration
     token = generate_token(access_duration)
     logger.info(f"Generated token: {token}")
     print(f"Generated token: {token}")
