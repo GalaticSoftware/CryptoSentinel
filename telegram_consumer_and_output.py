@@ -187,11 +187,11 @@ def check_and_revoke_expired_subscriptions():
     threading.Timer(300, check_and_revoke_expired_subscriptions).start()
 
 
-# def check_price_alerts():
-#    PriceAlerts.check_price_alerts(bot)
+def check_price_alerts():
+    PriceAlerts.check_price_alerts(bot)
 
     # Schedule the next run of this functio
-#    threading.Timer(30, check_price_alerts).start()
+    threading.Timer(30, check_price_alerts).start()
 
 
 
@@ -223,6 +223,6 @@ if __name__ == '__main__':
     # 1. check for expired subscriptions
     # 2. check for price alerts
     check_and_revoke_expired_subscriptions()
-#    check_price_alerts()
+    check_price_alerts()
 
     main()

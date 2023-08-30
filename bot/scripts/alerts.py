@@ -21,7 +21,7 @@ class PriceAlerts:
 
         to_delete = []
         for price_alert_request in price_alert_requests:
-            exchange = ccxt.coinbasepro()
+            exchange = ccxt.bybit()
             ticker = exchange.fetch_ticker(price_alert_request.symbol)
             current_price = ticker["last"]
 
