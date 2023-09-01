@@ -1,3 +1,5 @@
+from config.settings import MY_POSTGRESQL_URL
+import logging
 import uuid
 from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
@@ -9,7 +11,6 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-import logging
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -20,19 +21,21 @@ logger = logging.getLogger(__name__)
 
 
 # Import the database URL from the settings
-from config.settings import MY_POSTGRESQL_URL
 
 engine = create_engine(MY_POSTGRESQL_URL)
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
+
 def generate_token(access_duration):
     session = Session()
     token = str(uuid.uuid4())  # Generate a unique token
-    expiration_time = datetime.utcnow() + timedelta(hours=24)  # Set the token to expire in 24 hours
+    # Set the token to expire in 24 hours
+    expiration_time = datetime.utcnow() + timedelta(hours=24)
 
     # Create a new OneTimeToken object
-    one_time_token = OneTimeToken(token=token, expiration_time=expiration_time, access_duration=access_duration, used=False)
+    one_time_token = OneTimeToken(
+        token=token, expiration_time=expiration_time, access_duration=access_duration, used=False)
 
     # Add the new token to the session
     session.add(one_time_token)
@@ -56,4 +59,3 @@ if __name__ == "__main__":
     token = generate_token(access_duration)
     logger.info(f"Generated token: {token}")
     print(f"Generated token: {token}")
-

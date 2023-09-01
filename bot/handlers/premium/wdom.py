@@ -52,7 +52,8 @@ class WdomHandler:
             # Define the URL and headers for fetching the weekly dominance change data
             coins_url = "https://lunarcrush.com/api3/coins/global/change"
             headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
-            dom_data = WdomHandler.fetch_weekly_dom_change(coins_url, 'data', headers)
+            dom_data = WdomHandler.fetch_weekly_dom_change(
+                coins_url, 'data', headers)
 
             # Retrieve only the required fields
             dom = [{
@@ -68,7 +69,9 @@ class WdomHandler:
             for idx, coin in enumerate(dom):
                 message += f"{idx + 1}. Weekly {coin['name']} Dominance {coin['percent_change_7d']:.2f}%\n"
 
-            context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+            context.bot.send_message(
+                chat_id=update.effective_chat.id, text=message)
         except Exception as e:
             logger.error(f"Error handling /weekly_dom_change command: {e}")
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to fetch weekly dominance change.")
+            context.bot.send_message(
+                chat_id=update.effective_chat.id, text="Failed to fetch weekly dominance change.")

@@ -7,6 +7,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class NewsHandler:
     """
     NewsHandler class for handling the fetching and sending of crypto news.
@@ -64,7 +65,6 @@ class NewsHandler:
 
         return news_list
 
-
     @log_command_usage("news")
     def news_handler(update: Update, context: CallbackContext):
         """
@@ -76,7 +76,8 @@ class NewsHandler:
         logger.info(f"Received /news command with args: {context.args}")
         source, keyword, limit = None, None, 5
         if context.args:
-            source = context.args[0] if context.args[0] in ['CoinDesk', 'CoinTelegraph', 'CoinJournal', 'CryptoNinjas', 'YahooFinance', 'all'] else None
+            source = context.args[0] if context.args[0] in [
+                'CoinDesk', 'CoinTelegraph', 'CoinJournal', 'CryptoNinjas', 'YahooFinance', 'all'] else None
             keyword = context.args[1] if len(context.args) > 1 else None
             if context.args[-1].isdigit():
                 limit = int(context.args[-1])
@@ -85,11 +86,13 @@ class NewsHandler:
 
         if not news_list:
             logger.error("Failed to fetch crypto news. news_list is empty.")
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to fetch crypto news.")
+            context.bot.send_message(
+                chat_id=update.effective_chat.id, text="Failed to fetch crypto news.")
             return
 
         logger.info(f"Sending {len(news_list)} news items to the user.")
         for news in news_list:
-            update.message.reply_text(news, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
-        
+            update.message.reply_text(
+                news, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+
         logger.info("Finished sending news to the user.")

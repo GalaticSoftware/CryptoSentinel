@@ -1,3 +1,4 @@
+from bot.database import PriceAlertRequest, Session
 import requests
 from decimal import Decimal
 from telegram import Update, ParseMode
@@ -10,7 +11,7 @@ import ccxt
 logger = logging.getLogger(__name__)
 
 # setup database
-from bot.database import PriceAlertRequest, Session
+
 
 class PriceAlertHandler:
     @staticmethod
@@ -20,7 +21,8 @@ class PriceAlertHandler:
             symbol, price_level = context.args
             price_level = Decimal(price_level)
             if price_level <= 0:
-                update.message.reply_text("Invalid price level. Please enter a positive number.")
+                update.message.reply_text(
+                    "Invalid price level. Please enter a positive number.")
                 return
 
             # Try to fetch the current price for the symbol
@@ -28,26 +30,32 @@ class PriceAlertHandler:
             ticker = exchange.fetch_ticker(symbol)
             current_price = ticker['last']
         except (ValueError, IndexError):
-            update.message.reply_text("Invalid input. Please enter a symbol and a price level.")
+            update.message.reply_text(
+                "Invalid input. Please enter a symbol and a price level.")
             return
         except ccxt.BaseError as e:
-            logger.error(f"Failed to fetch the current price for {symbol}: {e}")
-            update.message.reply_text(f"Invalid symbol. {symbol} is not listed on the exchange or not currently tradable.")
+            logger.error(
+                f"Failed to fetch the current price for {symbol}: {e}")
+            update.message.reply_text(
+                f"Invalid symbol. {symbol} is not listed on the exchange or not currently tradable.")
             return
 
         session = Session()
-        price_alert_requests = PriceAlertRequest(user_id=user_id, symbol=symbol, price_level=price_level)
+        price_alert_requests = PriceAlertRequest(
+            user_id=user_id, symbol=symbol, price_level=price_level)
         session.add(price_alert_requests)
         session.commit()
 
-        update.message.reply_text(f"Your request for a price alert has been successfully set up! You will receive a notification when the price of {symbol} reaches {price_level}.")
+        update.message.reply_text(
+            f"Your request for a price alert has been successfully set up! You will receive a notification when the price of {symbol} reaches {price_level}.")
 
     @staticmethod
     def list_alerts(update: Update, context: CallbackContext):
         user_id = update.message.from_user.id
 
         session = Session()
-        price_alert_requests = session.query(PriceAlertRequest).filter_by(user_id=user_id).all()
+        price_alert_requests = session.query(
+            PriceAlertRequest).filter_by(user_id=user_id).all()
 
         if not price_alert_requests:
             update.message.reply_text("You have no price alerts set up.")
@@ -63,11 +71,14 @@ class PriceAlertHandler:
         alert_id = int(context.args[0])
 
         session = Session()
-        price_alert_request = session.query(PriceAlertRequest).filter_by(user_id=user_id, id=alert_id).first()
+        price_alert_request = session.query(PriceAlertRequest).filter_by(
+            user_id=user_id, id=alert_id).first()
 
         if not price_alert_request:
-            update.message.reply_text(f"No price alert found with ID {alert_id}.")
+            update.message.reply_text(
+                f"No price alert found with ID {alert_id}.")
         else:
             session.delete(price_alert_request)
             session.commit()
-            update.message.reply_text(f"Successfully removed price alert with ID {alert_id}.")
+            update.message.reply_text(
+                f"Successfully removed price alert with ID {alert_id}.")

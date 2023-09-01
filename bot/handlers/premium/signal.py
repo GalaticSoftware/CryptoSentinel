@@ -21,7 +21,8 @@ class SignalHandler:
     def signal_handler(update: Update, context: CallbackContext):
         logger.info("General Signal command received")
         if len(context.args) < 2:
-            update.message.reply_text("Please provide both symbol and timeframe.")
+            update.message.reply_text(
+                "Please provide both symbol and timeframe.")
             return
 
         symbol = context.args[0]
@@ -116,7 +117,8 @@ class SignalHandler:
             general_signal = "Neutral"
 
         # Send general signal message
-        update.message.reply_text(f"General Signal for {symbol}: {general_signal}")
+        update.message.reply_text(
+            f"General Signal for {symbol}: {general_signal}")
         # add reasoning for the signal here (explain the composite score and why it is bullish/bearish/neutral)
         update.message.reply_text(
             "The general signal is based on the following indicators:"
@@ -157,7 +159,8 @@ class SignalHandler:
         # Send chart to user and then delete it
         if chart_file:
             with open(chart_file, "rb") as f:
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
+                context.bot.send_photo(
+                    chat_id=update.effective_chat.id, photo=f)
             os.remove(chart_file)
 
         # Delete the loading message

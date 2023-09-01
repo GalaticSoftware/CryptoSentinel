@@ -130,7 +130,8 @@ class CotdHandler:
         )
 
         # Save the chart as a PNG image
-        fig.write_image(f"charts/{symbol}_chart.png", scale=1.5, width=1000, height=600)
+        fig.write_image(f"charts/{symbol}_chart.png",
+                        scale=1.5, width=1000, height=600)
 
     @staticmethod
     @log_command_usage("cotd")
@@ -139,7 +140,8 @@ class CotdHandler:
         url = "https://lunarcrush.com/api3/coinoftheday"
         headers = {"Authorization": f"Bearer {LUNARCRUSH_API_KEY}"}
 
-        loading_message = update.message.reply_text("Fetching Coin of the Day...", quote=True)
+        loading_message = update.message.reply_text(
+            "Fetching Coin of the Day...", quote=True)
 
         try:
             response = requests.get(url, headers=headers)
@@ -153,13 +155,12 @@ class CotdHandler:
                 "Error connecting to LunarCrush API. Please try again later."
             )
             return
-        
+
         # Update the loading message with the Coin of the Day data
         loading_message.edit_text(
             f"Coin of the Day: {data['name']} ({data['symbol']}).\n\n"
             f"Loading OHLCV chart...\n"
         )
-
 
         if "name" in data and "symbol" in data:
             coin_name = data["name"]
@@ -182,7 +183,8 @@ class CotdHandler:
             image_path = f"charts/{coin_symbol}_chart.png"
             try:
                 with open(image_path, "rb") as f:
-                    context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
+                    context.bot.send_photo(
+                        chat_id=update.effective_chat.id, photo=f)
                 update.message.reply_text(
                     f"Coin of the Day: {coin_name} ({coin_symbol})"
                 )
@@ -203,9 +205,9 @@ class CotdHandler:
                 chat_id=update.effective_chat.id, message_id=loading_message.message_id
             )
 
-
         else:
-            logger.error("Error in LunarCrush API response: Required data not found")
+            logger.error(
+                "Error in LunarCrush API response: Required data not found")
             update.message.reply_text(
                 "Error fetching Coin of the Day data. Please try again later."
             )

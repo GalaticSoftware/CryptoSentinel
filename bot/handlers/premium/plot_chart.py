@@ -49,7 +49,8 @@ class ChartHandler:
         # Send the chart
         try:
             with open(chart_file, "rb") as f:
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
+                context.bot.send_photo(
+                    chat_id=update.effective_chat.id, photo=f)
         except Exception as e:
             logger.exception("Error while sending the chart")
             update.message.reply_text(

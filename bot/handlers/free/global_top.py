@@ -8,6 +8,7 @@ from config.settings import LUNARCRUSH_API_KEY
 
 logger = logging.getLogger(__name__)
 
+
 class GlobalTopHandler:
     @staticmethod
     @log_command_usage("global_top")
@@ -26,13 +27,14 @@ class GlobalTopHandler:
                 logger.debug(response.json())
                 return response.json()["top"]
             else:
-                logger.error(f"Error fetching top coins data: {response.status_code}")
+                logger.error(
+                    f"Error fetching top coins data: {response.status_code}")
                 return None
 
         def format_response_message(top_coins, metric):
             if not top_coins:
                 return "An error occurred while fetching the top coins data."
-            
+
             response_message = f"Top 10 coins by {metric}:\n\n"
             logger.debug(f"Response message before loop: {response_message}")
 
@@ -48,14 +50,14 @@ class GlobalTopHandler:
             logger.debug(f"Response message final value: {response_message}")
             return response_message
 
-
         valid_metrics = ["alt_rank", "social_score"]
         metric = "social_volume"
 
         if context.args and context.args[0] in valid_metrics:
             metric = context.args[0]
         elif context.args:
-            update.message.reply_text(f"Invalid metric. Using default metric: {metric}")
+            update.message.reply_text(
+                f"Invalid metric. Using default metric: {metric}")
 
         top_coins = fetch_top_coins(metric)
 

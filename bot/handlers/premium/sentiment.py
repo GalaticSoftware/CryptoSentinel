@@ -22,8 +22,8 @@ class SentimentHandler:
         logger.info("Received /sentiment command")
 
         loading_message = update.message.reply_text(
-                "Loading sentiment data...", quote=True
-            )
+            "Loading sentiment data...", quote=True
+        )
 
         # Prepare API parameters
         api_url = "https://lunarcrush.com/api3/coins/global/top"
@@ -49,15 +49,16 @@ class SentimentHandler:
                     if "volume_24h" in coin and coin["volume_24h"] is not None
                     else ""
                 )
-                bullish_pct = coin["bullish_sentiment"] / coin["social_volume"] * 100
-                bearish_pct = coin["bearish_sentiment"] / coin["social_volume"] * 100
+                bullish_pct = coin["bullish_sentiment"] / \
+                    coin["social_volume"] * 100
+                bearish_pct = coin["bearish_sentiment"] / \
+                    coin["social_volume"] * 100
                 social_volume = (
                     "{:,}".format(coin["social_volume"])
                     if coin["social_volume"] is not None
                     else "N/A"
                 )
                 response_message += f"{volume}{coin['symbol']} {bullish_pct:.0f}% Bull {bearish_pct:.0f}% Bear\n"
-
 
         else:
             logger.error(
@@ -68,7 +69,6 @@ class SentimentHandler:
         # Send the response message
         update.message.reply_text(response_message)
 
-        
         context.bot.delete_message(
             chat_id=update.effective_chat.id,
             message_id=loading_message.message_id,

@@ -20,6 +20,7 @@ engine = create_engine(MY_POSTGRESQL_URL)
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
+
 class UseTokenHandler:
     @staticmethod
     def use_token(update: Update, context: CallbackContext):
@@ -34,19 +35,23 @@ class UseTokenHandler:
 
         token = args[0]
         session = Session()
-        existing_token = session.query(OneTimeToken).filter_by(token=token).first()
+        existing_token = session.query(
+            OneTimeToken).filter_by(token=token).first()
 
         logger.debug("Token information: %s", existing_token)
 
         if existing_token and existing_token.expiration_time > datetime.utcnow() and not existing_token.used:
-            logger.info("Inside condition: existing_token.used = %s", existing_token.used)
+            logger.info("Inside condition: existing_token.used = %s",
+                        existing_token.used)
             user = session.query(User).filter_by(telegram_id=user_id).first()
             if not user:
                 # Create a new user if not found
-                user = User(telegram_id=user_id, username=username, has_access=False)
+                user = User(telegram_id=user_id,
+                            username=username, has_access=False)
                 session.add(user)
                 session.commit()
-                user = session.query(User).filter_by(telegram_id=user_id).first()
+                user = session.query(User).filter_by(
+                    telegram_id=user_id).first()
 
             if user:
                 user.has_access = True
@@ -66,14 +71,16 @@ class UseTokenHandler:
                 user.subscription_type = access_duration
                 session.commit()
 
-                logger.debug("Token used status updated: existing_token.used = %s", existing_token.used)
-                update.message.reply_text("Access granted! Your token has been successfully used.")
+                logger.debug(
+                    "Token used status updated: existing_token.used = %s", existing_token.used)
+                update.message.reply_text(
+                    "Access granted! Your token has been successfully used.")
                 logger.debug("Access granted message sent.")
             else:
                 update.message.reply_text("User not found. Please try again.")
                 logger.debug("User not found message sent.")
         else:
-            update.message.reply_text("Invalid or expired token. Please try again.")
+            update.message.reply_text(
+                "Invalid or expired token. Please try again.")
             logger.debug("Invalid or expired token message sent.")
         session.close()
-
