@@ -2,14 +2,16 @@ import pika
 import json
 import logging
 import pandas as pd
+import uuid
 
-from utils import DataLoader  # Assuming DataLoader is in a file called utils.py
+from utils import DataLoader
 from config.settings import CLOUDAMQP_URL
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class CryptoScanner:
@@ -38,8 +40,13 @@ class CryptoScanner:
         ohlcv_data = self.loader.fetch_ohlcv(symbol, '1d')  # 1-day timeframe
         rvol = self.calculate_rvol(ohlcv_data)
         if rvol and rvol > 1.5:  # Check if rvol is not None and greater than 1.5
-            alert_message = {"type": "RVol Alert",
-                             "symbol": symbol, "RVol": rvol}
+            update_id = str(uuid.uuid4())  # Generate a unique identifier
+            alert_message = {
+                "type": "RVol Alert",
+                "symbol": symbol,
+                "RVol": rvol,
+                "update_id": update_id  # Include the update_id in the message
+            }
             self.channel.basic_publish(
                 exchange='', routing_key='telegram', body=json.dumps(alert_message))
             print(f"RVol Alert for {symbol}: {rvol}")
