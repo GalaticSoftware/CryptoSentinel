@@ -44,7 +44,6 @@ from bot.handlers.free.use_token import UseTokenHandler
 from bot.handlers.free.join_waitlist import JoinWaitlistHandler
 from bot.handlers.free.contact import ContactHandler
 
-from bot.scripts.alerts import PriceAlerts  # PatternAlerts
 
 # from CryptoSentinel.bot.scripts.fetcher import fetch_pattern_data
 
