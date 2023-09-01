@@ -24,9 +24,9 @@ class HelpHandler:
             "signal": "/signal [symbol] [timeframe] - View the latest Sentinel signal for a specific coin. Example: /signal BTCUSDT 1d",
             # "wdom": "/wdom - Track the weekly dominance change for Bitcoin and Altcoins.",
             #   "info": "/info [symbol] - Obtain detailed information about a specific coin using its symbol. Example: /info BTCUSDT",
-            "set_alert": "/set_alert <Symbol> <Price_level> - Set a price alert. You will be notified when the price of the specified symbol reaches the specified level. Example: /set_alert BTCUSDT 50000",
-            "list_alerts": "/list_alerts - List all your active price alerts.",
-            "remove_alert": "/remove_alert <ID> - Remove a specific price alert by its ID. Example: /remove_alert 1",
+            # "set_alert": "/set_alert <Symbol> <Price_level> - Set a price alert. You will be notified when the price of the specified symbol reaches the specified level. Example: /set_alert BTCUSDT 50000",
+            # "list_alerts": "/list_alerts - List all your active price alerts.",
+            # "remove_alert": "/remove_alert <ID> - Remove a specific price alert by its ID. Example: /remove_alert 1",
         }
 
         if command and command in command_help_text:
@@ -50,7 +50,7 @@ class HelpHandler:
                 "📊 /sentiment - Coin sentiments\n"
                 "💹 /positions - Big Positions from Binance\n"
                 "📊 /stats [symbol] [timeframe] - Coin stats\n"
-                "📈 /signal [symbol] [timeframe] - Sentinel signals\n"
+                # "📈 /signal [symbol] [timeframe] - Sentinel signals\n"
                 # "🔍 /wdom - Bitcoin & Altcoin dominance\n"
                 # "🔎 /info [symbol] - Coin info. Ex: /info BTC\n"
                 "📉 /chart [symbol] [interval] - Coin chart. Ex: /chart BTCUSDT 1d.\n\n"
