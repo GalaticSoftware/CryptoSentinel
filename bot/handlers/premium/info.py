@@ -10,6 +10,7 @@ from config.settings import LUNARCRUSH_API_KEY
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class InfoHandler:
     SYMBOL_MAPPING = {
         "BTC": 1,
@@ -52,7 +53,8 @@ class InfoHandler:
             response.raise_for_status()
             data = response.json()
         except requests.exceptions.RequestException as e:
-            logger.exception("Connection error while fetching coin info from LunarCrush API")
+            logger.exception(
+                "Connection error while fetching coin info from LunarCrush API")
             return None
 
         # Check if data exists in the response
@@ -60,7 +62,8 @@ class InfoHandler:
             coin_data = data["data"]
             return coin_data
         else:
-            logger.error("Error in LunarCrush API response: Required data not found")
+            logger.error(
+                "Error in LunarCrush API response: Required data not found")
             return None
 
     @staticmethod
@@ -69,11 +72,14 @@ class InfoHandler:
     @command_usage_example("/info BTCUSDT 1d - Defaults to 4h if no time frame is provided")
     def get_coin_info_command(update: Update, context: CallbackContext):
         # Get the user's input
-        input_arg = context.args[0]  # Assuming the symbol is passed as a command argument
+        # Assuming the symbol is passed as a command argument
+        input_arg = context.args[0]
 
         # Split the input_arg into cryptocurrency symbol and currency symbol
-        symbol = input_arg[:-4]  # Get the cryptocurrency symbol (e.g., "BTC" from "BTCUSDT")
-        currency = input_arg[-4:]  # Get the currency symbol (e.g., "USDT" from "BTCUSDT")
+        # Get the cryptocurrency symbol (e.g., "BTC" from "BTCUSDT")
+        symbol = input_arg[:-4]
+        # Get the currency symbol (e.g., "USDT" from "BTCUSDT")
+        currency = input_arg[-4:]
 
         # Set default time frame
         time_frame = '4h'
@@ -85,7 +91,8 @@ class InfoHandler:
         # Fetch coin info
         coin_data = InfoHandler.get_coin_info(symbol)
         if coin_data is None:
-            update.message.reply_text("Error fetching coin info. Please try again later.")
+            update.message.reply_text(
+                "Error fetching coin info. Please try again later.")
             return
 
         # Extract relevant information
@@ -96,7 +103,7 @@ class InfoHandler:
         percent_change_24h = coin_data.get("percent_change_24h")
         percent_change_7d = coin_data.get("percent_change_7d")
         percent_chagne_30d = coin_data.get("percent_change_30d")
-        
+
         # Generate the response message
         message = (
             f"Coin Info:\n"
@@ -116,6 +123,3 @@ class InfoHandler:
 
         # Delete the image file after sending it
         os.remove(chart_file)
-
-
-

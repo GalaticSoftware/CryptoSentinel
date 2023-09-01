@@ -32,17 +32,22 @@ params = pika.URLParameters(CLOUDAMQP_URL)
 params.heartbeat = 30
 
 # Create a connection and channel
+
+
 def create_connection_and_channel():
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
     channel.queue_declare(queue='telegram')
     return connection, channel
 
+
 connection, channel = create_connection_and_channel()
 
 # Handle messages
 # When a message is received, publish it to RabbitMQ
 # The message should include the update_id, chat_id, and message text
+
+
 def handle_message(update: Update, context: CallbackContext) -> None:
     global connection
     global channel
@@ -66,6 +71,8 @@ def handle_message(update: Update, context: CallbackContext) -> None:
             connection, channel = create_connection_and_channel()
 
 # Signal handling for graceful shutdown
+
+
 def signal_handler(sig, frame):
     logging.info('Signal received, closing RabbitMQ connection...')
     try:
@@ -74,23 +81,27 @@ def signal_handler(sig, frame):
         pass  # Ignore errors when closing a broken connection
     sys.exit(0)
 
+
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
 # Main function
+
+
 def main() -> None:
     request = Request(connect_timeout=60, read_timeout=60, con_pool_size=8)
     bot = telegram.Bot(token=TELEGRAM_API_TOKEN, request=request)
     updater = Updater(bot=bot, use_context=True)
 
     # Listen for messages
-    updater.dispatcher.add_handler(MessageHandler(Filters.text, handle_message))
+    updater.dispatcher.add_handler(
+        MessageHandler(Filters.text, handle_message))
 
     # Publish messages to RabbitMQ
     logging.info('Listening for messages...')
     updater.start_polling()
     updater.idle()
 
+
 if __name__ == '__main__':
     main()
-

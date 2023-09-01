@@ -181,7 +181,8 @@ class StatsHandler:
     def stats(update: Update, context: CallbackContext):
         logger.info("Stats command received")
         if len(context.args) < 2:
-            update.message.reply_text("Please provide both symbol and timeframe.")
+            update.message.reply_text(
+                "Please provide both symbol and timeframe.")
             return
 
         symbol = context.args[0]
@@ -198,7 +199,8 @@ class StatsHandler:
         # Fetch pattern data
         pattern_data = StatsHandler.fetch_data(symbol, "patterns", timeframe)
         patterns = StatsHandler.filter_patterns(pattern_data)
-        patterns_message = StatsHandler.generate_patterns_message(symbol, patterns)
+        patterns_message = StatsHandler.generate_patterns_message(
+            symbol, patterns)
 
         # Send patterns message
         StatsHandler.send_patterns_message(update, patterns_message)
@@ -215,7 +217,8 @@ class StatsHandler:
                 rsi_status = "RSI oversold"
             else:
                 rsi_status = "RSI is in normal range"
-            update.message.reply_text(f"Latest RSI: {latest_rsi}. {rsi_status}")
+            update.message.reply_text(
+                f"Latest RSI: {latest_rsi}. {rsi_status}")
         else:
             logger.error("RSI data not found in API response")
             update.message.reply_text(
@@ -242,7 +245,8 @@ class StatsHandler:
                 obv_status = "OBV is falling"
             else:
                 obv_status = "OBV is flat"
-            update.message.reply_text(f"Latest OBV: {latest_obv}. {obv_status}")
+            update.message.reply_text(
+                f"Latest OBV: {latest_obv}. {obv_status}")
 
         # OBV divergence
         obv_divergence = StatsHandler.check_obv_divergence(
@@ -261,7 +265,8 @@ class StatsHandler:
                 mfi_status = "MFI oversold"
             else:
                 mfi_status = "MFI is in normal range"
-            update.message.reply_text(f"Latest MFI: {latest_mfi}. {mfi_status}")
+            update.message.reply_text(
+                f"Latest MFI: {latest_mfi}. {mfi_status}")
 
         # Fetch MACD data
         macd_data = StatsHandler.fetch_macd_data(symbol, "macd", timeframe)
@@ -305,7 +310,8 @@ class StatsHandler:
         # Send chart to user and then delete it
         if chart_file:
             with open(chart_file, "rb") as f:
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=f)
+                context.bot.send_photo(
+                    chat_id=update.effective_chat.id, photo=f)
             os.remove(chart_file)
 
         # Delete the loading message

@@ -14,6 +14,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Define the WhatsupHandler class
+
+
 class WhatsupHandler:
     """
     Handles the /whatsup command, which fetches the top URLs engagement data
@@ -37,11 +39,13 @@ class WhatsupHandler:
         try:
             # Fetch the data from the LunarCrush API
             response = requests.get(url, headers=headers, timeout=20)
-            response.raise_for_status()  # Raises stored HTTPError, if one occurred.
+            # Raises stored HTTPError, if one occurred.
+            response.raise_for_status()
             response_data = response.json()
 
             # Log the response data for debugging
-            logger.debug("Response data from LunarCrush API: %s", response_data)
+            logger.debug(
+                "Response data from LunarCrush API: %s", response_data)
 
             # Check if the response data is generated successfully
             if response_data['config']['generated']:
@@ -73,14 +77,20 @@ class WhatsupHandler:
                 update.message.reply_text(message)
             else:
                 # Notify the user if there's an error fetching data from LunarCrush API
-                update.message.reply_text("Error fetching data from LunarCrush API. Please try again later.")
-                logger.error("Error fetching data from LunarCrush API. Response data: %s", response_data)
+                update.message.reply_text(
+                    "Error fetching data from LunarCrush API. Please try again later.")
+                logger.error(
+                    "Error fetching data from LunarCrush API. Response data: %s", response_data)
         except requests.exceptions.HTTPError as http_err:
             logger.error(f'HTTP error occurred: {http_err}')
-            update.message.reply_text("An HTTP error occurred while processing the /whatsup command. Please try again later.")
+            update.message.reply_text(
+                "An HTTP error occurred while processing the /whatsup command. Please try again later.")
         except requests.exceptions.RequestException as req_err:
             logger.error(f'Request error occurred: {req_err}')
-            update.message.reply_text("A network error occurred while processing the /whatsup command. Please check your connection and try again.")
+            update.message.reply_text(
+                "A network error occurred while processing the /whatsup command. Please check your connection and try again.")
         except Exception as e:
-            logger.exception("An error occurred while processing the /whatsup command: %s", e)
-            update.message.reply_text("An unexpected error occurred while processing the /whatsup command. Please try again later.")
+            logger.exception(
+                "An error occurred while processing the /whatsup command: %s", e)
+            update.message.reply_text(
+                "An unexpected error occurred while processing the /whatsup command. Please try again later.")

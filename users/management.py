@@ -12,6 +12,7 @@ engine = create_engine(MY_POSTGRESQL_URL)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
+
 def get_or_create_user(telegram_id, username):
     """
     Retrieves or creates a user with the given telegram_id and username.
@@ -32,6 +33,7 @@ def get_or_create_user(telegram_id, username):
     session.close()
     return user
 
+
 def check_user_access(telegram_id):
     """
     Checks if a user with the given telegram_id has access to the bot's features.
@@ -47,19 +49,22 @@ def check_user_access(telegram_id):
     session.close()
     return user and user.has_access
 
+
 def check_expired_subscriptions():
     """
     Checks for expired subscriptions and revokes access for those users.
     """
     session = Session()
     current_time = datetime.now()
-    expired_users = session.query(User).filter(User.has_access == True, User.subscription_end <= current_time).all()
+    expired_users = session.query(User).filter(
+        User.has_access == True, User.subscription_end <= current_time).all()
 
     for user in expired_users:
         user.has_access = False
         user.subscription_end = None
         session.commit()
     session.close()
+
 
 def update_user_access(telegram_id, has_access, subscription_end: datetime = None, subscription_type: str = None):
     """
@@ -97,4 +102,3 @@ def revoke_user_access(telegram_id):
         user.subscription_end = None
         session.commit()
     session.close()
-

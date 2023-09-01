@@ -41,7 +41,6 @@ class StartHandler:
                 "Type /help to see the list of commands."
             )
 
-
             subscribe_button = InlineKeyboardButton(
                 "Subscribe", callback_data="subscribe"
             )

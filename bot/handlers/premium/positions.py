@@ -123,16 +123,19 @@ class PositionsHandler:
 
         for encrypted_uid in uid_list:
             try:
-                data, is_cached = PositionsHandler.fetch_trader_positions(encrypted_uid)
+                data, is_cached = PositionsHandler.fetch_trader_positions(
+                    encrypted_uid)
             except Exception as e:
-                logging.error(f"Error processing UID {encrypted_uid}: {str(e)}")
+                logging.error(
+                    f"Error processing UID {encrypted_uid}: {str(e)}")
                 continue
 
             if data is None:
                 continue
 
             positions = (
-                data[0].get("data", [])[0].get("positions", {}).get("perpetual", [])
+                data[0].get("data", [])[0].get(
+                    "positions", {}).get("perpetual", [])
                 if data
                 else []
             )
@@ -157,7 +160,8 @@ class PositionsHandler:
                 short = position["short"]
 
                 position_value_usd = abs(amount) * mark_price
-                position_value_usd_str = "{:,.2f}".format(position_value_usd).rjust(18)
+                position_value_usd_str = "{:,.2f}".format(
+                    position_value_usd).rjust(18)
 
                 if long:
                     if position_value_usd >= whale_filter_size:
