@@ -1,2 +1,2 @@
-bot: python telegram_consumer_and_output.py 
-worker: python telegram_producer.py 
+bot: python tg_bot_queue_consumer.py 
+worker: python tg_msg_publisher.py 
