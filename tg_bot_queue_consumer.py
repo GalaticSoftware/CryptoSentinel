@@ -14,7 +14,6 @@
 # closed when the application shuts down.
 
 
-
 import pika
 import json
 import logging
@@ -31,7 +30,8 @@ from telegram.ext import (
     Filters,
     Dispatcher,
 )
-from telegram.error import (TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError)
+from telegram.error import (
+    TelegramError, Unauthorized, BadRequest, TimedOut, ChatMigrated, NetworkError)
 
 from config.settings import TELEGRAM_API_TOKEN, CLOUDAMQP_URL
 
@@ -94,7 +94,7 @@ dp.add_handler(CommandHandler("start", StartHandler.start))
 dp.add_handler(CommandHandler("help", HelpHandler.help))
 dp.add_handler(CommandHandler("cotd", CotdHandler.coin_of_the_day))
 dp.add_handler(
-        CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)
+    CommandHandler("global_top", GlobalTopHandler.global_top, pass_args=True)
 )
 dp.add_handler(CommandHandler("use_token", UseTokenHandler.use_token))
 dp.add_handler(CommandHandler("gainers", GainersHandler.gainers))
@@ -107,7 +107,8 @@ dp.add_handler(
 )
 dp.add_handler(CommandHandler("list_alerts", PriceAlertHandler.list_alerts))
 dp.add_handler(
-        CommandHandler("remove_alert", PriceAlertHandler.remove_alert, pass_args=True)
+    CommandHandler(
+        "remove_alert", PriceAlertHandler.remove_alert, pass_args=True)
 )
 
 # Add all the paid handlers to the dispatcher
@@ -115,7 +116,8 @@ dp.add_handler(CommandHandler("whatsup", WhatsupHandler.whatsup))
 # dp.add_handler(CommandHandler("wdom", WdomHandler.wdom_handler))
 dp.add_handler(CommandHandler("sentiment", SentimentHandler.sentiment))
 dp.add_handler(CommandHandler("positions", PositionsHandler.trader_positions))
-dp.add_handler(CommandHandler("chart", ChartHandler.plot_chart, pass_args=True))
+dp.add_handler(CommandHandler(
+    "chart", ChartHandler.plot_chart, pass_args=True))
 dp.add_handler(StatsHandler.command_handler())
 dp.add_handler(SignalHandler.command_handler())
 
@@ -124,12 +126,12 @@ subscribe_handler = SubscribeHandler.subscribe_handler
 payment_handler = SubscribeHandler.payment_handler
 
 monthly_handler = CallbackQueryHandler(
-        SubscribeHandler.send_invoice_monthly,
+    SubscribeHandler.send_invoice_monthly,
     pattern="^subscribe_monthly_subscription$",
 )
 
 three_monthly_handler = CallbackQueryHandler(
-        SubscribeHandler.send_invoice_3_monthly,
+    SubscribeHandler.send_invoice_3_monthly,
     pattern="^subscribe_3_monthly_subscription$",
 )
 
@@ -138,7 +140,8 @@ yearly_handler = CallbackQueryHandler(
 )
 
 # waitlist_handler = JoinWaitlistHandler.join_waitlist_handler
-dp.add_handler(CommandHandler("join_waitlist", JoinWaitlistHandler.join_waitlist))
+dp.add_handler(CommandHandler("join_waitlist",
+               JoinWaitlistHandler.join_waitlist))
 dp.add_handler(ContactHandler.conversation_handler())
 
 dp.add_handler(subscribe_handler)
@@ -148,8 +151,6 @@ dp.add_handler(three_monthly_handler)
 dp.add_handler(yearly_handler)
 
 
-
-
 # Rate Limiting
 # Telegram has a rate limit of 30 messages per second.
 def rate_limited(max_per_second):
@@ -157,14 +158,16 @@ def rate_limited(max_per_second):
     Decorator that make functions not be called faster than
     """
     min_interval = 1.0 / float(max_per_second)
+
     def decorate(func):
         last_time_called = [0.0]
-        def rate_limited_function(*args,**kargs):
+
+        def rate_limited_function(*args, **kargs):
             elapsed = time.perf_counter() - last_time_called[0]
             left_to_wait = min_interval - elapsed
-            if left_to_wait>0:
+            if left_to_wait > 0:
                 time.sleep(left_to_wait)
-            ret = func(*args,**kargs)
+            ret = func(*args, **kargs)
             last_time_called[0] = time.perf_counter()
             return ret
         return rate_limited_function
@@ -194,7 +197,6 @@ def check_price_alerts():
     threading.Timer(30, check_price_alerts).start()
 
 
-
 # Message Processing
 @rate_limited(30)
 def process_message(ch, method, properties, body):
@@ -210,13 +212,14 @@ def process_message(ch, method, properties, body):
         logging.error('Could not process update: %s', err)
 
 
-
 # Main Function
 def main() -> None:
     # Listen for messages
     logging.info('Listening for messages...')
-    channel.basic_consume(queue='telegram', on_message_callback=process_message, auto_ack=False)
+    channel.basic_consume(
+        queue='telegram', on_message_callback=process_message, auto_ack=False)
     channel.start_consuming()
+
 
 if __name__ == '__main__':
     # add 2 recurring jobs
