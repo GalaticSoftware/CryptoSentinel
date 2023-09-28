@@ -2,6 +2,7 @@ from sqlalchemy import (
     create_engine,
     Column,
     Integer,
+    BigInteger,
     String,
     Boolean,
     DateTime,
@@ -23,7 +24,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "users"  # Define the table name
     id = Column(Integer, primary_key=True)  # Primary key
-    telegram_id = Column(Integer, unique=True)  # Unique Telegram ID
+    telegram_id = Column(BigInteger, unique=True)  # Unique Telegram ID
     username = Column(String)  # Telegram username
     has_access = Column(Boolean, default=False)  # Access status (default: False)
     subscription_end = Column(DateTime)  # Subscription end date
@@ -47,7 +48,7 @@ class OneTimeToken(Base):
 class WaitingList(Base):
     __tablename__ = "waiting_list"
     id = Column(Integer, primary_key=True)
-    telegram_id = Column(Integer, unique=True, nullable=False)
+    telegram_id = Column(BigInteger, unique=True, nullable=False)
     username = Column(String)
     join_timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
 
@@ -67,7 +68,7 @@ class SummaryData(Base):
 class CommandUsage(Base):
     __tablename__ = "command_usage"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.telegram_id"), nullable=False)
+    user_id = Column(BigInteger, ForeignKey("users.telegram_id"), nullable=False)
     command_name = Column(String, nullable=False)
     usage_count = Column(Integer, default=0, nullable=False)  # Add this line
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -78,7 +79,7 @@ class PriceAlertRequest(Base):
     __tablename__ = "price_alert_requests"
     id = Column(Integer, primary_key=True)
     user_id = Column(
-        Integer, ForeignKey("users.telegram_id"), nullable=False, index=True
+        BigInteger, ForeignKey("users.telegram_id"), nullable=False, index=True
     )
     symbol = Column(String, nullable=False, index=True)
     price_level = Column(Numeric(20, 2), nullable=False)
@@ -97,16 +98,16 @@ class PatternData(Base):
 class ReferralCodes(Base):
     __tablename__ = "referral_codes"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)  # Changed from "users.telegram_id" to "users.id"
+    user_id = Column(BigInteger, ForeignKey("users.id"), nullable=False)  # Changed from "users.telegram_id" to "users.id"
     code = Column(String, nullable=False)
 
 
 class Referrals(Base):
     __tablename__ = "referrals"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False) # Referrer's Telegram ID
+    user_id = Column(BigInteger, ForeignKey("users.id"), nullable=False) # Referrer's Telegram ID
     referral_code = Column(String, nullable=False) # Referral code used
-    referred_user_id = Column(Integer, ForeignKey("users.telegram_id"), nullable=False) # Referred user's Telegram ID
+    referred_user_id = Column(BigInteger, ForeignKey("users.telegram_id"), nullable=False) # Referred user's Telegram ID
     referred_user_username = Column(String, nullable=False) # Referred user's Telegram username
     status = Column(String, nullable=False) # Status of the referral - membership status of the referred user - (active, expired, cancelled)
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False) # Timestamp of the referral
